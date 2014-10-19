@@ -1,8 +1,40 @@
 # My Emacs configurations #
 
+# I HATE CEDET, ECB, ICICLES, I HATE all complicate plugins, except cc-mode
 
-# 启动多个emacs实例 #
-因为使用了server模式，只能启动一个实例，如果要启用多个实例，需要新建一个用户，然后使用以下方式登录
+# How to use my configurations
+## change environment variable settings
+At the beginning of .emacs, you can see the following environment variable settings, you may always need to change these settings
+
+```
+(when (equal system-type 'gnu/linux)
+      (message "Emacs Run on GNU/Linux")
+      (setenv "PATH" (concat "/opt/mips-4.3/bin:/opt/texlive/2011/bin/x86_64-linux:" (getenv "PATH")))
+      (setq exec-path (append exec-path '("/opt/mips-4.3/bin")))
+      (setq exec-path (append exec-path '("/opt/texlive/2011/bin/x86_64-linux"))))
+
+(when (string= (getenv "USER") "lutts")
+  (setenv "PATH" (concat (getenv "PATH") ":/home/lutts/tools/bin:/home/lutts/tools/usr/sbin:/home/lutts/tools/usr/bin"))
+  (setq exec-path (append exec-path '("/home/lutts/tools/bin")))
+  (setq exec-path (append exec-path '("/home/lutts/tools/usr/sbin")))
+  (setq exec-path (append exec-path '("/home/lutts/tools/usr/bin")))
+)
+```
+
+## change the identity to yours
+```
+(setq user-full-name "Lutts Cao")
+(setq user-mail-address "lutts.cao@gmail.com")
+```
+
+## change keybindings
+
+* all emacs official settings are in .emacs
+* all third-party plugin configurations are under `rc` directory
+
+
+# start multi emacs instance under server mode #
+Because I used server mode in .emacs, so you can only start one instance.  To startup multi instance, use `useradd` to create a user (e.g., emacs1), copy this project to that user, change environment variables, etc., then useing the following command to start a second emacs instance
 
 ```
 ssh -i /home/lutts/.ssh/lutts -Y emacs1@127.0.0.1 "emacs -mm"
