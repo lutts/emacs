@@ -38,6 +38,21 @@ $ cd /path/to/this/repository
 $ ./rebuild.sh
 ```
 
+## install smartparens plugin
+see <https://github.com/Fuco1/smartparens/wiki/Quick-tour#installation>
+
+to do that, open up your .emacs or init.el and add the following line:
+
+```
+(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
+```
+Then
+```
+M-x list-packages
+C-s smartparens
+```
+
+
 # start multi emacs instance under server mode #
 Because I used server mode in .emacs, so only one instance can be started.  To start multi instance, use `useradd` to create a user (e.g., emacs1), clone this project to that user, change environment variables, etc., then using the following command to start a second emacs instance
 
