@@ -1,0 +1,41 @@
+(global-set-key "\C-x\C-b" 'buffer-menu)
+(global-set-key (kbd "C-c w") 'copy-word)
+(global-set-key (kbd "C-c l") 'copy-line)
+(global-set-key (kbd "<C-S-return>") 'insert-new-line-up)
+(global-set-key (kbd "<C-return>") 'insert-new-line-down)
+(global-set-key [C-S-right] 'shift-right)
+(global-set-key [C-S-left] 'shift-left)
+
+
+(global-set-key [(control f3)] 'highlight-symbol-at-point)
+(global-set-key [f3] 'highlight-symbol-next)
+(global-set-key [(shift f3)] 'highlight-symbol-prev)
+(global-set-key [(meta f3)] 'highlight-symbol-prev)
+
+ '(lambda () (define-key eshell-mode-map "\C-a" 'eshell-maybe-bol)))
+
+ (global-set-key [f8] 'shell-pop)
+
+ (global-set-key [f12] 'ecb-activate)
+(global-set-key [C-f12] 'ecb-deactivate)
+;(global-set-key [f11] 'delete-other-windows)
+(global-set-key (kbd "C-c 0") 'ecb-goto-window-directories)
+(global-set-key (kbd "C-c 1") 'ecb-goto-window-sources)
+(global-set-key (kbd "C-c 2") 'ecb-goto-window-methods)
+(global-set-key (kbd "C-c 3") 'ecb-goto-window-symboldef)
+(global-set-key (kbd "C-c e") 'ecb-goto-window-edit-last)
+(global-set-key (kbd "C-c r") 'ecb-redraw-layout)
+
+; only in c-mode
+(local-set-key (kbd "RET") 'newline-and-indent)
+(local-set-key (kbd "C-c ;") 'comment-line)
+(local-set-key (kbd "C-c I") 'ifdef-mark)
+(define-key gtags-mode-map (kbd "C-c a b") 'gtags-pop-stack)
+(define-key gtags-mode-map (kbd "C-c a f") 'gtags-find-file)
+(define-key gtags-mode-map (kbd "C-c a p") 'gtags-parse-file)
+(define-key gtags-mode-map (kbd "C-c a e") 'gtags-find-with-grep)
+(define-key gtags-mode-map (kbd "C-c a s") 'gtags-find-symbol)
+(define-key gtags-mode-map (kbd "C-c a c") 'gtags-find-rtag)
+(define-key gtags-mode-map (kbd "C-c a g") 'gtags-find-tag)
+
+; C-c s is for cscope
