@@ -33,21 +33,10 @@ At the beginning of .emacs, you can see the following environment variable setti
 * all third-party plugin configurations are under `rc` directory
 
 ## byte compile all `el`s
-### cc-mode compile
-see cc-mode/README
-
-### elisp directory
 ```
-# cd /path/to/elisp
-# modify rebuild.sh if need
+# cd /path/to/this/repository
 # ./rebuild.sh
-# cd auto-complete-1.3.1
-# find . -name '*.elc' -exec rm {} \;
-# make
 ```
-
-### rc directory
-els under rc directory are small configurations, so do not need to byte compile
 
 # start multi emacs instance under server mode #
 Because I used server mode in .emacs, so only one instance can be started.  To start multi instance, use `useradd` to create a user (e.g., emacs1), clone this project to that user, change environment variables, etc., then using the following command to start a second emacs instance
