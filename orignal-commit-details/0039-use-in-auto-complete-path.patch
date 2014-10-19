@@ -1,0 +1,28 @@
+From 8dbb55510db31a26fde3ca6fc2171da150b8ce72 Mon Sep 17 00:00:00 2001
+From: Cao ShaoLin <slcao@ingenic.cn>
+Date: Wed, 5 Dec 2012 08:54:34 +0800
+Subject: [PATCH 39/58] use '~' in auto-complete path
+
+---
+ rc/emacs-rc-auto-complete.el | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/rc/emacs-rc-auto-complete.el b/rc/emacs-rc-auto-complete.el
+index 523fd66..50b7d9a 100644
+--- a/rc/emacs-rc-auto-complete.el
++++ b/rc/emacs-rc-auto-complete.el
+@@ -1,9 +1,9 @@
+-(add-to-list 'load-path "/home/lutts/emacs/elisp/auto-complete-1.3.1")
++(add-to-list 'load-path "~/emacs/elisp/auto-complete-1.3.1")
+ 
+ (require 'auto-complete-config)
+ (ac-config-default)
+ 
+-(add-to-list 'ac-dictionary-directories "/home/lutts/emacs/elisp/auto-complete-1.3.1/dict")
++(add-to-list 'ac-dictionary-directories "~/emacs/elisp/auto-complete-1.3.1/dict")
+ 
+ ;(setq ac-auto-show-menu nil)
+ ;; show 1 seconds later
+-- 
+2.0.4
+

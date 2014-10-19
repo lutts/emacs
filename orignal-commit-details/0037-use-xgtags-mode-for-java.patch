@@ -1,0 +1,31 @@
+From 459147697c9636c43176c8e3e3e1e23af588a5a0 Mon Sep 17 00:00:00 2001
+From: Cao ShaoLin <slcao@ingenic.cn>
+Date: Sat, 1 Dec 2012 17:41:41 +0800
+Subject: [PATCH 37/58] use xgtags-mode for java
+
+---
+ rc/emacs-rc-java.el | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/rc/emacs-rc-java.el b/rc/emacs-rc-java.el
+index 71b2776..13accb6 100644
+--- a/rc/emacs-rc-java.el
++++ b/rc/emacs-rc-java.el
+@@ -1,11 +1,11 @@
+ ;; java settings begin
+ (add-hook 'java-mode-hook
+ 	  '(lambda()
+-	     (gtags-mode 1)
++	     (xgtags-mode 1)
+ 	     ))
+ 
+ (autoload 'smali-mode "smali-mode.el" "Major mode for editing smali files" t)
+ (setq auto-mode-alist
+       (cons '("\\.smali" . smali-mode) auto-mode-alist))
+ 
+-;; java settings end
+\ No newline at end of file
++;; java settings end
+-- 
+2.0.4
+

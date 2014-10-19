@@ -1,0 +1,24 @@
+From 6e7818aad10369aeaa7e8442d03c6737d9f9364b Mon Sep 17 00:00:00 2001
+From: Lutts Cao <lutts.cao@gmail.com>
+Date: Sun, 23 Sep 2012 20:41:23 +0800
+Subject: [PATCH 07/58] add hs-minor-mode
+
+---
+ rc/emacs-rc-c-c++.el | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/rc/emacs-rc-c-c++.el b/rc/emacs-rc-c-c++.el
+index d2b67c3..1ba65e5 100644
+--- a/rc/emacs-rc-c-c++.el
++++ b/rc/emacs-rc-c-c++.el
+@@ -31,6 +31,7 @@
+ 	     (define-key gtags-select-mode-map (kbd "RET") 'gtags-select-tag)
+ 	     ))
+ 
++(add-hook 'c-mode-common-hook 'hs-minor-mode)
+ (add-hook 'c-mode-common-hook
+ 	  '(lambda()
+ 	     ;;preprocessor
+-- 
+2.0.4
+

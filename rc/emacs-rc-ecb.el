@@ -8,7 +8,7 @@
 ;; Status: not intended to be distributed yet
 
 ;; Emacs code browser
-(add-to-list 'load-path "~/emacs/ecb-2.40")
+(add-to-list 'load-path "~/emacs/elisp/ecb-2.40")
 ;;(require 'cl)
 (require 'ecb)
 

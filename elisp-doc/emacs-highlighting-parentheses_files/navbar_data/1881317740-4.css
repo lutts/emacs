@@ -1,0 +1,38 @@
+/* Copyright 2008 Google, Inc. All rights reserved. */
+
+body {
+  color:#000;
+}
+
+a, .btn div {
+  color:#333;
+}
+
+a:hover {
+  color:#930;
+}
+
+#navbar-logo {
+  background-image:url("../../img/navbar/4/logobar.png");
+}
+
+#b-navbar {
+  background-color:#ededed;
+  border-bottom:1px solid #ccc;
+}
+
+#b-search {
+  background:#ccc url("../../img/navbar/4/corner.gif") no-repeat left bottom;
+}
+  
+#b-query {
+  border:1px solid #c3c3c3;
+}
+  
+.btn, .btn div { 
+  border-color: #c3c3c3;
+}
+
+.btn div:hover {
+  background-color: #c3c3c3;
+}

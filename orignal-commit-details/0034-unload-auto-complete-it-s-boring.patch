@@ -1,0 +1,26 @@
+From c9a14b7a083e1eee2be2df2eb1cf3791dee22092 Mon Sep 17 00:00:00 2001
+From: Cao ShaoLin <slcao@ingenic.cn>
+Date: Fri, 30 Nov 2012 19:06:15 +0800
+Subject: [PATCH 34/58] unload auto-complete, it's boring
+
+---
+ .emacs | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/.emacs b/.emacs
+index 863fa03..2fdf96e 100755
+--- a/.emacs
++++ b/.emacs
+@@ -312,7 +312,8 @@ Equivalent to beginning-of-line, open-line."
+ ;(load "~/emacs/rc/emacs-rc-ecb.el")
+ (load "~/emacs/rc/emacs-rc-c-c++.el")
+ (load "~/emacs/rc/emacs-rc-java.el")
+-(load "~/emacs/rc/emacs-rc-auto-complete.el")
++;(load "~/emacs/rc/emacs-rc-auto-complete.el")
++(load "~/emacs/rc/emacs-rc-desktop.el")
+ 
+ ;; ibus mode
+ ;; do not enable ibus by default because I rarely use it
+-- 
+2.0.4
+

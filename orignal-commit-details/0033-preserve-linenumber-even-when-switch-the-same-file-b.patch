@@ -1,0 +1,34 @@
+From 81775c2a3aaab6ec334f4d96d3a3ac1cab88b9cb Mon Sep 17 00:00:00 2001
+From: Cao ShaoLin <slcao@ingenic.cn>
+Date: Thu, 15 Nov 2012 15:16:25 +0800
+Subject: [PATCH 33/58] preserve linenumber even when switch the same file
+ buffer
+
+---
+ rc/emacs-rc-buffer-switching.el | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/rc/emacs-rc-buffer-switching.el b/rc/emacs-rc-buffer-switching.el
+index a7a10f0..da71188 100644
+--- a/rc/emacs-rc-buffer-switching.el
++++ b/rc/emacs-rc-buffer-switching.el
+@@ -154,8 +154,16 @@
+ 	  (let ((1stBuf (window-buffer 1stWin))
+ 		(2ndBuf (window-buffer 2ndWin))
+ 		)
++	    (select-window 2ndWin)
++	    (setq 2ndLine (line-number-at-pos))
++	    (select-window 1stWin)
++	    (setq 1stLine (line-number-at-pos))
+ 	    (set-window-buffer 1stWin 2ndBuf)
++	    (goto-line 2ndLine)
+ 	    (set-window-buffer 2ndWin 1stBuf)
++	    (select-window 2ndWin)
++	    (goto-line 1stLine)
++	    (select-window (get-largest-window))
+ 	    )
+ 	  )
+ 	)
+-- 
+2.0.4
+

@@ -1,0 +1,448 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head profile="http://gmpg.org/xfn/11">
+
+
+
+	<meta name="microid" content="6e0900aea6d5e70116833469fde58a8c6bc81873">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
+	<title>  Highlight the Current Line</title>
+	
+	<meta name="generator" content="WordPress 2.5"> <!-- leave this for stats -->
+	
+	<link rel="stylesheet" href="Highlight%20the%20Current%20Line_files/style.css" type="text/css" media="screen">
+	<link rel="stylesheet" href="Highlight%20the%20Current%20Line_files/custom.css" type="text/css" media="screen">
+	<!--[if lte IE 7]>
+	<link rel="stylesheet" type="text/css" href="http://www.emacsblog.org/wp-content/themes/Cutline1.2-EmacsBlog/ie7.css" media="screen" />
+	<![endif]-->
+	<!--[if lte IE 6]>
+	<link rel="stylesheet" type="text/css" href="http://www.emacsblog.org/wp-content/themes/Cutline1.2-EmacsBlog/ie6.css" media="screen" />
+	<![endif]-->
+	<link rel="alternate" type="application/rss+xml" title="M-x all-things-emacs RSS Feed" href="http://www.emacsblog.org/feed/">
+	<link rel="pingback" href="http://www.emacsblog.org/xmlrpc.php">
+
+	<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.emacsblog.org/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.emacsblog.org/wp-includes/wlwmanifest.xml"> 
+<meta name="generator" content="WordPress 2.5">
+
+
+<link rel="stylesheet" href="Highlight%20the%20Current%20Line_files/wp-syntax.css" type="text/css" media="screen">
+</head><body class="custom">
+
+<div id="container">
+
+	<div id="masthead">
+		<h1><a href="http://www.emacsblog.org/">M-x all-things-emacs</a></h1>
+	</div>
+
+	<ul id="nav">
+		<li><a href="http://www.emacsblog.org/">front page</a></li>
+		<li><a href="http://www.emacsblog.org/archives/">archives</a></li>
+		<li><a href="http://www.emacsblog.org/about/">about</a></li>
+                <li><a href="http://www.emacsblog.org/sitemap/">sitemap</a></li>
+		<li class="rss"><a href="http://www.emacsblog.org/feed/">RSS</a></li>
+	</ul>
+	
+	<div id="header_img">
+	</div>
+
+	<div id="content_box">
+		
+		<div id="content" class="posts">
+			
+					
+			
+<div class="navigation">
+	<span class="previous">← <a href="http://www.emacsblog.org/2007/04/05/keyboard-macros-in-the-wild-the-mundane-sql-fix/">Keyboard Macros in the Wild: The Mundane SQL Fix</a></span>
+	<span class="next"><a href="http://www.emacsblog.org/2007/04/17/quick-tip-light-symbol-mode/">Quick Tip: light-symbol-mode</a> →</span>
+</div>
+<div class="clear whitespace"></div>
+
+			
+			<h2>Highlight the Current Line</h2>
+			<h4>April 9th, 2007 by Ryan McGeary · <a href="http://www.emacsblog.org/2007/04/09/highlight-the-current-line/#comments">12 Comments</a> </h4>
+			<div class="entry">
+					<p>There
+are several ways to customize the display of the cursor. I happen to
+prefer highlighting the current line as a visual cue to keep my eye
+focused on where I’m working.</p>
+
+	<p><img src="Highlight%20the%20Current%20Line_files/hl-line-1.png" class="center on" title="Highlight Current Line, 1" alt="Highlight Current Line, 1"></p>
+
+	<p>Before a few days ago, I had not realized there were so many packages to accomplish this, but let’s review a few.  <span id="more-64"></span></p>
+
+	<h3>highlight-current-line</h3>
+
+	<p>I’ve used <a href="http://www.emacswiki.org/cgi-bin/emacs/highlight-current-line.el">highlight-current-line</a> for years.  It’s a very adequate package.  To enable, put <a href="http://www.emacswiki.org/cgi-bin/wiki/download/highlight-current-line.el">highlight-current-line.el</a> in your load-path and add the following to your emacs initialization:</p>
+
+
+<div class="wp_syntax"><div class="code"><pre class="lisp"><span style="color: rgb(102, 204, 102);">(</span>require 'highlight<span style="color: rgb(102, 204, 102);">-</span>current<span style="color: rgb(102, 204, 102);">-</span>line<span style="color: rgb(102, 204, 102);">)</span>
+<span style="color: rgb(102, 204, 102);">(</span>highlight<span style="color: rgb(102, 204, 102);">-</span>current<span style="color: rgb(102, 204, 102);">-</span>line<span style="color: rgb(102, 204, 102);">-</span>on t<span style="color: rgb(102, 204, 102);">)</span>
+&nbsp;
+<span style="color: rgb(128, 128, 128); font-style: italic;">;; To customize the background color</span>
+<span style="color: rgb(102, 204, 102);">(</span>set<span style="color: rgb(102, 204, 102);">-</span>face<span style="color: rgb(102, 204, 102);">-</span>background 'highlight<span style="color: rgb(102, 204, 102);">-</span>current<span style="color: rgb(102, 204, 102);">-</span>line<span style="color: rgb(102, 204, 102);">-</span>face <span style="color: rgb(255, 0, 0);">"light yellow"</span><span style="color: rgb(102, 204, 102);">)</span></pre></div></div>
+
+
+	<h3>hl-line</h3>
+
+	<p>To my surprise, I learned that <span class="caps">GNU</span> Emacs 21 introduced a built-in <code>hl-line-mode</code>.  To enable it globally, add this to your emacs initialization:</p>
+
+
+<div class="wp_syntax"><div class="code"><pre class="lisp"><span style="color: rgb(102, 204, 102);">(</span>global<span style="color: rgb(102, 204, 102);">-</span>hl<span style="color: rgb(102, 204, 102);">-</span>line<span style="color: rgb(102, 204, 102);">-</span>mode <span style="color: rgb(204, 102, 204);">1</span><span style="color: rgb(102, 204, 102);">)</span>
+&nbsp;
+<span style="color: rgb(128, 128, 128); font-style: italic;">;; To customize the background color</span>
+<span style="color: rgb(102, 204, 102);">(</span>set<span style="color: rgb(102, 204, 102);">-</span>face<span style="color: rgb(102, 204, 102);">-</span>background 'hl<span style="color: rgb(102, 204, 102);">-</span>line <span style="color: rgb(255, 0, 0);">"#330"</span><span style="color: rgb(102, 204, 102);">)</span>  <span style="color: rgb(128, 128, 128); font-style: italic;">;; Emacs 22 Only</span>
+<span style="color: rgb(128, 128, 128); font-style: italic;">;(set-face-background 'highlight "#330")  ;; Emacs 21 Only</span></pre></div></div>
+
+
+	<p>(<em>Note the difference between customizing the color in Emacs 21 and 22.</em>)</p>
+
+	<h3>highline</h3>
+
+	<p><a href="http://www.emacswiki.org/cgi-bin/emacs/highline.el">Highline</a> was inspired by <code>hl-line</code>, <code>highlight-current-line</code>, and <code>linemenu</code>.  It is supposedly the best option for the XEmacs contingent.  To enable, put <a href="http://www.emacswiki.org/cgi-bin/emacs/download/highline.el">highline.el</a> in your load-path and add the following to your emacs initialization:</p>
+
+
+<div class="wp_syntax"><div class="code"><pre class="lisp"><span style="color: rgb(102, 204, 102);">(</span>require 'highline<span style="color: rgb(102, 204, 102);">)</span>
+<span style="color: rgb(102, 204, 102);">(</span>highline<span style="color: rgb(102, 204, 102);">-</span>mode <span style="color: rgb(204, 102, 204);">1</span><span style="color: rgb(102, 204, 102);">)</span>
+&nbsp;
+<span style="color: rgb(128, 128, 128); font-style: italic;">;; To customize the background color</span>
+<span style="color: rgb(102, 204, 102);">(</span>set<span style="color: rgb(102, 204, 102);">-</span>face<span style="color: rgb(102, 204, 102);">-</span>background 'highline<span style="color: rgb(102, 204, 102);">-</span>face <span style="color: rgb(255, 0, 0);">"#222"</span><span style="color: rgb(102, 204, 102);">)</span></pre></div></div>
+
+
+	<h3>Even More</h3>
+
+	<p>Other packages such as <a href="http://www.emacswiki.org/cgi-bin/emacs/hl-line+.el">hl-line+</a>, <a href="http://www.emacswiki.org/cgi-bin/emacs/col-highlight.el">col-highlight</a>, and <a href="http://www.emacswiki.org/cgi-bin/wiki/CrosshairHighlighting">crosshairs</a>
+have extra features such as idle-timers, line flashing, and column
+highlighting. I found most of these a little over-the-top, but if your
+personal preferences differ, give them a try.</p>
+
+	<h3>Background Colors</h3>
+
+	<p>I use a black emacs background and prefer a deep-dark gray like <code>#111</code> for highlighting to keep things subtle.  </p>
+
+	<p><img src="Highlight%20the%20Current%20Line_files/hl-line-2.png" class="center on" title="Highlight Current Line, 2" alt="Highlight Current Line, 2"></p>
+
+	<p>When on a white background, I prefer a light yellow such as <code>lemon chiffon</code> or <code>light goldenrod yellow</code>.  What colors do you like? </p>
+
+	<p><img src="Highlight%20the%20Current%20Line_files/hl-line-3.png" class="center on" title="Highlight Current Line, 3" alt="Highlight Current Line, 3"></p>
+
+	<h3>Conclusion</h3>
+
+	<p>Up until this article, I used <code>highlight-current-line</code>, but I just switched to using the built-in <code>hl-line</code>.  It’s now one less dependency I need to manage, and <code>hl-line</code> happens to work better in conjuction with <a href="http://www.nongnu.org/bm/">visible bookmarks</a>.</p>
+
+	<h3>Bibliography</h3>
+
+	<p id="fn1" class="footnote"><sup>1</sup> EmacsWiki,  <a href="http://www.emacswiki.org/cgi-bin/wiki/HighlightCurrentLine">HighlightCurrentLine</a> — libraries that highlight the current line of characters.</p>
+
+	<p id="fn2" class="footnote"><sup>2</sup> <span class="caps">GNU</span> Emacs Manual, <a href="http://www.gnu.org/software/emacs/manual/html_node/Cursor-Display.html">Displaying the Cursor</a></p>
+
+	<p id="fn3" class="footnote"><sup>3</sup> EmacsWiki,  <a href="http://www.emacswiki.org/cgi-bin/wiki/HighlightCurrentColumn">HighlightCurrentColumn</a> — libraries that highlight the current column of characters.</p>							</div>
+			<p class="tagged"><strong>Tags:</strong> <a href="http://www.emacsblog.org/tags/misc/" title="View all posts in misc" rel="category tag">misc</a> ·  <a href="http://www.emacsblog.org/tags/reviews/" title="View all posts in reviews" rel="category tag">reviews</a></p>
+			<div class="clear"></div>
+			
+			
+<!-- You can start editing here. -->
+
+
+<div id="comments">
+
+	<h3 class="comments_headers">12 responses so far ↓</h3>
+	
+	<ul id="comment_list">
+
+	
+			
+		<li class="comment" id="comment-280">
+			<p class="comment_meta">
+<img alt="" src="Highlight%20the%20Current%20Line_files/f9094d7475dbc34476de04b9de918b82.jpeg" class="avatar avatar-40" width="40" height="40">				<span class="comment_num"><a href="#comment-280" title="Permalink to this comment">1</a></span>
+				<strong>colours </strong>
+				<span class="comment_time">// Apr 9, 2007 at 1:01 pm</span>
+			</p>
+			<div class="entry">
+				<p>I’ve enabled the hl-line mode. Thanks!</p>
+<p>I notice that when the current line is highlighted, all the other
+faces are dissabled. So, in a C file, the keywords are no longer bold
+etc.</p>
+<p>Is there a way to keep all the other highlighting intact, and just shade the background slightly?</p>
+ 
+							</div>
+		</li>
+		
+			
+		<li class="comment" id="comment-281">
+			<p class="comment_meta">
+<img alt="" src="Highlight%20the%20Current%20Line_files/edb68eb48cb65b4eb4eab247a41c5492.jpeg" class="avatar avatar-40" width="40" height="40">				<span class="comment_num"><a href="#comment-281" title="Permalink to this comment">2</a></span>
+				<strong><a href="http://www.emacsblog.org/" rel="external nofollow">Ryan McGeary</a> </strong>
+				<span class="comment_time">// Apr 9, 2007 at 1:45 pm</span>
+			</p>
+			<div class="entry">
+				<p><em>colours</em>,  It sounds like the foreground color for the <code>hl-line</code> (or <code>highlight</code>) face is set to something other than <code>nil</code>.  To fix, try this:</p>
+
+<div class="wp_syntax"><div class="code"><pre class="lisp"><span style="color: rgb(102, 204, 102);">(</span>set<span style="color: rgb(102, 204, 102);">-</span>face<span style="color: rgb(102, 204, 102);">-</span>foreground 'hl<span style="color: rgb(102, 204, 102);">-</span>line <span style="color: rgb(177, 177, 0);">nil</span><span style="color: rgb(102, 204, 102);">)</span>  <span style="color: rgb(128, 128, 128); font-style: italic;">;; Emacs 22</span>
+<span style="color: rgb(128, 128, 128); font-style: italic;">;(set-face-foreground 'highlight nil)  ;; Emacs 21</span></pre></div></div>
+
+ 
+							</div>
+		</li>
+		
+			
+		<li class="comment" id="comment-282">
+			<p class="comment_meta">
+<img alt="" src="Highlight%20the%20Current%20Line_files/f9094d7475dbc34476de04b9de918b82.jpeg" class="avatar avatar-40" width="40" height="40">				<span class="comment_num"><a href="#comment-282" title="Permalink to this comment">3</a></span>
+				<strong>colours </strong>
+				<span class="comment_time">// Apr 9, 2007 at 9:51 pm</span>
+			</p>
+			<div class="entry">
+				<p>Thanks!</p>
+<p><span class="caps">FYI</span>, on my emacs 23, (set-face-background
+‘hl-line “#222”) works, but only (set-face-foreground ‘highlight nil)
+works to preserve the color-theme colors. Weird.</p>
+<p>(and you must do the above <strong>after</strong> loading the color theme <img src="Highlight%20the%20Current%20Line_files/icon_smile.gif" alt=":-)" class="wp-smiley"> </p>
+ 
+							</div>
+		</li>
+		
+			
+		<li class="comment" id="comment-283">
+			<p class="comment_meta">
+<img alt="" src="Highlight%20the%20Current%20Line_files/188ff29b8682ec3a04e88d85a427300d.jpeg" class="avatar avatar-40" width="40" height="40">				<span class="comment_num"><a href="#comment-283" title="Permalink to this comment">4</a></span>
+				<strong>sec </strong>
+				<span class="comment_time">// Apr 9, 2007 at 11:40 pm</span>
+			</p>
+			<div class="entry">
+				<p>One
+question: if i use global-hl-line-mode, is it possible to turn it off
+for certain modes? M-x hl-line-mode doesn’t seem to turn it off.</p>
+ 
+							</div>
+		</li>
+		
+			
+		<li class="comment" id="comment-284">
+			<p class="comment_meta">
+<img alt="" src="Highlight%20the%20Current%20Line_files/edb68eb48cb65b4eb4eab247a41c5492.jpeg" class="avatar avatar-40" width="40" height="40">				<span class="comment_num"><a href="#comment-284" title="Permalink to this comment">5</a></span>
+				<strong><a href="http://www.emacsblog.org/" rel="external nofollow">Ryan McGeary</a> </strong>
+				<span class="comment_time">// Apr 10, 2007 at 12:08 am</span>
+			</p>
+			<div class="entry">
+				<p><em>sec</em>, Using <code>hl-line</code>, you can set a buffer-local variable to turn it off for certain modes or buffers.  For example:</p>
+
+<div class="wp_syntax"><table><tbody><tr><td class="line_numbers"><pre>1
+2
+3
+4
+5
+6
+</pre></td><td class="code"><pre class="lisp"><span style="color: rgb(102, 204, 102);">(</span><span style="color: rgb(177, 177, 0);">defun</span> local<span style="color: rgb(102, 204, 102);">-</span>hl<span style="color: rgb(102, 204, 102);">-</span>line<span style="color: rgb(102, 204, 102);">-</span>mode<span style="color: rgb(102, 204, 102);">-</span>off <span style="color: rgb(102, 204, 102);">(</span><span style="color: rgb(102, 204, 102);">)</span>
+  <span style="color: rgb(102, 204, 102);">(</span>interactive<span style="color: rgb(102, 204, 102);">)</span>
+  <span style="color: rgb(102, 204, 102);">(</span>make<span style="color: rgb(102, 204, 102);">-</span>local<span style="color: rgb(102, 204, 102);">-</span>variable 'global<span style="color: rgb(102, 204, 102);">-</span>hl<span style="color: rgb(102, 204, 102);">-</span>line<span style="color: rgb(102, 204, 102);">-</span>mode<span style="color: rgb(102, 204, 102);">)</span>
+  <span style="color: rgb(102, 204, 102);">(</span><span style="color: rgb(177, 177, 0);">setq</span> global<span style="color: rgb(102, 204, 102);">-</span>hl<span style="color: rgb(102, 204, 102);">-</span>line<span style="color: rgb(102, 204, 102);">-</span>mode <span style="color: rgb(177, 177, 0);">nil</span><span style="color: rgb(102, 204, 102);">)</span><span style="color: rgb(102, 204, 102);">)</span>
+&nbsp;
+<span style="color: rgb(102, 204, 102);">(</span>add<span style="color: rgb(102, 204, 102);">-</span>hook 'ruby<span style="color: rgb(102, 204, 102);">-</span>mode<span style="color: rgb(102, 204, 102);">-</span>hook 'local<span style="color: rgb(102, 204, 102);">-</span>hl<span style="color: rgb(102, 204, 102);">-</span>line<span style="color: rgb(102, 204, 102);">-</span>mode<span style="color: rgb(102, 204, 102);">-</span>off<span style="color: rgb(102, 204, 102);">)</span></pre></td></tr></tbody></table></div>
+
+<p>This would turn off <code>hl-line</code> for all ruby buffers.  You could also run <code>M-x local-hl-line-mode-off</code> to turn it off for a specific buffer.</p>
+<p>Alternatively, for <code>highlight-current-line</code>, it supports
+a regexp to disable highlighting for certain buffers. Buffers whose
+buffer-name match the regular expression in the customizable variable <code>highlight-current-line-ignore-regexp</code> do not highlight.</p>
+<p>The <code>highline</code> package also has support for turning off highlighting in local buffers (<code>M-x highline-off</code>).</p>
+ 
+							</div>
+		</li>
+		
+			
+		<li class="comment" id="comment-285">
+			<p class="comment_meta">
+<img alt="" src="Highlight%20the%20Current%20Line_files/188ff29b8682ec3a04e88d85a427300d.jpeg" class="avatar avatar-40" width="40" height="40">				<span class="comment_num"><a href="#comment-285" title="Permalink to this comment">6</a></span>
+				<strong>sec </strong>
+				<span class="comment_time">// Apr 10, 2007 at 12:32 am</span>
+			</p>
+			<div class="entry">
+				<p>Thanks,
+works perfectly. I don’t want hl-mode in Erc-Buffers, so i hooked it up
+for that. You don’t need the lambda in add-hook I think.</p>
+ 
+							</div>
+		</li>
+		
+			
+		<li class="comment" id="comment-286">
+			<p class="comment_meta">
+<img alt="" src="Highlight%20the%20Current%20Line_files/edb68eb48cb65b4eb4eab247a41c5492.jpeg" class="avatar avatar-40" width="40" height="40">				<span class="comment_num"><a href="#comment-286" title="Permalink to this comment">7</a></span>
+				<strong><a href="http://www.emacsblog.org/" rel="external nofollow">Ryan McGeary</a> </strong>
+				<span class="comment_time">// Apr 10, 2007 at 1:12 am</span>
+			</p>
+			<div class="entry">
+				<p><em>sec</em>,  Yes, you’re right.  I cleaned up the hook above.</p>
+ 
+							</div>
+		</li>
+		
+			
+		<li class="comment" id="comment-289">
+			<p class="comment_meta">
+<img alt="" src="Highlight%20the%20Current%20Line_files/031e6c79b72e28813589c3881a0d570e.jpeg" class="avatar avatar-40" width="40" height="40">				<span class="comment_num"><a href="#comment-289" title="Permalink to this comment">8</a></span>
+				<strong>KraYmer </strong>
+				<span class="comment_time">// Apr 10, 2007 at 12:31 pm</span>
+			</p>
+			<div class="entry">
+				<p>Hi &amp; thanx for the tip, but I don’t manage to preserve my color-theme colors.</p>
+<p>The 4 lines i’ve put in my .emacs :</p>
+
+<div class="wp_syntax"><div class="code"><pre class="lisp"><span style="color: rgb(102, 204, 102);">(</span>global<span style="color: rgb(102, 204, 102);">-</span>hl<span style="color: rgb(102, 204, 102);">-</span>line<span style="color: rgb(102, 204, 102);">-</span>mode <span style="color: rgb(204, 102, 204);">1</span><span style="color: rgb(102, 204, 102);">)</span>
+<span style="color: rgb(102, 204, 102);">(</span>set<span style="color: rgb(102, 204, 102);">-</span>face<span style="color: rgb(102, 204, 102);">-</span>background 'hl<span style="color: rgb(102, 204, 102);">-</span>line <span style="color: rgb(255, 0, 0);">"#222"</span><span style="color: rgb(102, 204, 102);">)</span>
+<span style="color: rgb(102, 204, 102);">(</span>set<span style="color: rgb(102, 204, 102);">-</span>face<span style="color: rgb(102, 204, 102);">-</span>foreground 'highlight <span style="color: rgb(177, 177, 0);">nil</span><span style="color: rgb(102, 204, 102);">)</span> 
+<span style="color: rgb(102, 204, 102);">(</span>set<span style="color: rgb(102, 204, 102);">-</span>face<span style="color: rgb(102, 204, 102);">-</span>foreground 'hl<span style="color: rgb(102, 204, 102);">-</span>line <span style="color: rgb(177, 177, 0);">nil</span><span style="color: rgb(102, 204, 102);">)</span></pre></div></div>
+
+<p>The result : <a href="http://kraymer.free.fr/public/highlightline.tiff" rel="nofollow">http://kraymer.free.fr/public/highlightline.tiff</a></p>
+<p>I’m using Emacs 22.0.92.1 (Carbon Version 1.6.0)</p>
+ 
+							</div>
+		</li>
+		
+			
+		<li class="comment" id="comment-290">
+			<p class="comment_meta">
+<img alt="" src="Highlight%20the%20Current%20Line_files/edb68eb48cb65b4eb4eab247a41c5492.jpeg" class="avatar avatar-40" width="40" height="40">				<span class="comment_num"><a href="#comment-290" title="Permalink to this comment">9</a></span>
+				<strong><a href="http://www.emacsblog.org/" rel="external nofollow">Ryan McGeary</a> </strong>
+				<span class="comment_time">// Apr 10, 2007 at 1:46 pm</span>
+			</p>
+			<div class="entry">
+				<p><em>KraYmer</em>,  Be sure to load your color-theme before setting the face colors for <code>hl-line</code> or <code>highlight</code>.  Some color-themes will reset the face colors for <code>highlight</code> and hl-line can be affected by that.</p>
+ 
+							</div>
+		</li>
+		
+			
+		<li class="comment" id="comment-291">
+			<p class="comment_meta">
+<img alt="" src="Highlight%20the%20Current%20Line_files/edb68eb48cb65b4eb4eab247a41c5492.jpeg" class="avatar avatar-40" width="40" height="40">				<span class="comment_num"><a href="#comment-291" title="Permalink to this comment">10</a></span>
+				<strong><a href="http://www.emacsblog.org/" rel="external nofollow">Ryan McGeary</a> </strong>
+				<span class="comment_time">// Apr 10, 2007 at 1:57 pm</span>
+			</p>
+			<div class="entry">
+				<p>If anyone else is having trouble, you can double check your face values by running <code>M-x describe-face</code>.  It will prompt you for a face name.   Run it once for <code>hl-line</code> and again for <code>highlight</code>.  Make sure that the foreground colors for both are unspecified.</p>
+<p>The reason some people have seen issues with <code>highlight</code> affecting things in Emacs 22 or 23 is because the <code>hl-line</code> face inherits from <code>highlight</code>.</p>
+ 
+							</div>
+		</li>
+		
+			
+		<li class="comment trackback" id="comment-1026">
+			<p class="comment_meta">
+<img alt="" src="Highlight%20the%20Current%20Line_files/ad516503a11cd5ca435acc9bb6523536.jpeg" class="avatar avatar-40 avatar-default" width="40" height="40">				<span class="comment_num"><a href="#comment-1026" title="Permalink to this comment">11</a></span>
+				<strong><a href="http://www.sssg.org/blogs/naoya/archives/721" onclick="javascript:pageTracker._trackPageview ('/outbound/www.sssg.org');" rel="external nofollow">dude… » Blog Archive » zsh + screen + emacs ? 256 ??????????????</a> </strong>
+				<span class="comment_time">// May 29, 2007 at 2:25 pm</span>
+			</p>
+			<div class="entry">
+				<p>[...] ?????????????????<cite>?Highlight the Current Line????</cite>?highlight-current-line.el??????????????? [...]</p>
+ 
+							</div>
+		</li>
+		
+			
+		<li class="comment" id="comment-10212">
+			<p class="comment_meta">
+<img alt="" src="Highlight%20the%20Current%20Line_files/12f1fec712f4b80187530ed86655feb8.jpeg" class="avatar avatar-40" width="40" height="40">				<span class="comment_num"><a href="#comment-10212" title="Permalink to this comment">12</a></span>
+				<strong><a href="http://coldpeer.jogger.pl/" onclick="javascript:pageTracker._trackPageview ('/outbound/coldpeer.jogger.pl');" rel="external nofollow">coldpeer</a> </strong>
+				<span class="comment_time">// Jan 10, 2008 at 12:55 pm</span>
+			</p>
+			<div class="entry">
+				<p>Thanks for this tip</p>
+ 
+							</div>
+		</li>
+		
+			
+	</ul>
+		
+	
+
+	<!-- Comment Form -->
+		
+		
+			<h3 id="respond" class="comments_headers">Leave a Comment</h3>
+			<form action="http://www.emacsblog.org/wp-comments-post.php" method="post" id="comment_form">
+			
+										<p><input class="text_input" name="author" id="author" value="" tabindex="1" type="text"><label for="author"><strong>Name*</strong></label></p>
+				<p><input class="text_input" name="email" id="email" value="" tabindex="2" type="text"><label for="email"><strong>Mail*</strong></label></p>
+				<p><input class="text_input" name="url" id="url" value="" tabindex="3" type="text"><label for="url"><strong>Website</strong></label></p>
+							<!--<p><small><strong>XHTML:</strong> You can use these tags: </small></p>-->
+			
+				<p><textarea class="text_input text_area" name="comment" id="comment" rows="7" tabindex="4"></textarea></p>
+			
+							
+				<p>
+					<input name="submit" class="form_submit" id="submit" src="Highlight%20the%20Current%20Line_files/submit_comment.html" tabindex="5" value="Submit" type="submit">
+					<input name="comment_post_ID" value="64" type="hidden">
+				</p>
+		
+					
+			</form>
+
+		
+</div> <!-- Close #comments container -->
+<div class="clear flat"></div>
+			
+				
+		</div>
+		
+		<div id="sidebar">
+	<ul class="sidebar_list">
+				<li class="widget">
+			<h2>Search It!</h2>
+			<form method="get" id="search_form" action="http://www.emacsblog.org/">
+	<input class="search_input" value="To search, type and hit enter" name="s" id="s" onfocus="if (this.value == 'To search, type and hit enter') {this.value = '';}" onblur="if (this.value == '') {this.value = 'To search, type and hit enter';}" type="text">
+	<input id="searchsubmit" value="Search" type="hidden">
+</form>
+		</li>
+		<li class="widget">
+			<h2>Recent Entries</h2>
+			<ul>
+												<li><a href="http://www.emacsblog.org/2008/04/04/package-faves-js2-mode/">Package Faves: js2-mode</a><span class="recent_date">4.4</span></li>
+								<li><a href="http://www.emacsblog.org/2008/03/13/yet-another-snippet-package/">Yet Another Snippet Package</a><span class="recent_date">3.13</span></li>
+								<li><a href="http://www.emacsblog.org/2008/01/07/fixing-pastie-for-emacs/">Fixing Pastie for Emacs</a><span class="recent_date">1.7</span></li>
+								<li><a href="http://www.emacsblog.org/2007/10/26/where-in-the-world-are-emacs-users/">Where In The World Are Emacs Users?</a><span class="recent_date">10.26</span></li>
+								<li><a href="http://www.emacsblog.org/2007/10/07/declaring-emacs-bankruptcy/">Declaring .emacs Bankruptcy</a><span class="recent_date">10.7</span></li>
+								<li><a href="http://www.emacsblog.org/2007/09/30/quick-tip-spaces-instead-of-tabs/">Quick Tip: Spaces instead of Tabs</a><span class="recent_date">9.30</span></li>
+								<li><a href="http://www.emacsblog.org/2007/08/27/newbie-tip-visual-emacs-keybinding-cheatsheet/">Newbie Tip: Visual Emacs Keybinding Cheatsheet</a><span class="recent_date">8.27</span></li>
+								<li><a href="http://www.emacsblog.org/2007/08/07/quick-tip-show-paren-mode/">Quick Tip: show-paren-mode</a><span class="recent_date">8.7</span></li>
+								<li><a href="http://www.emacsblog.org/2007/07/21/package-faves-rcodetools/">Package Faves: rcodetools</a><span class="recent_date">7.21</span></li>
+								<li><a href="http://www.emacsblog.org/2007/06/10/package-faves-emacs-rails/">Package Faves: emacs-rails</a><span class="recent_date">6.10</span></li>
+								<li><a href="http://www.emacsblog.org/archives" title="Visit the archives!">Visit the archives for more!</a></li>
+			</ul>
+		</li>
+				  <li id="linkcat-10" class="linkcat"><h2>reference</h2>
+	<ul>
+<li><a href="http://homepage.mac.com/zenitani/emacs-e.html">Carbon Emacs</a></li>
+<li><a href="http://www.damtp.cam.ac.uk/user/sje30/emacs/ell.html">Emacs Lisp List</a></li>
+<li><a href="http://www.emacswiki.org/cgi-bin/wiki">EmacsWiki</a></li>
+<li><a href="http://www.gnu.org/software/emacs/">GNU Emacs</a></li>
+<li><a href="http://emacs.wordpress.com/">minor emacs wizardry</a></li>
+<li><a href="http://dima-exe.ru/rails-on-emacs" title="emacs-rails: Ruby on Rails minor mode">Rails On Emacs</a></li>
+
+	</ul>
+</li>
+			</ul>
+</div>			
+	</div>
+
+	<div id="footer">
+		<p>© 2007-2008 M-x all-things-emacs</p>
+		<p>Powered by <a href="http://wordpress.org/">WordPress</a> / Styled by <a href="http://cutline.tubetorial.com/">Cutline</a></p>
+		<!-- Google Analytics Tracking by Google Analyticator: http://cavemonkey50.com/code/google-analyticator/ -->
+	<script type="text/javascript">
+		var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+		document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+	</script><script src="Highlight%20the%20Current%20Line_files/ga.js" type="text/javascript"></script>
+
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker("UA-1187477-1");
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+	</div>
+</div>
+
+<!-- Dynamic Page Served (once) in 0.728 seconds -->
+<!-- Cached page served by WP-Cache -->
+</body></html>

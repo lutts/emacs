@@ -1,0 +1,32 @@
+From a09add1fc7e12e00082335ca42310cf245effb50 Mon Sep 17 00:00:00 2001
+From: Lutts Cao <lutts.cao@gmail.com>
+Date: Mon, 8 Oct 2012 22:28:08 +0800
+Subject: [PATCH 18/58] default to use Anonymous Pro font, it look more sharpy
+ and clear
+
+---
+ .emacs | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/.emacs b/.emacs
+index bc6f4ed..f04f9f5 100755
+--- a/.emacs
++++ b/.emacs
+@@ -244,9 +244,11 @@ Equivalent to beginning-of-line, open-line."
+ 		    charset
+ 		    (font-spec :family "Microsoft YaHei" :size 14)))
+ 
+-;; font
+-(add-to-list 'default-frame-alist
+-             '(font . "-adobe-courier-medium-r-normal--*-120-*-*-m-*-iso8859-1"))
++;;(set-face-attribute 'default nil
++;;		    :family "Consolas" :height 120)
++
++(set-face-attribute 'default nil
++		    :family "Anonymous Pro" :height 120)
+ 
+ ;;;;;;;;;;;;;;;; third-party addons ;;;;;;;;;;;;;;;;
+ 
+-- 
+2.0.4
+

@@ -1,0 +1,25 @@
+From de043eabcf776fa4a56cccefbd9f951696bca1e7 Mon Sep 17 00:00:00 2001
+From: Cao ShaoLin <slcao@ingenic.cn>
+Date: Wed, 2 Apr 2014 20:46:45 +0800
+Subject: [PATCH 50/58] comment ibus
+
+---
+ .emacs | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/.emacs b/.emacs
+index a151899..f8e0b68 100755
+--- a/.emacs
++++ b/.emacs
+@@ -319,7 +319,7 @@ Equivalent to beginning-of-line, open-line."
+ 
+ ;; ibus mode
+ ;; do not enable ibus by default because I rarely use it
+-(require 'ibus)
++;(require 'ibus)
+ ;(add-hook 'after-make-frame-functions
+ ;	  (lambda (new-frame)
+ ;	    (select-frame new-frame)
+-- 
+2.0.4
+

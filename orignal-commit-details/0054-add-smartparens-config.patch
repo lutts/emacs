@@ -1,0 +1,115 @@
+From 682365ee617784c631205b12bfb50cb796e145fc Mon Sep 17 00:00:00 2001
+From: Lutts Cao <lutts.cao@gmail.com>
+Date: Sun, 19 Oct 2014 18:05:40 +0800
+Subject: [PATCH 54/58] add smartparens config
+
+---
+ .emacs                     | 10 ++++++++++
+ rc/emacs-rc-c-c++.el       | 28 +++++++++++++++++++++++-----
+ rc/emacs-rc-smartparens.el | 17 +++++++++++++++++
+ 3 files changed, 50 insertions(+), 5 deletions(-)
+ create mode 100644 rc/emacs-rc-smartparens.el
+
+diff --git a/.emacs b/.emacs
+index a372b04..98c75ea 100755
+--- a/.emacs
++++ b/.emacs
+@@ -262,6 +262,9 @@ Equivalent to beginning-of-line, open-line."
+ (add-to-list 'load-path "~/emacs/elisp/bookmarkplus")
+ (add-to-list 'load-path "~/emacs/ahei-elisp")
+ 
++(package-initialize)
++(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
++
+ ;; load common utilities
+ ;(require 'ahei-misc)
+ ;(require 'eval-after-load)
+@@ -318,6 +321,13 @@ Equivalent to beginning-of-line, open-line."
+ (load "~/emacs/rc/emacs-rc-auto-complete.el")
+ (load "~/emacs/rc/emacs-rc-desktop.el")
+ 
++;;; smartparents
++(load "~/emacs/rc/emacs-rc-smartparens.el")
++
++;; elpy
++(elpy-enable)
++(setq elpy-rpc-backend "jedi")
++
+ ;; ibus mode
+ ;; do not enable ibus by default because I rarely use it
+ ;(require 'ibus)
+diff --git a/rc/emacs-rc-c-c++.el b/rc/emacs-rc-c-c++.el
+index ce73875..11426b5 100644
+--- a/rc/emacs-rc-c-c++.el
++++ b/rc/emacs-rc-c-c++.el
+@@ -23,14 +23,32 @@
+ 			      (?{ > \n > _ \n ?} >)))
+   (setq skeleton-pair t)
+ ;(local-set-key (kbd "\"") 'skeleton-pair-insert-maybe)
+-  (local-set-key (kbd "`") 'skeleton-pair-insert-maybe)
++  ;(local-set-key (kbd "`") 'skeleton-pair-insert-maybe)
+ ;(local-set-key (kbd "(") 'skeleton-pair-insert-maybe)
+   (local-set-key (kbd "{") 'skeleton-pair-insert-maybe)
+ ;(local-set-key (kbd "[") 'skeleton-pair-insert-maybe)
+ ;(local-set-key (kbd "<") 'skeleton-pair-insert-maybe)
+   )
+ 
+-(add-hook 'c-mode-common-hook 'my-cc-mode-auto-pair)
++;(add-hook 'c-mode-common-hook 'my-cc-mode-auto-pair)
++
++;(require 'autopair)
++;(autopair-global-mode)
++
++
++;(defun electric-pair ()
++;      "If at end of line, insert character pair without surrounding spaces.
++;    Otherwise, just insert the typed character."
++;      (interactive)
++;      (if (eolp) (let (parens-require-spaces) (insert-pair)) (self-insert-command 1)))
++;
++;(add-hook 'c-mode-common-hook
++;	  (lambda ()
++;	    (local-set-key (kbd "\"") 'electric-pair)
++;	    (local-set-key (kbd "\'") 'electric-pair)
++;	    (local-set-key (kbd "(") 'electric-pair)
++;	    (local-set-key (kbd "[") 'electric-pair)
++;	    (local-set-key (kbd "{") 'electric-pair)))
+ 
+ ;; automatically delete trailing whitespace when save buffer
+ (defun progmodes-hooks ()
+@@ -127,6 +145,6 @@
+                 (c-set-style "linux-tabs-only")))))
+ 
+ ;;; C++ mode configurations
+-(add-hook 'c++-mode-hook
+-	  '(lambda ()
+-	     (c-set-style "stroustrup")))
++;(add-hook 'c++-mode-hook
++;	  '(lambda ()
++;	     (c-set-style "stroustrup")))
+diff --git a/rc/emacs-rc-smartparens.el b/rc/emacs-rc-smartparens.el
+new file mode 100644
+index 0000000..3bbb9ff
+--- /dev/null
++++ b/rc/emacs-rc-smartparens.el
+@@ -0,0 +1,17 @@
++(require 'smartparens-config)
++
++(setq sp-show-pair-delay 0)
++(setq sp-highlight-pair-overlay nil)
++(setq sp-autoescape-string-quote nil)
++
++(smartparens-global-mode t)
++
++;; https://github.com/Fuco1/smartparens/wiki/Permissions#pre-and-post-action-hooks
++(sp-local-pair '(c-mode c++-mode) "{" nil
++	       :post-handlers '((my-create-newline-and-enter-sexp "RET")))
++(defun my-create-newline-and-enter-sexp (&rest _ignored)
++  "Open a new brace or bracket expression, with relevant newlines and indent."
++  (newline)
++  (indent-according-to-mode)
++  (forward-line -1)
++  (indent-according-to-mode))
+-- 
+2.0.4
+

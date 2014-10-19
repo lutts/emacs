@@ -1,0 +1,317 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="verify-v1" content="q23nT9/vjX7aMd1/AjL9PRB18+ziDQZv0VoPLsla11k=">
+<title>Amit's Thoughts: Emacs: highlighting parentheses</title>
+<link rel="shortcut icon" href="http://www-cs-students.stanford.edu/%7Eamitp/favicon.ico">
+<link rel="stylesheet" href="emacs-highlighting-parentheses_files/main.css">
+<!--[if !IE]>--><link media="only screen and (max-device-width: 480px)" href="emacs-highlighting-parentheses_files/iphone.css" type="text/css" rel="stylesheet"><!--<![endif]-->
+
+<link rel="alternate" type="application/atom+xml" title="Atom" href="http://amitp.blogspot.com/feeds/posts/default">
+
+<style type="text/css">
+/* Need this to override stuff that Blogger inserted, ugh */
+body#blog { padding-top: 1em; }
+</style>
+<!-- --><style type="text/css">@import url(http://www.blogger.com/css/navbar/classic.css);
+div.b-mobile {display:none;}
+</style>
+
+<link href="emacs-highlighting-parentheses_files/blogbadge.css" rel="stylesheet" type="text/css" id="delicious-blogbadge-css"></head><body id="blog"><iframe src="emacs-highlighting-parentheses_files/navbar.html" marginwidth="0" marginheight="0" id="navbar-iframe" title="Blogger Navigation and Search" scrolling="no" width="100%" frameborder="0" height="30"></iframe>
+<div id="space-for-ie"></div>
+    <h1>Amit's Thoughts: Emacs: highlighting parentheses</h1>
+
+<div class="nav"><ul><li><a rel="me" href="http://www-cs-students.stanford.edu/%7Eamitp/"><span class="longnav">Amit's</span> Home</a></li><li><strong><a href="http://amitp.blogspot.com/"><span class="longnav">Amit's</span> Blog</a></strong></li><li><a href="http://www-cs-students.stanford.edu/%7Eamitp/gameprog.html">Game Programming</a></li><li><a href="http://simblob.blogspot.com/">Game <span class="longnav">Programming</span> Blog</a></li></ul>
+<script src="emacs-highlighting-parentheses_files/blogbadge.js"></script><div class="delicious-blogbadge-tall" id="delicious-blogbadge-0.8521333225682944"><a title="bookmark Amit's Thoughts: Emacs: highlighting parentheses on del.icio.us" href="http://del.icio.us/post?url=http%3A%2F%2Famitp.blogspot.com%2F2007%2F05%2Femacs-highlighting-parentheses.html&amp;title=Amit%27s%20Thoughts%3A%20Emacs%3A%20highlighting%20parentheses&amp;jump=no&amp;partner=delbg" class="save-to-link"><span class="save-to-link-label">bookmark this on del.icio.us</span></a><a href="http://del.icio.us/url/0846cb6308c3499ef635f6c1252677d1" class="url-link"><span class="post-count-label-before">saved by </span><span class="post-count">5</span><span class="post-count-label-after"> other people</span></a><div class="top-tags-container"><span class="top-tags-title">tags: </span><ul class="top-tags"><li><a title="emacs" href="http://del.icio.us/tag/emacs">emacs</a></li> </ul></div> <br></div>
+
+
+<div style="text-align: center;"><form id="searchbox_015053491556836196840:0hqisdtq4p0" action="http://google.com/cse">
+            Search site:
+            <input name="cx" value="015053491556836196840:0hqisdtq4p0" type="hidden"><input name="q" size="15" type="text"><input name="cof" value="FORID:0" type="hidden"></form></div></div><div class="main"><div class="main1"><div class="main2"><div class="main3">    
+
+      
+      <div id="3858234220279395826">
+        
+
+        <div class="topic">
+          <p>
+Emacs has several packages for dealing with <a href="http://www.emacswiki.org/cgi-bin/wiki/CategoryParentheses">parentheses</a>. Emacs comes with ways to highlight the matching parenthesis when you're on one; try <kbd>show-paren-mode</kbd>. One of the newer add-on packages is Nikolaj Schumacher's <a href="http://www.emacswiki.org/cgi-bin/wiki/HighlightParentheses">highlight-parentheses</a>
+mode, which
+shows the parentheses that enclose the current cursor position. I tried
+modifying it to highlight the containing expressions instead of only
+their parentheses:
+</p>
+<pre class="snippet">(defun hl-paren-highlight ()
+  "Highlight the parentheses around point."
+  <span style="background-color: rgb(153, 255, 153);">(unless (= (point) hl-paren-last-point)
+    </span><span style="background-color: rgb(204, 255, 153);">(save-excursion
+      </span><span style="background-color: rgb(255, 204, 153);">(let ((pos (point))
+            (match-pos (point))
+            (level -1)
+            (max (1- (length hl-paren-overlays))))
+        </span><span style="background-color: rgb(255, 153, 153);">(while (and match-pos (&lt; level max))
+          </span><span style="background-color: rgb(255, 153, 204);">(setq match-pos
+                </span><span style="background-color: rgb(204, 153, 255);">(when </span><span style="background-color: rgb(153, 153, 255);">(setq pos </span><span style="background-color: rgb(153, 204, 255);">(cadr </span><span style="background-color: rgb(153, 255, 204);">(syn<span style="background-color: red; color: white;">t</span>ax-ppss pos)</span><span style="background-color: rgb(153, 204, 255);">)</span><span style="background-color: rgb(153, 153, 255);">)</span><span style="background-color: rgb(204, 153, 255);">
+                  (ignore-errors (scan-sexps pos 1)))</span><span style="background-color: rgb(255, 153, 204);">)</span><span style="background-color: rgb(255, 153, 153);">
+          (when match-pos
+            (if (eq 'expression hl-paren-type)
+                (hl-paren-put-overlay pos match-pos (incf level))
+              (hl-paren-put-overlay pos (1+ pos) (incf level))
+              (hl-paren-put-overlay (1- match-pos) match-pos 
+                (incf level)))
+            ))</span><span style="background-color: rgb(255, 204, 153);">
+        (while (&lt; level max)
+          (hl-paren-put-overlay nil nil (incf level))))</span><span style="background-color: rgb(204, 255, 153);">)</span><span style="background-color: rgb(153, 255, 153);">
+    (setq hl-paren-last-point (point)))</span>)
+</pre>
+<p>Unfortunately, as you can see, it's a mess. I tried better colors
+(white, gray, etc.) but I just couldn't make it usable. So I gave up on
+highlighting the regions and went back to highlighting just the
+parentheses. It's a bit better:
+</p>
+<pre class="snippet">(<span style="color: rgb(0, 0, 205);">defun</span> <span style="color: rgb(34, 68, 208); font-style: italic;">hl-paren-highlight</span> ()
+  <span style="color: rgb(68, 136, 68); background-color: rgb(232, 232, 232);">"Highlight the parentheses around point."</span>
+  <span style="background-color: rgb(153, 255, 153);">(</span><span style="color: rgb(0, 0, 205);">unless</span> (= (point) hl-paren-last-point)
+    <span style="background-color: rgb(204, 255, 153);">(</span><span style="color: rgb(0, 0, 205);">save-excursion</span>
+      <span style="background-color: rgb(255, 204, 153);">(</span><span style="color: rgb(0, 0, 205);">let</span> ((pos (point))
+            (match-pos (point))
+            (level -1)
+            (max (1- (length hl-paren-overlays))))
+        <span style="background-color: rgb(255, 153, 153);">(</span><span style="color: rgb(0, 0, 205);">while</span> (and match-pos (&lt; level max))
+          <span style="background-color: rgb(255, 153, 204);">(</span><span style="color: rgb(0, 0, 205);">setq</span> match-pos
+                <span style="background-color: rgb(204, 153, 255);">(</span><span style="color: rgb(0, 0, 205);">when</span> <span style="background-color: rgb(153, 153, 255);">(</span><span style="color: rgb(0, 0, 205);">setq</span> pos <span style="background-color: rgb(153, 204, 255);">(</span>cadr <span style="background-color: rgb(153, 255, 204);">(</span>syn<span style="background-color: red; color: white;">t</span>ax-ppss pos<span style="background-color: rgb(153, 255, 204);">)</span><span style="background-color: rgb(153, 204, 255);">)</span><span style="background-color: rgb(153, 153, 255);">)</span>
+                  (<span style="color: rgb(0, 0, 205);">ignore-errors</span> (scan-sexps pos 1))<span style="background-color: rgb(204, 153, 255);">)</span><span style="background-color: rgb(255, 153, 204);">)</span>
+          (<span style="color: rgb(0, 0, 205);">when</span> match-pos
+            (<span style="color: rgb(0, 0, 205);">if</span> (eq <span style="color: rgb(0, 0, 238);">'</span>expression hl-paren-type)
+                (hl-paren-put-overlay pos match-pos (incf level))
+              (hl-paren-put-overlay pos (1+ pos) (incf level))
+              (hl-paren-put-overlay (1- match-pos) match-pos 
+                (incf level)))
+            )<span style="background-color: rgb(255, 153, 153);">)</span>
+        (<span style="color: rgb(0, 0, 205);">while</span> (&lt; level max)
+          (hl-paren-put-overlay nil nil (incf level)))<span style="background-color: rgb(255, 204, 153);">)</span><span style="background-color: rgb(204, 255, 153);">)</span>
+    (<span style="color: rgb(0, 0, 205);">setq</span> hl-paren-last-point (point))<span style="background-color: rgb(153, 255, 153);">)</span>)
+</pre>
+<p>
+However it's still a bit too … colorful.  So I changed it to simply make the enclosing parentheses bold:
+</p>
+<pre class="snippet"><b>(</b><span style="color: rgb(0, 0, 205);">defun</span> <span style="color: rgb(34, 68, 208); font-style: italic;">hl-paren-highlight</span> ()
+  <span style="color: rgb(68, 136, 68); background-color: rgb(232, 232, 232);">"Highlight the parentheses around point."</span>
+  <b>(</b><span style="color: rgb(0, 0, 205);">unless</span> (= (point) hl-paren-last-point)
+    <b>(</b><span style="color: rgb(0, 0, 205);">save-excursion</span>
+      <b>(</b><span style="color: rgb(0, 0, 205);">let</span> ((pos (point))
+            (match-pos (point))
+            (level -1)
+            (max (1- (length hl-paren-overlays))))
+        <b>(</b><span style="color: rgb(0, 0, 205);">while</span> (and match-pos (&lt; level max))
+          <b>(</b><span style="color: rgb(0, 0, 205);">setq</span> match-pos
+                <b>(</b><span style="color: rgb(0, 0, 205);">when</span> <b>(</b><span style="color: rgb(0, 0, 205);">setq</span> pos <b>(</b>cadr <b>(</b>syn<span style="background-color: red; color: white;">t</span>ax-ppss pos<b>)</b><b>)</b><b>)</b>
+                  (<span style="color: rgb(0, 0, 205);">ignore-errors</span> (scan-sexps pos 1))<b>)</b><b>)</b>
+          (<span style="color: rgb(0, 0, 205);">when</span> match-pos
+            (<span style="color: rgb(0, 0, 205);">if</span> (eq <span style="color: rgb(0, 0, 238);">'</span>expression hl-paren-type)
+                (hl-paren-put-overlay pos match-pos (incf level))
+              (hl-paren-put-overlay pos (1+ pos) (incf level))
+              (hl-paren-put-overlay (1- match-pos) match-pos 
+                (incf level)))
+            )<b>)</b>
+        (<span style="color: rgb(0, 0, 205);">while</span> (&lt; level max)
+          (hl-paren-put-overlay nil nil (incf level)))<b>)</b><b>)</b>
+    (<span style="color: rgb(0, 0, 205);">setq</span> hl-paren-last-point (point))<b>))</b>
+</pre>
+<p>
+That's nicer, although perhaps too subtle. I added more bolding:
+</p>
+<pre class="snippet">(<span style="color: rgb(0, 0, 205);">defun</span> <span style="color: rgb(34, 68, 208); font-style: italic;">hl-paren-highlight</span> ()
+  <span style="color: rgb(68, 136, 68); background-color: rgb(232, 232, 232);">"Highlight the parentheses around point."</span>
+  <span style="font-weight: bold;">(unless</span> (= (point) hl-paren-last-point)
+    <span style="font-weight: bold;">(save-excursion</span>
+      <span style="font-weight: bold;">(let</span> ((pos (point))
+            (match-pos (point))
+            (level -1)
+            (max (1- (length hl-paren-overlays))))
+        <span style="font-weight: bold;">(while</span> (and match-pos (&lt; level max))
+          <span style="font-weight: bold;">(setq</span> match-pos
+                <span style="font-weight: bold;">(when</span> <span style="font-weight: bold;">(setq</span> pos <span style="font-weight: bold;">(cadr</span> <span style="font-weight: bold;">(syn<span style="background-color: red; color: white;">t</span>ax-ppss</span> pos<span style="font-weight: bold;">)))</span>
+                  (<span style="color: rgb(0, 0, 205);">ignore-errors</span> (scan-sexps pos 1))<span style="font-weight: bold;">))</span>
+          (<span style="color: rgb(0, 0, 205);">when</span> match-pos
+            (<span style="color: rgb(0, 0, 205);">if</span> (eq <span style="color: rgb(0, 0, 238);">'</span>expression hl-paren-type)
+                (hl-paren-put-overlay pos match-pos (incf level))
+              (hl-paren-put-overlay pos (1+ pos) (incf level))
+              (hl-paren-put-overlay (1- match-pos) match-pos<span style="background-color: rgb(238, 238, 255);"> </span>
+                (incf level)))
+            )<span style="font-weight: bold;">)</span>
+        (<span style="color: rgb(0, 0, 205);">while</span> (&lt; level max)
+          (hl-paren-put-overlay nil nil (incf level)))<span style="font-weight: bold;">))</span>
+    (setq hl-paren-last-point (point))<span style="font-weight: bold;">)</span>)
+</pre>
+<p>It bolds the parentheses and also the first s-expression inside the
+opening parenthesis. It doesn't understand when the parentheses begin <a href="http://amitp.blogspot.com/2007/04/lisp-vs-python-syntax.html">a form</a>
+(instead of all the other uses of parentheses), so it sometimes
+highlights the first s-expression even when it's not special in any
+way. Despite this wart, I like this form of highlighting so far. </p>
+<p>
+<strong>Update:</strong> [2007-05-29] However, there is one more thing
+I wanted. I de-emphasize parentheses by using a lighter color for them;
+I want the enclosing parentheses to be bold and black. However I want
+the enclosing first s-expressions to be bold, but not necessarily
+black. Note in the above example the keywords are normally blue, but
+when enclosing the current point they are black. I fixed this by adding
+separate highlighting for the enclosing parentheses and the first
+s-expression:
+</p>
+    <pre class="snippet"><span style="color: rgb(0, 0, 0); font-weight: bold;">(</span><span style="color: rgb(0, 0, 205); font-weight: bold;">defun</span> <span style="color: rgb(34, 68, 208); font-style: italic;">hl-paren-highlight</span> <span style="color: rgb(128, 128, 176);">(</span><span style="color: rgb(128, 128, 176);">)</span>
+  <span style="color: rgb(68, 136, 68); background-color: rgb(232, 232, 232);">"Highlight the parentheses around point."</span>
+  <span style="color: rgb(0, 0, 0); font-weight: bold;">(</span><span style="color: rgb(0, 0, 205); font-weight: bold;">unless</span> <span style="color: rgb(128, 128, 176);">(</span>= <span style="color: rgb(128, 128, 176);">(</span>point<span style="color: rgb(128, 128, 176);">)</span> hl-paren-last-point<span style="color: rgb(128, 128, 176);">)</span>
+    <span style="color: rgb(0, 0, 0); font-weight: bold;">(</span><span style="color: rgb(0, 0, 205); font-weight: bold;">save-excursion</span>
+      <span style="color: rgb(0, 0, 0); font-weight: bold;">(</span><span style="color: rgb(0, 0, 205); font-weight: bold;">let</span> <span style="color: rgb(128, 128, 176);">(</span><span style="color: rgb(128, 128, 176);">(</span>pos <span style="color: rgb(128, 128, 176);">(</span>point<span style="color: rgb(128, 128, 176);">)</span><span style="color: rgb(128, 128, 176);">)</span>
+            <span style="color: rgb(128, 128, 176);">(</span>match-pos <span style="color: rgb(128, 128, 176);">(</span>point<span style="color: rgb(128, 128, 176);">)</span><span style="color: rgb(128, 128, 176);">)</span>
+            <span style="color: rgb(128, 128, 176);">(</span>level -1<span style="color: rgb(128, 128, 176);">)</span>
+            <span style="color: rgb(128, 128, 176);">(</span>max <span style="color: rgb(128, 128, 176);">(</span>1- <span style="color: rgb(128, 128, 176);">(</span>length hl-paren-overlays<span style="color: rgb(128, 128, 176);">)</span><span style="color: rgb(128, 128, 176);">)</span><span style="color: rgb(128, 128, 176);">)</span><span style="color: rgb(128, 128, 176);">)</span>
+        <span style="color: rgb(0, 0, 0); font-weight: bold;">(</span><span style="color: rgb(0, 0, 205); font-weight: bold;">while</span> <span style="color: rgb(128, 128, 176);">(</span>and match-pos <span style="color: rgb(128, 128, 176);">(</span>&lt; level max<span style="color: rgb(128, 128, 176);">)</span><span style="color: rgb(128, 128, 176);">)</span>
+          <span style="color: rgb(0, 0, 0); font-weight: bold;">(</span><span style="font-weight: bold;">setq</span> match-pos
+                <span style="color: rgb(0, 0, 0); font-weight: bold;">(</span><span style="color: rgb(0, 0, 205); font-weight: bold;">when</span> <span style="color: rgb(0, 0, 0); font-weight: bold;">(</span><span style="font-weight: bold;">setq</span> pos <span style="color: rgb(0, 0, 0); font-weight: bold;">(</span><span style="font-weight: bold;">cadr</span> <span style="color: rgb(0, 0, 0); font-weight: bold;">(</span><span style="font-weight: bold;">syn<span style="background-color: red; color: white;">t</span>ax-ppss</span> pos<span style="color: rgb(0, 0, 0); font-weight: bold;">)</span><span style="color: rgb(0, 0, 0); font-weight: bold;">)</span><span style="color: rgb(0, 0, 0); font-weight: bold;">)</span>
+                  <span style="color: rgb(128, 128, 176);">(</span><span style="color: rgb(0, 0, 205);">ignore-errors</span> <span style="color: rgb(128, 128, 176);">(</span>scan-sexps pos 1<span style="color: rgb(128, 128, 176);">)</span><span style="color: rgb(128, 128, 176);">)</span><span style="color: rgb(0, 0, 0); font-weight: bold;">)</span><span style="color: rgb(0, 0, 0); font-weight: bold;">)</span>
+          <span style="color: rgb(128, 128, 176);">(</span><span style="color: rgb(0, 0, 205);">when</span> match-pos
+            <span style="color: rgb(128, 128, 176);">(</span><span style="color: rgb(0, 0, 205);">if</span> <span style="color: rgb(128, 128, 176);">(</span>eq <span style="color: rgb(0, 0, 238);">'</span>expression hl-paren-type<span style="color: rgb(128, 128, 176);">)</span>
+                <span style="color: rgb(128, 128, 176);">(</span>hl-paren-put-overlay pos match-pos <span style="color: rgb(128, 128, 176);">(</span>incf level<span style="color: rgb(128, 128, 176);">)</span><span style="color: rgb(128, 128, 176);">)</span>
+              <span style="color: rgb(128, 128, 176);">(</span>hl-paren-put-overlay pos <span style="color: rgb(128, 128, 176);">(</span>1+ pos<span style="color: rgb(128, 128, 176);">)</span> <span style="color: rgb(128, 128, 176);">(</span>incf level<span style="color: rgb(128, 128, 176);">)</span><span style="color: rgb(128, 128, 176);">)</span>
+              <span style="color: rgb(128, 128, 176);">(</span>hl-paren-put-overlay <span style="color: rgb(128, 128, 176);">(</span>1- match-pos<span style="color: rgb(128, 128, 176);">)</span> match-pos<span style="background-color: rgb(238, 238, 255);"> </span>
+                <span style="color: rgb(128, 128, 176);">(</span>incf level<span style="color: rgb(128, 128, 176);">)</span><span style="color: rgb(128, 128, 176);">)</span><span style="color: rgb(128, 128, 176);">)</span>
+            <span style="color: rgb(128, 128, 176);">)</span><span style="color: rgb(0, 0, 0); font-weight: bold;">)</span>
+        <span style="color: rgb(128, 128, 176);">(</span><span style="color: rgb(0, 0, 205);">while</span> <span style="color: rgb(128, 128, 176);">(</span>&lt; level max<span style="color: rgb(128, 128, 176);">)</span>
+          <span style="color: rgb(128, 128, 176);">(</span>hl-paren-put-overlay nil nil <span style="color: rgb(128, 128, 176);">(</span>incf level<span style="color: rgb(128, 128, 176);">)</span><span style="color: rgb(128, 128, 176);">)</span><span style="color: rgb(128, 128, 176);">)</span><span style="color: rgb(0, 0, 0); font-weight: bold;">)</span><span style="color: rgb(0, 0, 0); font-weight: bold;">)</span>
+    <span style="color: rgb(128, 128, 176);">(</span>setq hl-paren-last-point <span style="color: rgb(128, 128, 176);">(</span>point<span style="color: rgb(128, 128, 176);">)</span><span style="color: rgb(128, 128, 176);">)</span><span style="color: rgb(0, 0, 0); font-weight: bold;">)</span><span style="color: rgb(0, 0, 0); font-weight: bold;">)</span>
+</pre>
+<p>
+I'm pretty happy with this variant of <code>highlight-parentheses.el</code>.
+</p><p class="blogger-labels">Labels: <a rel="tag" href="http://amitp.blogspot.com/search/label/emacs">emacs</a></p>
+           <div class="byline">
+              &nbsp;&nbsp;— <a href="http://www-cs-students.stanford.edu/%7Eamitp/">Amit</a>
+              — Monday, May 21, 2007
+              
+            </div>
+        </div>
+      </div>
+      
+
+          
+
+	    <h2 style="margin-top: 1em;">Comments:</h2>
+                    <div class="topic">
+			
+			<div id="7276887213959914833" class="blogComment" style="border: 1px solid rgb(204, 204, 204); margin: 1em;">
+				<div style="margin: 1em;">
+                                    lemonodor has some other packages listed <a href="http://lemonodor.com/archives/001207.html" rel="nofollow">on his blog</a>.
+                                </div>
+				<div class="byline">
+                                    <a href="http://amitp.blogspot.com/2007/05/emacs-highlighting-parentheses.html?showComment=1179971580000#c7276887213959914833" title="permanent link">#</a> 
+                                    posted by <span style="line-height: 16px;" class="comment-icon blogger-comment-icon"><img src="emacs-highlighting-parentheses_files/b16-rounded.gif" alt="Blogger" style="display: inline;"></span>&nbsp;<a href="http://www.blogger.com/profile/12159325271882018300" rel="nofollow">Amit</a> @ May 23, 2007 6:53 PM
+                                </div>
+				<span class="item-control blog-admin pid-1296859209"><a style="border: medium none ;" href="http://www.blogger.com/delete-comment.g?blogID=5304409&amp;postID=7276887213959914833" title="Delete Comment"><span class="delete-comment-icon">&nbsp;</span></a></span>
+			</div>
+			
+			<div id="1830568943430970468" class="blogComment" style="border: 1px solid rgb(204, 204, 204); margin: 1em;">
+				<div style="margin: 1em;">
+                                    Any chance you could post a link to your version?
+                                </div>
+				<div class="byline">
+                                    <a href="http://amitp.blogspot.com/2007/05/emacs-highlighting-parentheses.html?showComment=1185480300000#c1830568943430970468" title="permanent link">#</a> 
+                                    posted by <span style="line-height: 16px;" class="comment-icon anon-comment-icon"><img src="emacs-highlighting-parentheses_files/anon16-rounded.gif" alt="Anonymous" style="display: inline;"></span>&nbsp;<span class="anon-comment-author">Anonymous</span> @ July 26, 2007 1:05 PM
+                                </div>
+				<span class="item-control blog-admin pid-2117293269"><a style="border: medium none ;" href="http://www.blogger.com/delete-comment.g?blogID=5304409&amp;postID=1830568943430970468" title="Delete Comment"><span class="delete-comment-icon">&nbsp;</span></a></span>
+			</div>
+			
+			<div id="3385184585011928623" class="blogComment" style="border: 1px solid rgb(204, 204, 204); margin: 1em;">
+				<div style="margin: 1em;">
+My version is pretty messy and doesn't work reliably, so I didn't put
+it up. A few days after Anonymous asked, Nikolaj put up <a href="http://nschum.de/src/emacs/highlight-parentheses/" rel="nofollow">a new version</a>
+with optional background highlighting and bolding. It doesn't highlight
+the first sexp; I might try patching it to support that. </div>
+				<div class="byline">
+                                    <a href="http://amitp.blogspot.com/2007/05/emacs-highlighting-parentheses.html?showComment=1186334220000#c3385184585011928623" title="permanent link">#</a> 
+                                    posted by <span style="line-height: 16px;" class="comment-icon blogger-comment-icon"><img src="emacs-highlighting-parentheses_files/b16-rounded.gif" alt="Blogger" style="display: inline;"></span>&nbsp;<a href="http://www.blogger.com/profile/12159325271882018300" rel="nofollow">Amit</a> @ August 05, 2007 10:17 AM
+                                </div>
+				<span class="item-control blog-admin pid-1296859209"><a style="border: medium none ;" href="http://www.blogger.com/delete-comment.g?blogID=5304409&amp;postID=3385184585011928623" title="Delete Comment"><span class="delete-comment-icon">&nbsp;</span></a></span>
+			</div>
+			
+			<a class="comment-link" href="http://www.blogger.com/comment.g?blogID=5304409&amp;postID=3858234220279395826">Post a Comment</a>
+		    </div>
+          
+
+	
+
+
+
+    </div></div></div></div>
+    
+    <div class="footer">
+
+      <p>
+        There are only <span id="pirate">147</span> days until the next <a href="http://www.talklikeapirate.com/">Talk Like A Pirate Day</a>. 
+      </p>
+
+        <script type="text/javascript"><!-- 
+          function setCounter() { 
+          var now = new Date(); 
+          var pirate = new Date(); 
+          pirate.setMonth(8); 
+          pirate.setDate(19); 
+          var diff = (pirate.getTime() - now.getTime()); 
+          if (diff < 0) { 
+            pirate.setFullYear(pirate.getFullYear() + 1); 
+            diff = (pirate.getTime() - now.getTime()); 
+          } 
+          document.getElementById("pirate").firstChild.nodeValue = "" + Math.round(diff/86400000); 
+          } 
+          setCounter(); 
+          //--></script> 
+
+      <div style="float: left; width: 30em;">
+		<address>
+		  Copyright © 2007 
+		  <span class="vcard">
+		    <a rel="copyright" class="url fn n" href="http://www-cs-students.stanford.edu/%7Eamitp/">  
+		      <span class="given-name"> Amit </span>
+		      <span class="additional-name"> J </span>
+		      <span class="family-name"> Patel </span>
+		    </a>, 
+		    <a class="email" href="mailto:amitp@cs.stanford.edu">amitp@cs.stanford.edu</a>
+		  </span>
+
+		</address>
+<!-- 
+   In accordance to the Blogger terms of service, please leave this button somewhere on your blogger-powered page. 
+   Thanks!
+--><a href="http://www.blogger.com/" title="This page is powered by Blogger, the easy way to update your web site."><img alt="This page is powered by Blogger, the easy way to update your web site." src="emacs-highlighting-parentheses_files/bloggerbutton1.gif" width="88" border="0" height="31"></a> 
+
+     </div>
+
+     
+
+   </div>
+<!-- Start of StatCounter Code -->
+<script type="text/javascript">
+<!-- 
+var sc_project=417509; 
+var sc_partition=2; 
+//-->
+</script>
+
+<script type="text/javascript" src="emacs-highlighting-parentheses_files/counter_xhtml.js"></script><div class="statcounter"><a class="statcounter" href="http://www.statcounter.com/" target="_blank"><img src="emacs-highlighting-parentheses_files/t.gif" alt="StatCounter - Free Web Tracker and Counter" border="0"></a></div>
+<noscript><div class="statcounter"><a class="statcounter"
+href="http://www.statcounter.com/free_hit_counter.html"><img
+class="statcounter"
+src="http://c3.statcounter.com/counter.php?sc_project=417509&amp;amp;java=0"
+alt="webcounter" /></a></div></noscript>
+<!-- End of StatCounter Code -->
+<!-- Start of Google Analytics -->
+<script src="emacs-highlighting-parentheses_files/urchin.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+_uacct = "UA-79181-2";
+urchinTracker();
+</script>
+<!-- End of Google Analytics -->
+</body></html>

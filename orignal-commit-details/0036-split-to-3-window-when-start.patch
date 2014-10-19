@@ -1,0 +1,22 @@
+From 98a8bb4878d323045863552b72e55ebf5d9545e7 Mon Sep 17 00:00:00 2001
+From: Cao ShaoLin <slcao@ingenic.cn>
+Date: Fri, 30 Nov 2012 20:24:16 +0800
+Subject: [PATCH 36/58] split to 3 window when start
+
+---
+ .emacs | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/.emacs b/.emacs
+index 2fdf96e..626228d 100755
+--- a/.emacs
++++ b/.emacs
+@@ -350,3 +350,5 @@ Equivalent to beginning-of-line, open-line."
+ ;		      :system-include-path '("~/android/disk2/android-4.1/prebuilt/linux-x86/toolchain/mips-4.4.3/mips-linux-gnu/include")
+ ;		      :spp-files '( "generated/autoconf.h" "generated/asm-offsets.h")
+ ;)
++
++(split-window-tile-3)
+-- 
+2.0.4
+

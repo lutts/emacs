@@ -39,3 +39,63 @@
 (define-key gtags-mode-map (kbd "C-c a g") 'gtags-find-tag)
 
 ; C-c s is for cscope
+
+
+align by regexp
+===============
+if you want align the following:
+
+    'abc' => 1,
+    'abcabc' =>2,
+    'abcabcabc' => 3,
+
+to
+
+    'abc'	=> 1,
+    'abcabc'	=>2,
+    'abcabcabc' => 3,
+
+you can archive this by
+
+1. Select the region
+2. Type M-x align-regexp RET
+3. Type = and hit enter.
+
+You can also use the align command instead of align-regexp.
+The difference is that align automatically chooses the regular expression(s)
+to use based on the major-mode of the buffer.
+So if you are trying to align a block of variable
+initializations and assignments in a c-mode file,
+then it will automatically do the right thing without
+you needing to think of the regular expressions which are needed. Can be convenient.
+
+int x = 3;
+double y = 9.0;
+unsigned int z = 6;
+const char c = 'A';
+
+And type M-x align RET. The result is:
+
+int          x = 3;
+double       y = 9.0;
+unsigned int z = 6;
+const char   c = 'A';
+
+I should add, though, that this will not always work. If there are no regular expressions defined for the major-mode of the current buffer, then the call to align will do nothing. Then, you need to fall back on align-regexp.
+
+
+my_function(
+    int         *foo,
+    double     **pfoo,
+    int          bar)
+               ^
+1234567890123456
+
+You can try variation of align-regexp. M-x align-entire should get:
+
+my_function(
+    int       *foo,
+    double   **pfoo,
+    int        bar)
+               ^
+1234567890123456

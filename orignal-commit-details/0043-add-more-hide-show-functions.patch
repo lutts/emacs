@@ -1,0 +1,483 @@
+From 4ad0480771dee65997f8d52e72a028ccc823abc0 Mon Sep 17 00:00:00 2001
+From: Cao ShaoLin <slcao@ingenic.cn>
+Date: Thu, 10 Jan 2013 12:01:08 +0800
+Subject: [PATCH 43/58] add more hide-show functions
+
+---
+ .emacs                   |   1 +
+ elisp/hide-comnt.el      | 181 +++++++++++++++++++++++++++++++++++++++++++++++
+ elisp/hide-comnt.elc     | Bin 0 -> 3778 bytes
+ elisp/hide-region.el     | 147 ++++++++++++++++++++++++++++++++++++++
+ elisp/hide-region.elc    | Bin 0 -> 2584 bytes
+ elisp/xcscope.elc        | Bin 52920 -> 52848 bytes
+ rc/emacs-rc-c-c++.el     |   2 -
+ rc/emacs-rc-hide-show.el |  69 ++++++++++++++++++
+ 8 files changed, 398 insertions(+), 2 deletions(-)
+ create mode 100644 elisp/hide-comnt.el
+ create mode 100644 elisp/hide-comnt.elc
+ create mode 100644 elisp/hide-region.el
+ create mode 100644 elisp/hide-region.elc
+ create mode 100644 rc/emacs-rc-hide-show.el
+
+diff --git a/.emacs b/.emacs
+index ff3218e..a151899 100755
+--- a/.emacs
++++ b/.emacs
+@@ -312,6 +312,7 @@ Equivalent to beginning-of-line, open-line."
+ ;(load "~/emacs/rc/emacs-rc-cedet.el")
+ ;(load "~/emacs/rc/emacs-rc-ecb.el")
+ (load "~/emacs/rc/emacs-rc-c-c++.el")
++(load "~/emacs/rc/emacs-rc-hide-show.el")
+ (load "~/emacs/rc/emacs-rc-java.el")
+ (load "~/emacs/rc/emacs-rc-auto-complete.el")
+ (load "~/emacs/rc/emacs-rc-desktop.el")
+diff --git a/elisp/hide-comnt.el b/elisp/hide-comnt.el
+new file mode 100644
+index 0000000..a0016c6
+--- /dev/null
++++ b/elisp/hide-comnt.el
+@@ -0,0 +1,181 @@
++;;; hide-comnt.el --- Hide/show comments in code.
++;;
++;; Filename: hide-comnt.el
++;; Description: Hide/show comments in code.
++;; Author: Drew Adams
++;; Maintainer: Drew Adams
++;; Copyright (C) 2011-2013, Drew Adams, all rights reserved.
++;; Created: Wed May 11 07:11:30 2011 (-0700)
++;; Version:
++;; Last-Updated: Fri Dec 28 09:55:11 2012 (-0800)
++;;           By: dradams
++;;     Update #: 49
++;; URL: http://www.emacswiki.org/hide-comnt.el
++;; Doc URL: http://www.emacswiki.org/HideOrIgnoreComments
++;; Keywords: comment, hide, show
++;; Compatibility: GNU Emacs: 21.x, 22.x, 23.x, 24.x
++;;
++;; Features that might be required by this library:
++;;
++;;   None
++;;
++;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
++;;
++;;; Commentary:
++;;
++;;  Hide/show comments in code.
++;;
++;;
++;;  Macros defined here:
++;;
++;;    `with-comments-hidden'.
++;;
++;;  Commands defined here:
++;;
++;;    `hide/show-comments', `hide/show-comments-toggle'.
++;;
++;;  User options defined here:
++;;
++;;    `ignore-comments-flag'.
++;;
++;;
++;;  Put this in your init file (`~/.emacs'):
++;;
++;;   (require 'hide-comnt)
++;;
++;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
++;;
++;;; Change Log:
++;;
++;; 2012/10/06 dadams
++;;     hide/show-comments: Call comment-normalize-vars first.  Thx to Stefan Monnier.
++;;     hide/show-comments-toggle: Do nothing if newcomment.el not available.
++;; 2012/05/10 dadams
++;;     Added: hide/show-comments-toggle.  Thx to Denny Zhang for the suggestion.
++;; 2011/11/23 dadams
++;;     hide/show-comments: Bug fix - ensure CEND is not past eob.
++;; 2011/05/11 dadams
++;;     Created: moved code here from thing-cmds.el.
++;;
++;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
++;;
++;; This program is free software; you can redistribute it and/or
++;; modify it under the terms of the GNU General Public License as
++;; published by the Free Software Foundation; either version 3, or
++;; (at your option) any later version.
++;;
++;; This program is distributed in the hope that it will be useful,
++;; but WITHOUT ANY WARRANTY; without even the implied warranty of
++;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++;; General Public License for more details.
++;;
++;; You should have received a copy of the GNU General Public License
++;; along with this program; see the file COPYING.  If not, write to
++;; the Free Software Foundation, Inc., 51 Franklin Street, Fifth
++;; Floor, Boston, MA 02110-1301, USA.
++;;
++;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
++;;
++;;; Code:
++
++
++;;;###autoload
++(defcustom ignore-comments-flag t
++  "Non-nil means macro `with-comments-hidden' hides comments."
++  :type 'boolean :group 'matching)
++
++
++(defmacro with-comments-hidden (start end &rest body)
++  "Evaluate the forms in BODY while comments are hidden from START to END.
++But if `ignore-comments-flag' is nil, just evaluate BODY,
++without hiding comments.  Show comments again when BODY is finished.
++
++See `hide/show-comments', which is used to hide and show the comments.
++Note that prior to Emacs 21, this never hides comments."
++  (let ((result  (make-symbol "result"))
++        (ostart  (make-symbol "ostart"))
++        (oend    (make-symbol "oend")))
++    `(let ((,ostart  ,start)
++           (,oend    ,end)
++           ,result)
++      (unwind-protect
++           (setq ,result  (progn (when ignore-comments-flag
++                                   (hide/show-comments 'hide ,ostart ,oend))
++                                 ,@body))
++        (when ignore-comments-flag (hide/show-comments 'show ,ostart ,oend))
++        ,result))))
++
++;;;###autoload
++(defun hide/show-comments (&optional hide/show start end)
++  "Hide or show comments from START to END.
++Interactively, hide comments, or show them if you use a prefix arg.
++Interactively, START and END default to the region limits, if active.
++Otherwise, including non-interactively, they default to `point-min'
++and `point-max'.
++
++Uses `save-excursion', restoring point.
++
++Be aware that using this command to show invisible text shows *all*
++such text, regardless of how it was hidden.  IOW, it does not just
++show invisible text that you previously hid using this command.
++
++From Lisp, a HIDE/SHOW value of `hide' hides comments.  Other values
++show them.
++
++This command does nothing in Emacs versions prior to Emacs 21, because
++it needs `comment-search-forward'."
++  (interactive
++   (cons (if current-prefix-arg 'show 'hide)
++         (if (or (not mark-active) (null (mark)) (= (point) (mark)))
++             (list (point-min) (point-max))
++           (if (< (point) (mark)) (list (point) (mark)) (list (mark) (point))))))
++  (when (require 'newcomment nil t)     ; `comment-search-forward', Emacs 21+.
++    (comment-normalize-vars)            ; Per Stefan, should call this first.
++    (unless start (setq start  (point-min)))
++    (unless end   (setq end    (point-max)))
++    (unless (<= start end) (setq start  (prog1 end (setq end  start))))
++    (let ((bufmodp           (buffer-modified-p))
++          (buffer-read-only  nil)
++          cbeg cend)
++      (unwind-protect
++           (save-excursion
++             (goto-char start)
++             (while (and (< start end) (setq cbeg  (comment-search-forward end 'NOERROR)))
++               (setq cend  (if (string= "" comment-end)
++                               (min (1+ (line-end-position)) (point-max))
++                             (search-forward comment-end end 'NOERROR)))
++               (when (and cbeg cend)
++                 (if (eq 'hide hide/show)
++                     (put-text-property cbeg cend 'invisible t)
++                   (put-text-property cbeg cend 'invisible nil)))))
++        (set-buffer-modified-p bufmodp)))))
++
++(defun hide/show-comments-toggle (&optional start end)
++  "Toggle hiding/showing of comments in the active region or whole buffer.
++If the region is active then toggle in the region.  Otherwise, in the
++whole buffer.
++
++This command does nothing in Emacs versions prior to Emacs 21, because
++it needs `comment-search-forward'.
++
++Interactively, START and END default to the region limits, if active.
++Otherwise, including non-interactively, they default to `point-min'
++and `point-max'.
++
++See `hide/show-comments' for more information."
++  (interactive (if (or (not mark-active)  (null (mark))  (= (point) (mark)))
++                   (list (point-min) (point-max))
++                 (if (< (point) (mark)) (list (point) (mark)) (list (mark) (point)))))
++  (when (require 'newcomment nil t) ; `comment-search-forward', Emacs 21+.
++    (comment-normalize-vars)     ; Per Stefan, should call this first.
++    (if (save-excursion (goto-char start) (and (comment-search-forward end 'NOERROR)
++                                               (get-text-property (point) 'invisible)))
++        (hide/show-comments 'show start end)
++      (hide/show-comments 'hide start end))))
++
++;;;;;;;;;;;;;;;;;;;;;;;;
++
++(provide 'hide-comnt)
++
++;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
++;;; hide-comnt.el ends here
+diff --git a/elisp/hide-comnt.elc b/elisp/hide-comnt.elc
+new file mode 100644
+index 0000000..41d1f3d
+Binary files /dev/null and b/elisp/hide-comnt.elc differ
+diff --git a/elisp/hide-region.el b/elisp/hide-region.el
+new file mode 100644
+index 0000000..b58f7fe
+--- /dev/null
++++ b/elisp/hide-region.el
+@@ -0,0 +1,147 @@
++;;; hide-region.el --- hide regions of text using overlays
++;;
++;; Copyright (C) 2001, 2005  Mathias Dahl
++;;
++;; Version: 1.0.2
++;; Keywords: hide, region
++;; Author: Mathias Dahl <mathias.rem0veth1s.dahl@gmail.com>
++;; Maintainer: Mathias Dahl
++;; URL: http://mathias.dahl.net/pgm/emacs/elisp/hide-region.el
++;; Last-Updated: Thu Sun Jul 28 16:10:15 2011 (+0200)
++;;           By: Deniz Dogan <deniz@dogan.se>
++;;
++;; This file is not part of GNU Emacs.
++;;
++;; This is free software; you can redistribute it and/or modify it
++;; under the terms of the GNU General Public License as published by
++;; the Free Software Foundation; either version 2, or (at your option)
++;; any later version.
++;;
++;; This is distributed in the hope that it will be useful, but WITHOUT
++;; ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
++;; or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public
++;; License for more details.
++;;
++;; You should have received a copy of the GNU General Public License
++;; along with GNU Emacs; see the file COPYING.  If not, write to the
++;; Free Software Foundation, Inc., 59 Temple Place - Suite 330,
++;; Boston, MA 02111-1307, USA.
++;;
++;;; Commentary:
++;;
++;; The function `hide-region-hide' hides the region. You can hide many
++;; different regions and they will be "marked" by two configurable
++;; strings (so that you know where the hidden text is).
++;;
++;; The hidden regions is pushed on a kind of hide-region \"ring".
++;;
++;; The function `hide-region-unhide' "unhides" one region, starting
++;; with the last one you hid.
++;;
++;; The best is to try it out. Test on the following:
++;;
++;; Test region 1
++;; Test region 2
++;; Test region 3
++;;
++;; It can be useful to bind the commands to mnemonic keys, e.g.:
++;; (global-set-key (kbd "C-c h r") 'hide-region-hide)
++;; (global-set-key (kbd "C-c h u") 'hide-region-unhide)
++;;
++;;; Version history
++;;
++;; Version 1.0.2
++;;
++;; * Added defface for text properties.
++;;
++;; * Minor tweaks.
++;;
++;;
++;; Version 1.0.1
++;;
++;; * Seems that the getting-stuck problem have disappeared since Emacs
++;; 21.3 was released, so no need anymore for the extra movement
++;; commands.
++;;
++;; * Added the intangible property to the overlays because that seemed
++;; to remove a minor getting-stuck problem (the overlay "ate" one
++;; keystroke) when navigating around an overlay. Adding the intangible
++;; property makes it impossible to navigate into the overlay.
++;;
++;; * Added custom option to propertize the overlay markers for greater
++;; visibility.
++;;
++;; * Minor code cleanup
++;;
++;;
++;;; Bugs
++;;
++;; Probably many, but none that I know of. Comments and suggestions
++;; are welcome!
++
++;;; Code:
++
++(defgroup hide-region nil
++  "Functions to hide region using an overlay with the invisible
++property. The text is not affected."
++  :prefix "hide-region-"
++  :group 'convenience)
++
++(defcustom hide-region-before-string "@["
++  "String to mark the beginning of an invisible region. This string is
++not really placed in the text, it is just shown in the overlay"
++  :type 'string
++  :group 'hide-region)
++
++(defcustom hide-region-after-string "]@"
++  "String to mark the beginning of an invisible region. This string is
++not really placed in the text, it is just shown in the overlay"
++  :type 'string
++  :group 'hide-region)
++
++(defcustom hide-region-propertize-markers t
++  "If non-nil, add text properties to the region markers."
++  :type 'boolean
++  :group 'hide-region)
++
++(defface hide-region-before-string-face
++  '((t (:inherit region)))
++  "Face for the before string.")
++
++(defface hide-region-after-string-face
++  '((t (:inherit region)))
++  "Face for the after string.")
++
++(defvar hide-region-overlays nil
++  "Variable to store the regions we put an overlay on.")
++
++(defun hide-region-hide ()
++  "Hides a region by making an invisible overlay over it and save the
++overlay on the hide-region-overlays \"ring\""
++  (interactive)
++  (let ((new-overlay (make-overlay (mark) (point))))
++    (push new-overlay hide-region-overlays)
++    (overlay-put new-overlay 'invisible t)
++    (overlay-put new-overlay 'intangible t)
++    (overlay-put new-overlay 'before-string
++                 (if hide-region-propertize-markers
++                     (propertize hide-region-before-string
++                                 'font-lock-face 'hide-region-before-string-face)
++                   hide-region-before-string))
++    (overlay-put new-overlay 'after-string
++                 (if hide-region-propertize-markers
++                     (propertize hide-region-after-string
++                                 'font-lock-face 'hide-region-after-string-face)
++                   hide-region-after-string))))
++
++(defun hide-region-unhide ()
++  "Unhide a region at a time, starting with the last one hidden and
++deleting the overlay from the hide-region-overlays \"ring\"."
++  (interactive)
++  (when (car hide-region-overlays)
++    (delete-overlay (car hide-region-overlays))
++    (setq hide-region-overlays (cdr hide-region-overlays))))
++
++(provide 'hide-region)
++
++;;; hide-region.el ends here
+diff --git a/elisp/hide-region.elc b/elisp/hide-region.elc
+new file mode 100644
+index 0000000..9b9e9f3
+Binary files /dev/null and b/elisp/hide-region.elc differ
+diff --git a/elisp/xcscope.elc b/elisp/xcscope.elc
+index 6aef065..fe89173 100644
+Binary files a/elisp/xcscope.elc and b/elisp/xcscope.elc differ
+diff --git a/rc/emacs-rc-c-c++.el b/rc/emacs-rc-c-c++.el
+index 30c825a..10173c5 100644
+--- a/rc/emacs-rc-c-c++.el
++++ b/rc/emacs-rc-c-c++.el
+@@ -32,7 +32,6 @@
+ 
+ (add-hook 'c-mode-common-hook 'my-cc-mode-auto-pair)
+ 
+-(add-hook 'c-mode-common-hook 'hs-minor-mode)
+ (add-hook 'c-mode-common-hook
+ 	  '(lambda()
+ 	     ;;preprocessor
+@@ -55,7 +54,6 @@
+ 	     (require 'xcscope)
+ 	     (setq cscope-do-not-update-database t)
+ 	     (require 'ifdef)
+-	     (local-set-key (kbd "C-c I") 'ifdef-mark)
+ 	     (imenu-add-menubar-index)
+ 	     )
+ 	  )
+diff --git a/rc/emacs-rc-hide-show.el b/rc/emacs-rc-hide-show.el
+new file mode 100644
+index 0000000..91d86d9
+--- /dev/null
++++ b/rc/emacs-rc-hide-show.el
+@@ -0,0 +1,69 @@
++(require 'hideif)
++(setq hide-ifdef-initially nil)
++
++(defun hideif-hide-if0 ()
++  "hide #if 0 blocks"
++  (interactive)
++  (save-excursion
++    (goto-char (point-min))
++    (while (re-search-forward "^[ \t]*#if[ \t]*0" nil t) (hide-ifdef-block))))
++
++(defun hif-goto-endif ()
++  "Goto #endif."
++  (interactive)
++  (unless (or (hif-looking-at-endif)
++              (save-excursion)
++	      (hif-ifdef-to-endif))))
++
++(defun hif-goto-if ()
++  "Goto #if."
++  (interactive)
++  (hif-endif-to-ifdef))
++
++(defun hif-gototo-else ()
++  "Goto #else."
++  (hif-find-next-relevant)
++  (cond ((hif-looking-at-else)
++         'done)
++	(hif-ifdef-to-endif) ; find endif of nested if
++	(hif-ifdef-to-endif)) ; find outer endif or else
++  ((hif-looking-at-else)
++   (hif-ifdef-to-endif)) ; find endif following else
++  ((hif-looking-at-endif)
++   'done)
++  (t
++   (error "Mismatched #ifdef #endif pair")))
++
++(require 'hide-comnt)
++
++(require 'hide-region)
++(setq hide-region-before-string "[======================该区域已")
++(setq hide-region-after-string "被折叠======================]\n")
++
++
++(add-hook 'c-mode-common-hook 'hs-minor-mode)
++(add-hook 'java-mode-hook     'hs-minor-mode)
++
++(add-hook 'c-mode-common-hook
++	  (lambda ()
++	    (hide-ifdef-mode 1)
++	    ;; hide-ifdef-mode
++	    (define-key c-mode-base-map (kbd "C-c h C-h") 'hide-ifdef-block)
++	    (define-key c-mode-base-map (kbd "C-c h C-s") 'show-ifdef-block)
++	    (define-key c-mode-base-map (kbd "C-c h C-M-h") 'hide-ifdefs)
++	    (define-key c-mode-base-map (kbd "C-c h C-M-s") 'show-ifdefs)
++
++	    ;; hs-minor-mode
++	    (define-key c-mode-base-map (kbd "C-c h h") 'hs-hide-block)
++	    (define-key c-mode-base-map (kbd "C-c h s") 'hs-show-block)
++	    (define-key c-mode-base-map (kbd "C-c h M-h") 'hs-hide-all)
++	    (define-key c-mode-base-map (kbd "C-c h M-s") 'hs-show-all)
++
++	    ;; hide-comnt
++	    (define-key c-mode-base-map (kbd "C-c h H") 'hide/show-comments-toggle)
++
++	    ;; hide-region
++	    (define-key c-mode-base-map (kbd "C-c h r") 'hide-region-hide)
++	    (define-key c-mode-base-map (kbd "C-c h C-r") 'hide-region-unhide)
++	    )
++	  )
+\ No newline at end of file
+-- 
+2.0.4
+

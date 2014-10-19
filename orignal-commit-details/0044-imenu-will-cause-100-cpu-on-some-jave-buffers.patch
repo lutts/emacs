@@ -1,0 +1,111 @@
+From 16a1c7e598cda09b881373978bc90d602bd0840f Mon Sep 17 00:00:00 2001
+From: Cao ShaoLin <slcao@ingenic.cn>
+Date: Thu, 4 Apr 2013 16:03:23 +0800
+Subject: [PATCH 44/58] imenu will cause 100% cpu on some jave buffers
+
+---
+ rc/emacs-rc-c-c++.el | 64 ++++++++++++++++++++++++++++------------------------
+ 1 file changed, 35 insertions(+), 29 deletions(-)
+
+diff --git a/rc/emacs-rc-c-c++.el b/rc/emacs-rc-c-c++.el
+index 10173c5..a5bc328 100644
+--- a/rc/emacs-rc-c-c++.el
++++ b/rc/emacs-rc-c-c++.el
+@@ -32,6 +32,29 @@
+ 
+ (add-hook 'c-mode-common-hook 'my-cc-mode-auto-pair)
+ 
++;; automatically delete trailing whitespace when save buffer
++(defun progmodes-hooks ()
++  "Hooks for programming modes"
++  (add-hook 'before-save-hook 'progmodes-write-hooks))
++
++(defun progmodes-write-hooks ()
++  "Hooks which run on file write for programming modes"
++  (prog1 nil
++    (delete-trailing-whitespace)))
++
++(add-hook 'c-mode-common-hook 'progmodes-hooks)
++
++;; Setting Tab to indent region if anything i selected
++(defun tab-indents-region ()
++  (local-set-key (kbd "<tab>") 'fledermaus-maybe-tab)
++  )
++
++(defun fledermaus-maybe-tab ()
++  (interactive)
++  (if (and transient-mark-mode mark-active)
++      (indent-region (region-beginning) (region-end) nil)
++    (c-indent-command)))
++
+ (add-hook 'c-mode-common-hook
+ 	  '(lambda()
+ 	     ;;preprocessor
+@@ -50,14 +73,20 @@
+ 	     ; can use M-x delete-trailing-whitespace <RET> to delete all trailing whitespace within cur buf
+ 	     (setq show-trailing-whitespace t)
+ 	     (paren-toggle-open-paren-context 1)
+-	     ;cscope configuration
+-	     (require 'xcscope)
+-	     (setq cscope-do-not-update-database t)
+-	     (require 'ifdef)
+-	     (imenu-add-menubar-index)
+ 	     )
+ 	  )
+ 
++(defun my-c-c++-common-hook ()
++  ;cscope configuration
++  (require 'xcscope)
++  (setq cscope-do-not-update-database t)
++  (require 'ifdef)
++  (imenu-add-menubar-index)
++)
++
++(add-hook 'c-mode-hook 'my-c-c++-common-hook)
++(add-hook 'c++-mode-hook 'my-c-c++-common-hook)
++
+ ;; linux kernel codeing style
+ (defun c-lineup-arglist-tabs-only (ignored)
+   "Line up argument lists by tabs, not spaces"
+@@ -68,7 +97,7 @@
+     (* (max steps 1)
+        c-basic-offset)))
+ 
+-(add-hook 'c-mode-common-hook
++(add-hook 'c-mode-hook
+           (lambda ()
+             ;; Add kernel style
+             (c-add-style
+@@ -88,29 +117,6 @@
+                 (setq indent-tabs-mode t)
+                 (c-set-style "linux-tabs-only")))))
+ 
+-;; automatically delete trailing whitespace when save buffer
+-(defun progmodes-hooks ()
+-  "Hooks for programming modes"
+-  (add-hook 'before-save-hook 'progmodes-write-hooks))
+-
+-(defun progmodes-write-hooks ()
+-  "Hooks which run on file write for programming modes"
+-  (prog1 nil
+-    (delete-trailing-whitespace)))
+-
+-(add-hook 'c-mode-common-hook 'progmodes-hooks)
+-
+-;; Setting Tab to indent region if anything i selected
+-(defun tab-indents-region ()
+-  (local-set-key (kbd "<tab>") 'fledermaus-maybe-tab)
+-  )
+-
+-(defun fledermaus-maybe-tab ()
+-  (interactive)
+-  (if (and transient-mark-mode mark-active)
+-      (indent-region (region-beginning) (region-end) nil)
+-    (c-indent-command)))
+-
+ ;;; C++ mode configurations
+ (add-hook 'c++-mode-hook
+ 	  '(lambda ()
+-- 
+2.0.4
+

@@ -1,0 +1,29 @@
+From eddc87182972c6d935522ce5a94cc33b840107c7 Mon Sep 17 00:00:00 2001
+From: Cao ShaoLin <slcao@ingenic.cn>
+Date: Sun, 21 Oct 2012 23:10:21 +0800
+Subject: [PATCH 29/58] make xgtags file line not that lonely
+
+---
+ elisp/xgtags.el  |   2 +-
+ elisp/xgtags.elc | Bin 53031 -> 53043 bytes
+ 2 files changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/elisp/xgtags.el b/elisp/xgtags.el
+index 83c479a..4b0c744 100644
+--- a/elisp/xgtags.el
++++ b/elisp/xgtags.el
+@@ -470,7 +470,7 @@ killed!"
+           (setf (xgtags--tag-abs-file tag) expanded
+                 (xgtags--tag-file tag) expanded))
+ 	(setf (xgtags--tag-abs-file tag) abs-file
+-	      (xgtags--tag-file tag) (file-relative-name abs-file  curr-gtags-root)))
++	      (xgtags--tag-file tag) (concat "*** " (file-relative-name abs-file  curr-gtags-root))))
+     tag))
+ 
+ (defun xgtags--tag-position (tag)
+diff --git a/elisp/xgtags.elc b/elisp/xgtags.elc
+index b42cab7..50e1782 100644
+Binary files a/elisp/xgtags.elc and b/elisp/xgtags.elc differ
+-- 
+2.0.4
+

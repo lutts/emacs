@@ -1,0 +1,35 @@
+From acda9a1896cfb386a9755219ed5b68d8c8d323fc Mon Sep 17 00:00:00 2001
+From: Lutts Cao <lutts.cao@gmail.com>
+Date: Mon, 8 Oct 2012 22:28:39 +0800
+Subject: [PATCH 19/58] =?UTF-8?q?=E4=BF=AE=E6=94=B9gtags=EF=BC=8C=E5=90=8C?=
+ =?UTF-8?q?=E6=A0=B7=E7=9A=84GTAGS=20buffer=E5=8F=AA=E5=87=BA=E7=8E=B0?=
+ =?UTF-8?q?=E4=B8=80=E6=AC=A1?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+---
+ elisp/gtags.el  |   3 +++
+ elisp/gtags.elc | Bin 23188 -> 23245 bytes
+ 2 files changed, 3 insertions(+)
+
+diff --git a/elisp/gtags.el b/elisp/gtags.el
+index a334cb0..1eca610 100644
+--- a/elisp/gtags.el
++++ b/elisp/gtags.el
+@@ -726,6 +726,9 @@
+               (if (string-match "*GTAGS SELECT*" (buffer-name now-buffer))
+                   (kill-buffer now-buffer))
+               (setq now-buffer-list (cdr now-buffer-list))))))
++    (setq buffer (get-buffer (concat "*GTAGS SELECT* " prefix tagname)))
++    (if buffer
++	(kill-buffer buffer))
+     (setq buffer (generate-new-buffer (generate-new-buffer-name (concat "*GTAGS SELECT* " prefix tagname))))
+     (set-buffer buffer)
+     (message "Searching %s ..." tagname)
+diff --git a/elisp/gtags.elc b/elisp/gtags.elc
+index 6c3f3c1..47efde6 100644
+Binary files a/elisp/gtags.elc and b/elisp/gtags.elc differ
+-- 
+2.0.4
+

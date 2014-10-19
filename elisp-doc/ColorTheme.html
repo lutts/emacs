@@ -1,0 +1,354 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+<title>EmacsWiki: Color Theme</title><link type="text/css" rel="stylesheet" href="ColorTheme_files/wiki.css"><meta name="robots" content="INDEX,FOLLOW">
+<link rel="alternate" type="application/rss+xml" title="Emacs Wiki with page content" href="http://www.emacswiki.org/emacs/full.rss">
+<link rel="alternate" type="application/rss+xml" title="Emacs Wiki with page content and diff" href="http://www.emacswiki.org/emacs/full-diff.rss">
+<link rel="alternate" type="application/rss+xml" title="Emacs Wiki including minor differences" href="http://www.emacswiki.org/emacs/minor-edits.rss">
+<link rel="alternate" type="application/rss+xml" title="Changes for ColorTheme only" href="http://www.emacswiki.org/emacs?action=rss;rcidonly=ColorTheme"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head><body class="http://www.emacswiki.org/cgi-bin/wiki"><div class="header"><a class="logo" href="http://www.emacswiki.org/cgi-bin/wiki/SiteMap"><img class="logo" src="ColorTheme_files/emacs_logo.png" alt="[Home]"></a><span class="gotobar bar"><a class="local" href="http://www.emacswiki.org/cgi-bin/wiki/SiteMap">SiteMap</a> <a class="local" href="http://www.emacswiki.org/cgi-bin/wiki/Search">Search</a> <a class="local" href="http://www.emacswiki.org/cgi-bin/wiki/ElispArea">ElispArea</a> <a class="local" href="http://www.emacswiki.org/cgi-bin/wiki/HowTo">HowTo</a> <a class="local" href="http://www.emacswiki.org/cgi-bin/wiki/RecentChanges">RecentChanges</a> <a class="local" href="http://www.emacswiki.org/cgi-bin/wiki/News">News</a> <a class="local" href="http://www.emacswiki.org/cgi-bin/wiki/Problems">Problems</a> <a class="local" href="http://www.emacswiki.org/cgi-bin/wiki/Suggestions">Suggestions</a> </span>
+<!-- Google CSE Search Box Begins  -->
+<form class="tiny" action="http://www.google.com/cse" id="searchbox_004774160799092323420:6-ff2s0o6yi"><p>
+<input name="cx" value="004774160799092323420:6-ff2s0o6yi" type="hidden">
+<input style="background: rgb(255, 255, 255) url(http://www.google.com/coop/intl/en/images/google_custom_search_watermark.gif) no-repeat scroll left center; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;" name="q" size="25" type="text">
+<input name="sa" value="Search" type="submit">
+</p></form>
+<script type="text/javascript" src="ColorTheme_files/brand.html"></script>
+<!-- Google CSE Search Box Ends -->
+<h1><a href="http://www.google.com/cse?cx=004774160799092323420:6-ff2s0o6yi&amp;q=ColorTheme">ColorTheme</a></h1></div><div class="wrapper"><div class="content browse"><p>Color theme is an Emacs-Lisp package with more than 50 color themes for your use. For questions about color-theme, see  <strong><a class="local" href="http://www.emacswiki.org/cgi-bin/wiki/ColorThemeQuestions">ColorThemeQuestions</a></strong>. See the new gna project set up at <a class="url http" href="https://gna.org/projects/color-theme">https://gna.org/projects/color-theme</a>,
+with cvs access to color-theme, including an experimental division of
+the color-themes from the main library. This division may speed up load
+times for people who are only interested in using one or two color
+themes.</p><p>(Note that byte compiling this on non-Windows may fail. Convert the line endings from CRLF to LF. skip@pobox.com 2004-03-12)</p><p>Latest release is 6.6.0 – You can get your own copy on Gna:</p><p><a class="url http" href="http://download.gna.org/color-theme/">http://download.gna.org/color-theme/</a> .</p><p>The 6.6.0 fixes several bugs.</p><p>You
+also have the possibility to have your own theme repository with:
+color-theme-directory You can prune the default theme distribution by
+setting color-theme-load-all-themes to nil. Thus it won’t load the
+default themes.</p><p>As of 6.6.0, I also ship a Debian package. Add this to your sources.list:</p><p><code>
+ deb http://zedek.nerim.net/var/spool/repo ./
+
+ deb-src http://zedek.nerim.net/var/spool/repo ./
+</code></p><p>Remember not to send me your bug reports directly. Use Gna! for that.</p><p>Future plans:</p><ul><li>split color-theme-library.el in small pieces (one theme per file)</li><li>Improve load</li><li>Add a custom widget to select your theme</li><li>Use new way to define a color-theme</li><li>Improve submission process and way way more things.</li><li>Add a FAQ, a gentoo ebuild file</li><li>Add CREDITS.themes as a thank-you list</li></ul><p>I am also trying to build a small website using <a class="local" href="http://www.emacswiki.org/cgi-bin/wiki/OrgMode">OrgMode</a> </p></div><hr><div class="color one level0"><p> Will the individual color-themes work with the new version? I have a couple.. btw, are you accepting new themes?</p></div><div class="color two level0"><p>
+Absolutely. You can still submit them to me and I will add them. What
+do you mean with your first question ? If you mean having separate file
+for each color-theme, the answer is yes. There is no problem I am aware
+of.</p></div><div class="color one level0"><p> The next major release (6.6.0) should contain numerous new themes.</p></div><div class="toc"><h2>Contents</h2><ol><li><a href="#toc1">Installing</a></li><li><a href="#toc2">Project's page</a><ol><li><a href="#toc3">CVS</a></li><li><a href="#toc4">Bugs</a></li><li><a href="#toc5">Wishlist</a></li></ol></li><li><a href="#toc6">Installing ColorTheme (from tar.gz file)</a></li><li><a href="#toc7">Installing ColorTheme on Debian</a></li><li><a href="#toc8">Installing ColorTheme on Gentoo</a></li><li><a href="#toc9">Emacs 21 and More Recent</a></li><li><a href="#toc10">Choosing a Color Theme by Choosing from a Menu</a></li><li><a href="#toc11">Choosing a Color Theme by Cycling Among Themes</a><ol><li><a href="#toc12">Do Re Mi: Cycling with Arrow Keys or Mouse Wheel</a></li><li><a href="#toc13">Icicles: Completion and Cycling of Color Themes</a></li><li><a href="#toc14">Cycling by Repeating a Command</a></li></ol></li><li><a href="#toc15">Installing a Color Theme for One Frame Only</a></li><li><a href="#toc16">Installing a color Theme Depending on the Display</a></li><li><a href="#toc17">Installing a Color Theme Depending on the Window System</a></li><li><a href="#toc18">Installing a Color Theme with multi-tty</a></li><li><a href="#toc19">Changing Fonts</a></li><li><a href="#toc20">Mix and Match</a></li><li><a href="#toc21">Color Theme Session</a></li><li><a href="#toc22">Having the Color Theme Selection buffer always present</a></li><li><a href="#toc23">More Color Themes</a></li><li><a href="#toc24">History</a></li><li><a href="#toc25">Installing a Random Color Theme</a></li><li><a href="#toc26">Saving a Color Theme in .Xresources</a></li><li><a href="#toc27">Issues</a><ol><li><a href="#toc28">Themes for console/tty Display</a></li></ol></li><li><a href="#toc29">Gallery</a></li></ol></div><h2 id="toc1">Installing</h2><p>Put the file in a directory on your <a class="local" href="http://www.emacswiki.org/cgi-bin/wiki/LoadPath">LoadPath</a>. The main function to use is <code>‘color-theme-select’</code>. It creates the Color Theme Selection buffer that allows you to test the themes before choosing one.</p><p>M-x load-library RET color-theme RET M-x color-theme-select RET</p><p>The
+easiest way is to install a chosen color theme is to require the file
+and call the appropriate color theme function. Put the appropriate code
+in your .emacs file:</p><pre>    (require 'color-theme)
+    (color-theme-initialize)
+    (color-theme-robin-hood)</pre><p>If it doesn’t seem to work, try adding one more line:</p><pre>   (require 'color-theme)
+   (setq color-theme-is-global t)
+   (color-theme-robin-hood)</pre><p>If
+you like putting globals in default.el and local customizations in
+.emacs then, add the require to default.el and use this in .emacs</p><pre>     (eval-after-load "color-theme" '(color-theme-robin-hood))</pre><p>Use the `?’ in the Color Theme Selection buffer to find the name of the appropriate color theme function.</p><p>If
+the colors seem to get reset (such as background color changing to
+white on startup or when creating a new frame), consider checking <a class="local" href="http://www.emacswiki.org/cgi-bin/wiki/ColorsAndKde">ColorsAndKde</a>.</p><p>If on loading emacs, you get an error like </p><pre>     Debugger entered--Lisp error: (wrong-type-argument keymapp nil)
+     define-key(nil [menu-bar Tools] ("Tools" keymap "Tools"))</pre><p>Change lines 589 and 590 in color-theme.el to:</p><pre>     (easy-menu-add-item nil '("tools") "--")
+     (easy-menu-add-item  nil '("tools")
+                     ["Color Themes" color-theme-select t])</pre><p>Note the “tools” vs “Tools”.</p><p>This is now installed in the CVS.</p><h2 id="toc2">Project's page</h2><p><a class="local" href="http://www.emacswiki.org/cgi-bin/wiki/ColorTheme">ColorTheme</a> is hosted on <a class="url http outside" href="http://gna.org/">Gna!</a></p><p>The website is at <a class="url http" href="http://zedek.nerim.net/html/notebook/ColorTheme.html">http://zedek.nerim.net/html/notebook/ColorTheme.html</a></p><h3 id="toc3">CVS</h3><p>If you want to grab developement version out of CVS, just use this command:</p><pre>  cvs -d:pserver:anonymous@cvs.gna.org:/cvs/color-theme co color-theme</pre><p>(For write access on the repository, ask it to me: zedek@gnu.org)</p><h3 id="toc4">Bugs</h3><p>See <a class="url http outside" href="http://gna.org/bugs/?group=color-theme">the bug-tracking interface</a> for current bugs.</p><h3 id="toc5">Wishlist</h3><p>See <a class="url http outside" href="http://gna.org/bugs/?group=color-theme">the bug-tracking interface</a> for current wishlist items. Wishlist items are those with a severity of 1.</p><p>Please
+use these tools to report problems and do not send mail personally to
+me. Do not even use this page to report your bugs as I may not see them.</p><h2 id="toc6">Installing ColorTheme (from tar.gz file)</h2><p>After
+downloading the tar.gz file, there’s a Makefile, a README, and a number
+of other files, but no instructions for Joe User on how to install. If
+you’re simply a user who wants to have the color themes installed, I
+believe you are to ignore the Makefile, and simply copy color-theme.el
+and the themes directory to a directory on your load-path (say, <a class="alias" title="DotEmacsDotD" href="http://www.emacswiki.org/cgi-bin/wiki/DotEmacsDotD#.emacs.d">.emacs.d</a>).</p><h2 id="toc7">Installing ColorTheme on Debian</h2><p>This is hot and new, you can now enjoy <a class="local" href="http://www.emacswiki.org/cgi-bin/wiki/ColorTheme">ColorTheme</a> through Debian Packaging system. To install it, just do:</p><pre> apt-get install emacs-goodies-el</pre><p>Now enjoy!</p><h2 id="toc8">Installing ColorTheme on Gentoo</h2><pre> emerge color-theme</pre><p>(and make sure your .emacs loads /usr/share/emacs/site-lisp/site-gentoo)</p><h2 id="toc9">Emacs 21 and More Recent</h2><p>color-theme.el
+now also supports all the new attributes in Emacs 21, and it even tries
+to do the right thing for Emacs 20 and XEmacs 21: It resolves :inherit
+attributes and adds :italic and :bold attributes where necessary. The
+amount of compatibility functions, dirty hacks and work-arounds has
+been reduced considerably.</p><dl class="quote"><dt></dt><dd>If you
+find that &lt;code&gt;M-x color-theme-select&lt;/code&gt; fails with an
+error like the following: &lt;pre&gt; face-attribute: Wrong type
+argument: symbolp, (quote font-lock-builtin-face) &lt;/pre&gt; try
+using this alternate definition of
+&lt;code&gt;color-theme-face-attr-construct&lt;/code&gt;:</dd></dl><pre>    (defun color-theme-face-attr-construct (face frame)
+       (if (atom face)
+           (custom-face-attributes-get face frame)
+         (if (and (consp face) (eq (car face) 'quote))
+             (custom-face-attributes-get (cadr face) frame)
+           (custom-face-attributes-get (car face) frame))))</pre><p>This is now installed in the CVS.</p><h2 id="toc10">Choosing a Color Theme by Choosing from a Menu</h2><p>Choosing
+a color theme by name is only convenient if you already know what color
+scheme a given name represents. After installing Color Theme, you can
+pick and choose from a menu. This menu can be accessed via <code>‘M-x color-theme-select’</code>.</p><h2 id="toc11">Choosing a Color Theme by Cycling Among Themes</h2><p>An
+alternative way to choose a color theme is to cycle among a set of
+themes, applying each in turn, and stop when you find one you like – <strong><em>WYSIWYG</em></strong>.</p><p>Here are four alternative ways to cycle among color themes in a list. For illustration, they all use the same list.</p><pre>  (require 'color-theme)
+  (setq my-color-themes (list 'color-theme-billw 'color-theme-jsc-dark 
+                              'color-theme-sitaramv-solaris 'color-theme-resolve
+                              'color-theme-classic 'color-theme-jonadabian-slate
+                              'color-theme-kingsajz 'color-theme-shaman
+                              'color-theme-subtle-blue 'color-theme-snowish
+                              'color-theme-sitaramv-nt 'color-theme-wheat))</pre><p><a class="anchor" name="DoReMiColorThemes"> </a></p><h3 id="toc12"><a class="anchor" name="DoReMiColorThemes">Do Re Mi: Cycling with Arrow Keys or Mouse Wheel</a></h3><p><code><a class="anchor" name="DoReMiColorThemes">‘M-x doremi-color-themes’</a></code><a class="anchor" name="DoReMiColorThemes">,
+then use the up and down arrow keys and/or the mouse wheel to cycle
+among themes. The name of each newly applied theme is displayed in the
+echo area. By default (without changing variable <code>‘doremi-color-themes’</code>), this cycles among <em>all</em> color themes.</a></p><pre><a class="anchor" name="DoReMiColorThemes">  (setq doremi-color-themes my-color-themes) ; Otherwise, cycles among _all_ themes.</a></pre><pre><a class="anchor" name="DoReMiColorThemes">  (defun doremi-color-themes ()
+    "Successively cycle among color themes."
+    (interactive)
+    (doremi (lambda (newval) (funcall newval) newval) ; update fn - just call theme
+            (car (last doremi-color-themes)) ; start with last theme
+            nil                           ; ignored
+            nil                           ; ignored
+            doremi-color-themes))         ; themes to cycle through</a></pre><p><a class="anchor" name="DoReMiColorThemes">This code is part of library </a><a class="inter Lisp" href="http://www.emacswiki.org/cgi-bin/emacs/doremi-cmd.el"><span class="site">Lisp</span><span class="separator">:</span><span class="page">doremi-cmd.el</span></a>.</p><p>Also worth mentioning, if you define your own color theme, are the commands in library <a class="inter Lisp" href="http://www.emacswiki.org/cgi-bin/emacs/doremi-frm.el"><span class="site">Lisp</span><span class="separator">:</span><span class="page">doremi-frm.el</span></a> that let you fine-tune <a class="local" href="http://www.emacswiki.org/cgi-bin/wiki/Frame">Frame</a> and <a class="local" href="http://www.emacswiki.org/cgi-bin/wiki/Face">Face</a>
+colors incrementally, using the arrow keys or mouse wheel. They give
+you an easy way to get exactly the color scheme you want before saving
+it as a color theme. There are also commands to convert and tweak
+colors (for example, obtain a color that is slightly lighter, redder,
+etc. than a given color). – <a class="local" href="http://www.emacswiki.org/cgi-bin/wiki/DrewAdams">DrewAdams</a></p><h3 id="toc13">Icicles: Completion and Cycling of Color Themes</h3><p>You can use <strong><a class="local" href="http://www.emacswiki.org/cgi-bin/wiki/Icicles">Icicles</a></strong> command <code>‘icicle-color-theme’</code> to cycle among color themes. This functionality is similar to that provided by <strong><a class="local" href="http://www.emacswiki.org/cgi-bin/wiki/DoReMi">DoReMi</a></strong> (see <a class="local anchor" href="#DoReMiColorThemes">DoReMiColorThemes</a>, above), but it also lets you <em>complete</em> the color-theme names. See <strong><a class="local" href="http://www.emacswiki.org/cgi-bin/wiki/Icicles">Icicles</a></strong>.</p><p>For comparison with the other cycling commands on this page, do this:</p><pre>  (setq icicle-color-themes my-color-themes) ; Otherwise, cycles among _all_ themes.</pre><p><em>Note:</em> If anyone knows a good way to <em>undo</em> a color-theme change, let me know, so I can modify <code>‘icicle-color-theme’</code> to let you use <code>‘C-g’</code> to undo changes – that way, you will be able to use <code>‘icicle-color-theme’</code> to cycle among color themes, <em>previewing</em> them, without necessarily changing the theme. – <a class="local" href="http://www.emacswiki.org/cgi-bin/wiki/DrewAdams">DrewAdams</a></p><h3 id="toc14">Cycling by Repeating a Command</h3><p>Repeat command <code>‘my-theme-cycle’</code> (bound here to <code>`[F12]'</code>) to cycle among themes.</p><pre>    (defun my-theme-set-default () ; Set the first row
+      (interactive)
+      (setq theme-current my-color-themes)
+      (funcall (car theme-current)))
+     
+    (defun my-describe-theme () ; Show the current theme
+      (interactive)
+      (message "%s" (car theme-current)))
+     
+   ; Set the next theme (fixed by Chris Webber - tanks)
+    (defun my-theme-cycle ()		
+      (interactive)
+      (setq theme-current (cdr theme-current))
+      (if (null theme-current)
+      (setq theme-current my-color-themes))
+      (funcall (car theme-current))
+      (message "%S" (car theme-current)))
+    
+    (setq theme-current my-color-themes)
+    (setq color-theme-is-global nil) ; Initialization
+    (my-theme-set-default)
+    (global-set-key [f12] 'my-theme-cycle)</pre><dl class="quote"><dt></dt><dd>– <a class="local" href="http://www.emacswiki.org/cgi-bin/wiki/JakubHozak">JakubHozak</a></dd></dl><p>(note: Make the following changes to allow this code to work when (setq my-color-themes color-themes). )</p><pre>    (defun car-theme () ;figure out if we need car or caar
+      (interactive)
+      (cond
+       ((consp (car theme-current))
+        (caar theme-current))
+       (t
+        (car theme-current))))</pre><pre>    (defun my-theme-set-default () ; Set the first row
+      (interactive)
+      (setq theme-current my-color-themes)
+      (funcall (car-theme)))</pre><pre>    (defun my-describe-theme () ; Show the current theme
+    (interactive)
+    (message "%s" (car-theme)))</pre><pre>    ; Set the next theme (fixed by Chris Webber - tanks)
+    (defun my-theme-cycle ()		
+    (interactive)
+    (setq theme-current (cdr theme-current))
+    (if (null theme-current)
+        (setq theme-current my-color-themes)
+        (funcall (car-theme)))
+    (message "%S" (car-theme)))
+    
+    (setq theme-current my-color-themes)
+    (setq color-theme-is-global nil) ; Initialization
+    (my-theme-set-default)</pre><h2 id="toc15">Installing a Color Theme for One Frame Only</h2><p>You can do this by using the variable <code>‘color-theme-is-global’</code> which determines whether a color theme is installed on all frames or not. Here’s how to do this interactively.</p><pre>    M-x set-variable RET color-theme-is-global nil
+    M-x color-theme-blue-sea</pre><p>A
+possible use for this variable is dynamic binding. Here is a larger
+example to put in your ~/.emacs; it will make the Blue Sea color theme
+the default used for the first frame, and it will create two additional
+frames with different color themes.</p><pre>    (require 'color-theme)
+    ;; set default color theme
+    (color-theme-blue-sea)
+    ;; create some frames with different color themes
+    (let ((color-theme-is-global nil))
+        (select-frame (make-frame))
+        (color-theme-gnome2)
+        (select-frame (make-frame))
+        (color-theme-standard))</pre><h2 id="toc16">Installing a color Theme Depending on the Display</h2><p>Use
+display-color-cells find how many colors are supported. Note that on X,
+even though all RGB values are supported, each application gets
+allocated a number of colors it may use. Perhaps that is the reason the
+function returns 64 on my system even though it seems that it supports
+a lot more.</p><pre>    (if ((display-color-cells) 20)
+        (color-theme-tty-dark)
+        (color-theme-goldenrod))
+	</pre><h2 id="toc17">Installing a Color Theme Depending on the Window System</h2><p>Use <code>‘window-system’</code> to determine whether or not you are in a terminal, or a windowing system such as X11.</p><pre>    (if window-system
+        (color-theme-subtle-hacker)
+	(color-theme-hober))</pre><p><code>‘window-system’</code> is nil for a character-based terminal, ‘x’ for X11, ‘mac’ for mac, etc.</p><p>Fixed: The (window-system) to window-system since it’s a variable and not a funcion shouldn’t have the ().</p><h2 id="toc18">Installing a Color Theme with multi-tty</h2><p>I
+want a color theme to be selected any time I open an X frame, but not
+when I open a TTY frame. With multi-tty, this is selected on a
+frame-by-frame basis. So I use a hook:</p><pre> (add-hook 'after-make-frame-functions
+           (lambda (frame)
+             (set-variable 'color-theme-is-global nil)
+             (select-frame frame)
+             (if window-system
+                 (color-theme-robin-hood)
+               (color-theme-tty-dark))))</pre><h2 id="toc19">Changing Fonts</h2><p>Usually
+the color themes don’t change fonts. Please let me know if they do.
+That is a bug. If you want to install a color-theme and then switch
+font-family and font-size to something new, here is an example of how
+to do it:</p><pre>    (let ((spec '((t (:family "neep alt" :height 200)))))
+        (mapc (lambda (face)
+            (face-spec-set face spec)
+            (put face 'face-defface-spec spec))
+            '(default menu)))</pre><p>If you use <code>‘set-face-font’</code>
+instead, you will note that on subsequent frames, your settings may not
+take effect. (Actually I haven’t really investigated this.)</p><dl class="quote"><dt></dt><dd>It
+seems that some color-theme-* function destory the ‘default face font
+when the ‘default face uses fontset specification. In other words,
+(face-attribute ‘default :font) is not preserved. To handle this,
+insert following macro in your code:</dd></dl><pre>        (defmacro save-font-excursion (face &amp;rest body)
+          "Save the :font property of given FACE during the execution of BODY."
+          (declare (indent 1) (debug t))
+          `(let ((oldfont (face-attribute ,face :font)) ret)
+             (setq ret (progn ,@body))
+             (or (string= oldfont (face-attribute ,face :font))
+                 (set-face-attribute ,face nil :font oldfont))
+             ret))</pre><dl class="quote"><dt></dt><dd>And, try something like:</dd></dl><pre>      (save-font-excursion 'default
+        (color-theme-emacs-nw))</pre><dl class="quote"><dt></dt><dd>Note that if you do not use fontset spec, save-font-excursion helps less. – <a class="local" href="http://www.emacswiki.org/cgi-bin/wiki/CinSK">CinSK</a></dd></dl><h2 id="toc20">Mix and Match</h2><p>Take a look at <a class="local" href="http://www.emacswiki.org/cgi-bin/wiki/ColorThemeMaker">ColorThemeMaker</a>.</p><h2 id="toc21">Color Theme Session</h2><p>Following
+code will allow you to setup a mechanism of saving and retrieving the
+last session’s settings. This depends on two files in your home
+directory, .themesettings and .curTheme. The first is just an elisp
+file which is loaded when Emacs starts. It is primarily used for two
+settings: theme-default and theme-load-from-file.</p><p>Example 1:</p><pre>    (setq theme-load-from-file t)</pre><p>Example 2:</p><pre>    (setq theme-default 'color-theme-gnome2)</pre><p>This
+always loads the default theme you provided. Add the following code to
+your ~/.emacs. This assumes that you have (require ‘color-theme)
+somewhere before that:</p><pre>    (defun my-onload()
+        (setq filename (concat (expand-file-name "~") "/.themesettings"))
+    (if (file-exists-p filename)
+        (progn
+            (load-file filename)
+            (if (equalp theme-load-from-file t)
+                (progn
+                    (setq filename 
+                        (concat (expand-file-name "~") "/.curTheme"))
+                    (if (file-exists-p filename)
+                        (progn
+                            (message "selecting theme from .curTheme")
+                            (load-file filename)
+                            (color-theme-install (my-color-theme))
+                 )))
+                (funcall theme-default)
+        ))
+        (message "selecting theme from color-theme-standard")
+    (color-theme-install(color-theme-standard)
+    )))
+    
+    (defun my-kill-saves()
+        (if (equalp theme-load-from-file t)
+            (progn
+                (color-theme-print)
+                (write-file (concat (expand-file-name "~") "/.curTheme"))
+    )))
+    
+    (add-hook 'after-init-hook 'my-onload)
+    (add-hook 'kill-emacs-hook 'my-kill-saves)
+    </pre><p>Please note that I have used this only on XEmacs. --<a class="local" href="http://www.emacswiki.org/cgi-bin/wiki/GirishB">GirishB</a></p><p>The
+above code should change the filenames to be in one place and give some
+indication of what the files are for. Otherwise a year later you will
+be scratching your head trying to figure out what program put those
+files there. Try sticking them in a directory like
+~/.my-emacs-extensions. If you don’t believe that this is important,
+look at your home directory and tell me what program put each file
+there! – gadfly</p><h2 id="toc22">Having the Color Theme Selection buffer always present</h2><p>Put the following lines to your ~/.emacs file:</p><pre>    (load-library "color-theme")
+    (color-theme-select)</pre><p>Assuming you have color-theme package in load-path.</p><h2 id="toc23">More Color Themes</h2><p>I added my tweaked port of <a class="local" href="http://www.emacswiki.org/cgi-bin/wiki/ColorThemeInkpot">ColorThemeInkpot</a> from VIM. – Per Vognsen</p><p><a class="local" href="http://www.emacswiki.org/cgi-bin/wiki/DanielBrockman">DanielBrockman</a> links to another color-theme on his page. I will add it for the next release. – zeDek</p><p>I’ve posted the latest revision of <a class="url http outside" href="http://edward.oconnor.cx/elisp/color-theme-hober2.el">color-theme-hober2</a>; it’s quite a bit more fleshed out from when I submitted it to you. – <a class="local" href="http://www.emacswiki.org/cgi-bin/wiki/EdwardOConnor">EdwardOConnor</a></p><p>Here’s my <a class="url http outside" href="http://darcs.thehatcher.com/live/vic/dot-emacs/dot-color-theme.el">DarkGreen</a> color theme – vic</p><p>Alex rose to the Hello Kitty challenge and wrote <a href="http://www.google.com/cse?cx=004774160799092323420:6-ff2s0o6yi&amp;q=PinkBliss">PinkBliss</a>, <a class="inter Lisp" href="http://www.emacswiki.org/cgi-bin/emacs/pink-bliss.el"><span class="site">Lisp</span><span class="separator">:</span><span class="page">pink-bliss.el</span></a> – <a class="url http outside" href="http://www.emacswiki.org/alex/pics/pink-bliss.png">screenshot</a></p><div class="color one level0"><p> </p><dl class="quote"><dt></dt><dd><strong><em>Sign me up!</em></strong> – Zippy</dd></dl></div><div class="color two level0"><p> </p><dl class="quote"><dt></dt><dd>Gha ! <img class="smiley" src="ColorTheme_files/smile.png" alt=":)"> Really nice <img class="smiley" src="ColorTheme_files/smile.png" alt=":)"></dd></dl></div><div class="color one level0"><p> <a class="alias" title="DavidOtoole" href="http://www.emacswiki.org/cgi-bin/wiki/DavidOtoole#dto">dto</a> has <a class="url http outside" href="http://dto.freeshell.org/notebook/ColorThemes.html">some themes on his homepage</a>.</p></div><div class="color two level0"><p> I just released a new dark theme, <a class="url http outside" href="http://jaderholm.com/configs/color-theme-colorful-obsolescence.el">Colorful Obsolescence</a> (<a class="url http outside" href="http://jaderholm.com/photos/screens/700_colorful-obsolescence.png">Screenshot</a>) - <a class="url http outside" href="http://jaderholm.com/">Scott Jaderholm</a></p></div><div class="color one level0"><p>
+I just heard that the Hello Kitty! color theme was implemented and
+after having seen it I think it is just as I had imagined it (though I
+think the region hilight would look better if it was pure white).</p><p>My next challenge is a color theme called Eye Cancer. <img class="smiley" src="ColorTheme_files/smile.png" alt=":)"> --<a class="local" href="http://www.emacswiki.org/cgi-bin/wiki/LuisFernandes">LuisFernandes</a></p></div><div class="color two level0"><p> I have created a color theme based on Tango Palette. <a class="inter Lisp" href="http://www.emacswiki.org/cgi-bin/emacs/color-theme-tango.el"><span class="site">Lisp</span><span class="separator">:</span><span class="page">color-theme-tango.el</span></a> <a class="url http outside" href="http://danran.72pines.com/files/2008/04/emacs_tango.png">(screenshot)</a> – danran</p></div><h2 id="toc24">History</h2><p>The original color theme code was written by Jonadab the Unsightly One.</p><h2 id="toc25">Installing a Random Color Theme</h2><p>Put this in your ~/.emacs:</p><pre>    (funcall (car (nth (random (length color-themes)) color-themes)))</pre><h2 id="toc26">Saving a Color Theme in .Xresources</h2><p>Given
+the name of a color theme, write out the .Xresources equivalent of the
+theme. You would want to do this if you want to make Emacs start much
+faster than loading the theme from Lisp.</p><ul><li><a class="url http" href="http://web.archive.org/web/20061018071033/http://dev.gentoo.org/%7Emkennedy/archive/projects/color-theme-x/color-theme-x.el">http://web.archive.org/web/20061018071033/http://dev.gentoo.org/~mkennedy/archive/projects/color-theme-x/color-theme-x.el</a></li></ul><dl class="quote"><dt></dt><dd><em>NOTE:</em> This link is the internet archive mirror of an old link – <a class="url http outside" href="http://wahjava.wordpress.com/">abbe</a></dd></dl><ul><li><a class="url http" href="http://www.emacswiki.org/cgi-bin/wiki/color-theme-reg.el">http://www.emacswiki.org/cgi-bin/wiki/color-theme-reg.el</a> </li></ul><dl class="quote"><dt></dt><dd>“NOTE:” Added a file based on color-theme-x, it can convert color-theme to win32 reg. – [Kyle M. Lee]</dd></dl><p>Example usage:</p><pre>    M-x color-theme-x RET hober RET
+    C-u M-x color-theme-x RET classic RET ~/elisp/color-theme.el RET</pre><p>After
+the generated X resource settings have been written out to your
+.Xresources file, you’ll need run either xrdb -merge .Xresources or
+xrdb -load .Xresources (depending on the desired effect). You will have
+to restart your Emacs to have the new X resources take effect.</p><h2 id="toc27">Issues</h2><ul><li>I
+get a nasty error (wrong-type-argument symbolp (list
+font-latex-doctex-documentation-face font-lock-preprocessor-face)) when
+I call up color themes to customize a frame that is displaying <a class="local" href="http://www.emacswiki.org/cgi-bin/wiki/LaTeX">LaTeX</a>
+code. The top of the call stack is
+internal-get-lisp-face-attribute((list
+font-latex-doctex-documentation-face font-lock-preprocessor-face)
+:family #&lt;frame Emacs@lucy 0x2393db0&gt;) face-attribute((list
+font-latex-doctex-documentation-face font-lock-preprocessor-face)
+:family #&lt;frame Emacs@lucy 0x2393db0&gt;)
+color-theme-face-attr-construct((list
+font-latex-doctex-documentation-face font-lock-preprocessor-face)
+#&lt;frame Emacs@lucy 0x2393db0&gt;) </li></ul><dl class="quote"><dt></dt><dd>The problem is that the current version does <b>NOT</b>
+support multiple inherited properties. A quick workaournd has been sent
+to David for testing purpose. As it is quite ugly and doesn’t handle
+Xemacs, I won’t post it here before working on it again. Please David,
+tell us if that worked for you. – <a class="local" href="http://www.emacswiki.org/cgi-bin/wiki/XavierMaillard">XavierMaillard</a></dd></dl><p>Any ideas what to do about this?</p><ul><li><a class="local" href="http://www.emacswiki.org/cgi-bin/wiki/ViperMode">ViperMode</a> does not play well with color themes. It seems like the Viper mode forces the <a class="local" href="http://www.emacswiki.org/cgi-bin/wiki/TextCursor">TextCursor</a>
+color to be “black” if the background is anything other than “black”.
+This basically makes the cursor almost invisible on dark backgrouds.
+Just FYI. Does anyone know of a fix for this? – <a class="local" href="http://www.emacswiki.org/cgi-bin/wiki/GirishB">GirishB</a></li></ul><dl class="quote"><dl class="quote"><dt></dt><dd>I’ve
+seen similar problems on Windows where somehow the cursor color was
+always wrong for the first frame. I solved this by creating a new frame
+and deleting the old one in my .emacs on Windows. – <a class="local" href="http://www.emacswiki.org/cgi-bin/wiki/AlexSchroeder">AlexSchroeder</a></dd><dt></dt><dd>Solved
+the problem by loading viper-mode after the color-theme call. That
+seems to fix the problem. It seems like viper basically remembers the
+last cursor color it knew and forces it down your throat no matter
+what. – <a class="local" href="http://www.emacswiki.org/cgi-bin/wiki/GirishB">GirishB</a></dd></dl></dl><div class="color one level0"><p> </p><dl class="quote"><dl class="quote"><dt></dt><dd>I
+reported that bug in May 2006. It has been fixed recently in Emacs 22.
+See the thread “cursor-color frame parameter cannot equal
+background-color” in emacs-pretest-bug@gnu.org. This has nothing to do,
+per se, with color themes, BTW. – <a class="local" href="http://www.emacswiki.org/cgi-bin/wiki/DrewAdams">DrewAdams</a> </dd></dl></dl></div><div class="color two level0"><ul><li>Frame
+creation is slowed down a lot - it takes seconds to create a new frame
+when i’ve applied different color-themes before. The reason seems to be
+that a myriad of faces is defined, because each color themes defines
+some 50 faces, and they never get removed before a new face is applied.
+You can easily end up with 600 faces defined, and Emacs needs a lot of
+time to go through all of them when it creates a new frame. Has anyone
+experienced similar issues? – <a class="local" href="http://www.emacswiki.org/cgi-bin/wiki/DavidReitter">DavidReitter</a></li><li>I
+get “Wrong type argument: symbolp, (link-visited info-xref)” with
+2006-05-13 CVS emacs, with 2006-05-14 CVS color-theme.el. It isn’t
+fixed by the other ‘symbolp’ fix, which is already included in the CVS.
+Any suggestion?<ul><li>I installed the CVS version of color-theme which fixed this (Emacs/22.0.92). - springfield</li></ul></li><li>New version of color-theme (6.5.4) doesn’t work with stable emacs version (21.4). Users will see this error:</li></ul><p>&lt;code&gt;color-theme-backup-original-values: Symbol’s function definition is void: color-theme-filter&lt;/code&gt;</p><p>To fix the problem, open color-theme.el and change:</p><pre> &lt;code&gt;easy-menu-get-map(nil ("Tools") nil)
+ easy-menu-add-item(nil ("Tools") "--")&lt;/code&gt;</pre><p>to:</p><pre> &lt;code&gt;easy-menu-get-map(nil ("tools") nil)
+ easy-menu-add-item(nil ("tools") "--")&lt;/code&gt;</pre><p>Original help.gnu.emacs post: <a class="url http" href="http://tinyurl.com/bgke3">http://tinyurl.com/bgke3</a></p><p>--JasonDunsmore<a class="edit" title="Click to edit this page" rel="nofollow" href="http://www.emacswiki.org/cgi-bin/wiki?action=edit;id=JasonDunsmore">?</a></p></div><div class="color one level0"></div><div class="color two level0"><p>
+I am running Ubuntu 6.06 (Dapper Drake) and emacs-snapshot seems to not
+play well with color-theme. When it loads, only the characters have the
+correct background color. The rest of the buffer has some default gray
+color. Emacs21 seems to work just fine. Has anyone else seen this? Any
+idea how to fix it?</p></div><div class="color one level0"><p> Check out the <a class="local" href="http://www.emacswiki.org/cgi-bin/wiki/ColorsAndKde">ColorsAndKde</a> page.</p><p>-McKayMarston<a class="edit" title="Click to edit this page" rel="nofollow" href="http://www.emacswiki.org/cgi-bin/wiki?action=edit;id=McKayMarston">?</a></p></div><div class="color two level0"><p>
+I am running 6.6.0 with the Carbon XEmacs port of 21.5.beta27. Whenever
+I choose a new theme, it resizes my frame to 80x40. – doktorstick</p></div><h3 id="toc28">Themes for console/tty Display</h3><p>How
+can I filter the themes to find those suitable for console/tty?
+Recently I’ve been using GNU Screen and naturally my X Windows faces
+don’t work. Ediff is especially limited <img class="smiley" src="ColorTheme_files/sad.png" alt=":-(">.</p><p>Screen supports 256 colors. It’s a compile-time option disabled by default in Debian and Ubuntu packages. – <a class="local" href="http://www.emacswiki.org/cgi-bin/wiki/TrentBuck">TrentBuck</a></p><div class="color one level0"><p>
+I suggest you use no theme at all. Most themes are not designed to
+degrade gracefully. They all use a spec that says “for all display
+types”. So you have to rely on the fall-back mechanism that reduces
+millions of colors to 16. Not good. All of themes I know except for
+retro orange or retro green look terrible on a 16 color terminal. Have
+you tried running on a 256 color terminal? Might be a bit better. – <a class="local" href="http://www.emacswiki.org/cgi-bin/wiki/AlexSchroeder">AlexSchroeder</a></p></div><h2 id="toc29">Gallery</h2><p>To have an idea of what a theme looks like, I think we could all take a screenshot of our prefered and running theme.</p><p>If
+you want to help (as there are many themes now and still more pending),
+you can send me a big (png only) screenshot accompanished with a thumb
+of reasonable size (ie. 400x300). I will then build an online gallery
+and maybe add them to the <a class="local" href="http://www.emacswiki.org/cgi-bin/wiki/ColorTheme">ColorTheme</a> package.</p><p>For theme creators, I would appreciate now if you could join a screenshot of your theme when you submit it to me.</p><p>Send them to me at : zedek (at) gnu.org</p><p>Such a gallery exists now thanks to <a class="local" href="http://www.emacswiki.org/cgi-bin/wiki/MaverickWoo">MaverickWoo</a>. Enjoy : <a class="url http" href="http://www.cs.cmu.edu/%7Emaverick/GNUEmacsColorThemeTest/">http://www.cs.cmu.edu/~maverick/GNUEmacsColorThemeTest/</a> We now have another gallery on <a class="url http" href="http://www.flickr.com/groups/emacs/">http://www.flickr.com/groups/emacs/</a>. Please share your screenshots.</p><hr><p><a class="local" href="http://www.emacswiki.org/cgi-bin/wiki/CategoryFaces">CategoryFaces</a> <a class="local" href="http://www.emacswiki.org/cgi-bin/wiki/CategoryCustomize">CategoryCustomize</a></p></div><div class="wrapper close"></div><div class="footer"><hr><span class="gotobar bar"><a class="local" href="http://www.emacswiki.org/cgi-bin/wiki/SiteMap">SiteMap</a> <a class="local" href="http://www.emacswiki.org/cgi-bin/wiki/Search">Search</a> <a class="local" href="http://www.emacswiki.org/cgi-bin/wiki/ElispArea">ElispArea</a> <a class="local" href="http://www.emacswiki.org/cgi-bin/wiki/HowTo">HowTo</a> <a class="local" href="http://www.emacswiki.org/cgi-bin/wiki/RecentChanges">RecentChanges</a> <a class="local" href="http://www.emacswiki.org/cgi-bin/wiki/News">News</a> <a class="local" href="http://www.emacswiki.org/cgi-bin/wiki/Problems">Problems</a> <a class="local" href="http://www.emacswiki.org/cgi-bin/wiki/Suggestions">Suggestions</a> </span><span class="edit bar"><br> <a class="edit" accesskey="e" title="Click to edit this page" rel="nofollow" href="http://www.emacswiki.org/cgi-bin/wiki?action=edit;id=ColorTheme">Edit this page</a> <a class="history" rel="nofollow" href="http://www.emacswiki.org/cgi-bin/wiki?action=history;id=ColorTheme">View other revisions</a> <a class="admin" rel="nofollow" href="http://www.emacswiki.org/cgi-bin/wiki?action=admin;id=ColorTheme">Administration</a></span><span class="time"><br> Last edited 2008-04-16 03:41 UTC by <a class="author" title="from 60.12.143.15" href="http://www.emacswiki.org/cgi-bin/wiki/danran">danran</a> <a class="diff" rel="nofollow" href="http://www.emacswiki.org/cgi-bin/wiki?action=browse;diff=2;id=ColorTheme">(diff)</a></span><div style="float: right; margin-left: 1ex;">
+<!-- Creative Commons License -->
+<a href="http://creativecommons.org/licenses/GPL/2.0/"><img alt="CC-GNU GPL" style="border: medium none ;" src="ColorTheme_files/cc-GPL-a.png"></a>
+<!-- /Creative Commons License -->
+</div>
+
+<!--
+<rdf:RDF xmlns="http://web.resource.org/cc/"
+ xmlns:dc="http://purl.org/dc/elements/1.1/"
+ xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+<Work rdf:about="">
+   <license rdf:resource="http://creativecommons.org/licenses/GPL/2.0/" />
+  <dc:type rdf:resource="http://purl.org/dc/dcmitype/Software" />
+</Work>
+
+<License rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
+   <permits rdf:resource="http://web.resource.org/cc/Reproduction" />
+   <permits rdf:resource="http://web.resource.org/cc/Distribution" />
+   <requires rdf:resource="http://web.resource.org/cc/Notice" />
+   <permits rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+   <requires rdf:resource="http://web.resource.org/cc/ShareAlike" />
+   <requires rdf:resource="http://web.resource.org/cc/SourceCode" />
+</License>
+</rdf:RDF>
+-->
+
+<p>
+This work is licensed to you under version 2 of the
+<a href="http://www.gnu.org/">GNU</a> <a href="http://www.emacswiki.org/GPL">General Public License</a>.
+Alternatively, you may choose to receive this work under any other
+license that grants the right to use, copy, modify, and/or distribute
+the work, as long as that license imposes the restriction that
+derivative works have to grant the same rights and impose the same
+restriction. For example, you may choose to receive this work under
+the
+<a href="http://www.gnu.org/">GNU</a>
+<a href="http://www.emacswiki.org/FDL">Free Documentation License</a>, the
+<a href="http://creativecommons.org/">CreativeCommons</a>
+<a href="http://creativecommons.org/licenses/sa/1.0/">ShareAlike</a>
+License, the XEmacs manual license, or
+<a href="http://www.emacswiki.org/OLD">similar licenses</a>.
+</p>
+</div>
+</body></html>

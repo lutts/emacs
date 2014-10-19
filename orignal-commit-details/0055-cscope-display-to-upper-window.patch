@@ -1,0 +1,86 @@
+From 9ee181828a53f17d0a54203ec6035336dfbce288 Mon Sep 17 00:00:00 2001
+From: Lutts Cao <lutts.cao@gmail.com>
+Date: Sun, 19 Oct 2014 18:58:05 +0800
+Subject: [PATCH 55/58] cscope display to upper window
+
+---
+ elisp/xcscope.el     | 13 +++++++------
+ rc/emacs-rc-c-c++.el |  2 ++
+ 2 files changed, 9 insertions(+), 6 deletions(-)
+
+diff --git a/elisp/xcscope.el b/elisp/xcscope.el
+index ce382a4..750f063 100644
+--- a/elisp/xcscope.el
++++ b/elisp/xcscope.el
+@@ -181,7 +181,7 @@
+ ;; variable is used to determine the mapping.  One use for this
+ ;; variable is when you want to share the database file with other
+ ;; users; in this case, the database may be located in a directory
+-;; separate from the source files.  
++;; separate from the source files.
+ ;;
+ ;; Setting the variable, `cscope-initial-directory', is useful when a
+ ;; search is to be expanded by specifying a cscope database directory
+@@ -367,7 +367,7 @@
+ ;;      disable automatic database creation, updating, and
+ ;;      maintenance.
+ ;;
+-;; "cscope-display-cscope-buffer" 
++;; "cscope-display-cscope-buffer"
+ ;;      If non-nil, display the *cscope* buffer after each search
+ ;;      (default).  This variable can be set in order to reduce the
+ ;;      number of keystrokes required to navigate through the matches.
+@@ -1222,7 +1222,7 @@ directory should begin.")
+ 			:style toggle :selected cscope-use-relative-paths ]
+ 		      [ "No mouse prompts" (setq cscope-no-mouse-prompts
+ 						 (not cscope-no-mouse-prompts))
+-			:style toggle :selected cscope-no-mouse-prompts ] 
++			:style toggle :selected cscope-no-mouse-prompts ]
+ 		      )
+ 		    ))
+ 
+@@ -1280,7 +1280,7 @@ The text properties to be added:
+   )
+ 
+ 
+-(defun cscope-show-entry-internal (file line-number 
++(defun cscope-show-entry-internal (file line-number
+ 					&optional save-mark-p window arrow-p)
+   "Display the buffer corresponding to FILE and LINE-NUMBER
+ in some window.  If optional argument WINDOW is given,
+@@ -1379,8 +1379,9 @@ Push current point on mark ring and select the entry window."
+   (interactive)
+   (let ((file (get-text-property (point) 'cscope-file))
+ 	(line-number (get-text-property (point) 'cscope-line-number))
++	(myupperwin (window-at (- (frame-width) 5) 5))
+ 	window)
+-    (setq window (cscope-show-entry-internal file line-number t))
++    (setq window (cscope-show-entry-internal file line-number t myupperwin))
+     (if (windowp window)
+ 	(select-window window))
+     ))
+@@ -1930,7 +1931,7 @@ using the mouse."
+ 			    cscope-directory
+ 			    (file-name-directory cscope-directory))
+ 		      ))
+-		(setq cscope-directory 
++		(setq cscope-directory
+ 		      (file-name-as-directory cscope-directory))
+ 		(if (not (member cscope-directory cscope-searched-dirs))
+ 		    (progn
+diff --git a/rc/emacs-rc-c-c++.el b/rc/emacs-rc-c-c++.el
+index 11426b5..ed70e30 100644
+--- a/rc/emacs-rc-c-c++.el
++++ b/rc/emacs-rc-c-c++.el
+@@ -107,6 +107,8 @@
+ (defun my-c++-common-hook ()
+   (setq c-basic-offset 4)
+   (setq tab-width 4 indent-tabs-mode nil)
++  (require 'xcscope)
++  (setq cscope-do-not-update-database t)
+   (require 'ifdef)
+   (imenu-add-menubar-index)
+ )
+-- 
+2.0.4
+

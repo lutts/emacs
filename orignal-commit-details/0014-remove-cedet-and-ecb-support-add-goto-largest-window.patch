@@ -1,0 +1,165 @@
+From 6e7b1b06af0a17e2b5a17026e6d8300c099a0a21 Mon Sep 17 00:00:00 2001
+From: Lutts Cao <lutts.cao@gmail.com>
+Date: Mon, 1 Oct 2012 22:12:52 +0800
+Subject: [PATCH 14/58] remove cedet and ecb support, add goto largest window
+ support
+
+---
+ .emacs                          | 30 +++++++++++++++++++-----------
+ rc/emacs-rc-buffer-switching.el | 16 ++++++++++++----
+ rc/emacs-rc-c-c++.el            | 20 ++++++++++++++++++++
+ rc/emacs-rc-cedet.el            |  1 +
+ 4 files changed, 52 insertions(+), 15 deletions(-)
+
+diff --git a/.emacs b/.emacs
+index 1c0400c..1a65495 100755
+--- a/.emacs
++++ b/.emacs
+@@ -290,8 +290,8 @@ Equivalent to beginning-of-line, open-line."
+ (load "~/emacs/rc/emacs-rc-eshell.el")
+ (load "~/emacs/rc/emacs-rc-buffer-switching.el")
+ 
+-(load "~/emacs/rc/emacs-rc-cedet.el")
+-(load "~/emacs/rc/emacs-rc-ecb.el")
++;(load "~/emacs/rc/emacs-rc-cedet.el")
++;(load "~/emacs/rc/emacs-rc-ecb.el")
+ (load "~/emacs/rc/emacs-rc-c-c++.el")
+ (load "~/emacs/rc/emacs-rc-java.el")
+ (load "~/emacs/rc/emacs-rc-auto-complete.el")
+@@ -310,16 +310,24 @@ Equivalent to beginning-of-line, open-line."
+ (global-set-key (kbd "<f5>")   'bm-next)
+ (global-set-key (kbd "<S-f5>") 'bm-previous)
+ 
+-;;increase max-specpdl-size this big to start the debugger 
+-(setq max-specpdl-size  5000)
++;;increase max-specpdl-size this big to start the debugger
++;(setq max-specpdl-size  5000)
+ 
+ 
+-(ede-cpp-root-project "fpga-jz4780"
+-		      :name "fpga-jz4780"
+-		      :file "~/android/disk2/linux/4780/fpga-jz4780/Makefile"
+-		      :include-path '("/include")
+-		      :system-include-path '("/opt/mipseltools-gcc412-glibc261/mipsel-linux/include")
+-		      :spp-files '( "linux/autoconf.h" )
++;(ede-cpp-root-project "fpga-jz4780"
++;		      :name "fpga-jz4780"
++;		      :file "~/android/disk2/linux/4780/fpga-jz4780/Makefile"
++;		      :include-path '("/include")
++;		      :system-include-path '("/opt/mipseltools-gcc412-glibc261/mipsel-linux/include")
++;		      :spp-files '( "linux/autoconf.h" )
+ ;;		      :spp-table '(("isUnix" . "")
+ ;;				   ("BOOST_TEST_DYN_LINK" . ""))
+-)
++;)
++
++;(ede-cpp-root-project "android-4.1-kernel"
++;		      :name "android-4.1-kernel"
++;		      :file "~/android/disk2/android-4.1/kernel/Makefile"
++;		      :include-path '("/include" "include/linux")
++;		      :system-include-path '("~/android/disk2/android-4.1/prebuilt/linux-x86/toolchain/mips-4.4.3/mips-linux-gnu/include")
++;		      :spp-files '( "generated/autoconf.h" "generated/asm-offsets.h")
++;)
+diff --git a/rc/emacs-rc-buffer-switching.el b/rc/emacs-rc-buffer-switching.el
+index d15ad91..72db566 100644
+--- a/rc/emacs-rc-buffer-switching.el
++++ b/rc/emacs-rc-buffer-switching.el
+@@ -40,7 +40,7 @@
+ (defun lutts-display-special-buffer (buf &optional data)
+   "put the special buffers in the right spot (bottom rigt)"
+   (message "speical buffer")
+-  (let ((target-window (window-at 5 (- (frame-height) 5)))
++  (let ((target-window (window-at (- (frame-width) 5) (- (frame-height) 5)))
+ 	(pop-up-windows t))
+     (set-window-buffer target-window buf)
+     target-window))
+@@ -113,7 +113,7 @@
+ ;;  +--------- +---------------+
+ ;;  |          |               |
+ ;;  |          |               |
+-;;  |----------|               |
++;;  |          |---------------|
+ ;;  |          |               |
+ ;;  |          |               |
+ ;;  +--------- +---------------+
+@@ -123,9 +123,10 @@
+   (interactive)
+   (if (= 1 (length (window-list)))
+       (progn (split-window-horizontally)
++	     (other-window 1)
+ 	     (split-window-vertically)
++	     (fix-window-horizontal-size 65)
+ 	     (other-window 2)
+-	     (fix-window-horizontal-size 125)
+ 	     )
+     )
+   )
+@@ -139,7 +140,7 @@
+   (if (= 3 (length (window-list)))
+       (let ((winList (window-list)))
+ 	(let ((1stWin (car winList))
+-	      (2ndWin (window-at 5 5)))
++	      (2ndWin (window-at (- (frame-width) 5) 5)))
+ 	  (let ((1stBuf (window-buffer 1stWin))
+ 		(2ndBuf (window-buffer 2ndWin))
+ 		)
+@@ -153,6 +154,13 @@
+ 
+ (global-set-key (kbd "<f9>") 'lutts-switch-ab)
+ 
++(defun lutts-goto-largest-window ()
++  "goto the largest window"
++  (interactive)
++  (select-window (get-largest-window)))
++
++(global-set-key (kbd "C-c b") 'lutts-goto-largest-window)
++
+ 
+ ;  +----------------------+                 +----------- +-----------+
+ ;  |                      |           \     |            |           |
+diff --git a/rc/emacs-rc-c-c++.el b/rc/emacs-rc-c-c++.el
+index 54bec9e..35f37ed 100644
+--- a/rc/emacs-rc-c-c++.el
++++ b/rc/emacs-rc-c-c++.el
+@@ -31,6 +31,26 @@
+ 	     (define-key gtags-select-mode-map (kbd "RET") 'gtags-select-tag-other-window)
+ 	     ))
+ 
++(defun my-cc-mode-auto-pair ()
++  (interactive)
++  (make-local-variable 'skeleton-pair-alist)
++  (setq skeleton-pair-alist '(
++                              ;(?` ?` _ "''")
++			      (?` -1 ?{ " " _ " " ?}?, >)
++                              (?\" _ "\"")
++			      (?< _ ">")
++			      (?{ > \n > _ \n ?} >)))
++  (setq skeleton-pair t)
++;(local-set-key (kbd "\"") 'skeleton-pair-insert-maybe)
++  (local-set-key (kbd "`") 'skeleton-pair-insert-maybe)
++;(local-set-key (kbd "(") 'skeleton-pair-insert-maybe)
++  (local-set-key (kbd "{") 'skeleton-pair-insert-maybe)
++;(local-set-key (kbd "[") 'skeleton-pair-insert-maybe)
++;(local-set-key (kbd "<") 'skeleton-pair-insert-maybe)
++  )
++
++(add-hook 'c-mode-common-hook 'my-cc-mode-auto-pair)
++
+ (add-hook 'c-mode-common-hook 'hs-minor-mode)
+ (add-hook 'c-mode-common-hook
+ 	  '(lambda()
+diff --git a/rc/emacs-rc-cedet.el b/rc/emacs-rc-cedet.el
+index 70314ba..2f79bdc 100644
+--- a/rc/emacs-rc-cedet.el
++++ b/rc/emacs-rc-cedet.el
+@@ -73,6 +73,7 @@
+   (local-set-key "\C-c=" 'semantic-decoration-include-visit)
+ 
+   (local-set-key "\C-cj" 'semantic-ia-fast-jump)
++  (local-set-key "\C-cf" 'semantic-complete-jump)
+   (local-set-key "\C-cq" 'semantic-ia-show-doc)
+   (local-set-key "\C-cy" 'semantic-ia-show-summary)
+   (local-set-key "\C-cp" 'semantic-analyze-proto-impl-toggle)
+-- 
+2.0.4
+

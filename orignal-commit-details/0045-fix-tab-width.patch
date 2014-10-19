@@ -1,0 +1,36 @@
+From 7017957554c83e5ddc451c2f064f5a4556279e33 Mon Sep 17 00:00:00 2001
+From: Cao ShaoLin <slcao@ingenic.cn>
+Date: Fri, 23 Aug 2013 09:27:28 +0800
+Subject: [PATCH 45/58] fix tab width
+
+---
+ rc/emacs-rc-c-c++.el | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/rc/emacs-rc-c-c++.el b/rc/emacs-rc-c-c++.el
+index a5bc328..ec18ddd 100644
+--- a/rc/emacs-rc-c-c++.el
++++ b/rc/emacs-rc-c-c++.el
+@@ -59,8 +59,8 @@
+ 	  '(lambda()
+ 	     ;;preprocessor
+ 	     (setq c-macro-prompt-flag t)
+-	     (setq c-basic-offset 8)
+-	     (setq tab-width 8 indent-tabs-mode t)
++	     (setq c-basic-offset 4)
++	     (setq tab-width 4 indent-tabs-mode t)
+ 	     (setq fill-column 80)
+ 	     (setq comment-column 30)
+ 	     (highlight-parentheses-mode 1)
+@@ -77,6 +77,8 @@
+ 	  )
+ 
+ (defun my-c-c++-common-hook ()
++  (setq c-basic-offset 8)
++  (setq tab-width 8 indent-tabs-mode t)
+   ;cscope configuration
+   (require 'xcscope)
+   (setq cscope-do-not-update-database t)
+-- 
+2.0.4
+

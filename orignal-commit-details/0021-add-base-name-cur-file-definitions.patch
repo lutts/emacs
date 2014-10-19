@@ -1,0 +1,52 @@
+From ac820154304a2b06a0638778359eeded0cfa3c5f Mon Sep 17 00:00:00 2001
+From: Lutts Cao <lutts.cao@gmail.com>
+Date: Tue, 16 Oct 2012 22:14:46 +0800
+Subject: [PATCH 21/58] add base-name, cur-file definitions
+
+---
+ .emacs               |  2 +-
+ rc/emacs-rc-lutts.el | 18 ++++++++++++++++++
+ 2 files changed, 19 insertions(+), 1 deletion(-)
+ create mode 100644 rc/emacs-rc-lutts.el
+
+diff --git a/.emacs b/.emacs
+index f04f9f5..28c0a69 100755
+--- a/.emacs
++++ b/.emacs
+@@ -301,7 +301,7 @@ Equivalent to beginning-of-line, open-line."
+ 
+ ;; smooth scrolling
+ (require 'smooth-scrolling)
+-
++(load "~/emacs/rc/emacs-rc-lutts.el")
+ (load "~/emacs/rc/emacs-rc-eshell.el")
+ (load "~/emacs/rc/emacs-rc-buffer-switching.el")
+ 
+diff --git a/rc/emacs-rc-lutts.el b/rc/emacs-rc-lutts.el
+new file mode 100644
+index 0000000..054fdc0
+--- /dev/null
++++ b/rc/emacs-rc-lutts.el
+@@ -0,0 +1,18 @@
++;;
++;; get file extension
++;;
++(defun get-ext (file-name)
++  (file-name-extension file-name))
++
++
++;;
++;; get the base name of the file
++;;
++(defun base-name (file-name)
++  (file-name-sans-extension file-name))
++
++
++(defun curr-file ()
++  "Return the filename (without directory) of the current buffer"
++  (file-name-nondirectory (buffer-file-name (current-buffer)))
++  )
+\ No newline at end of file
+-- 
+2.0.4
+

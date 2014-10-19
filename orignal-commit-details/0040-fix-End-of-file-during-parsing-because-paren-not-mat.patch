@@ -1,0 +1,25 @@
+From 83dc93cfc17936fcd13b717c77de63cca616f84d Mon Sep 17 00:00:00 2001
+From: Cao ShaoLin <slcao@ingenic.cn>
+Date: Sun, 23 Dec 2012 22:43:45 +0800
+Subject: [PATCH 40/58] fix End of file during parsing because paren not match
+
+---
+ .emacs | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/.emacs b/.emacs
+index 3087098..ff3218e 100755
+--- a/.emacs
++++ b/.emacs
+@@ -246,7 +246,7 @@ Equivalent to beginning-of-line, open-line."
+     (dolist (charset '(kana han symbol cjk-misc bopomofo))
+       (set-fontset-font (frame-parameter nil 'font)
+ 			charset
+-			(font-spec :family "Microsoft YaHei" :size 14)))
++			(font-spec :family "Microsoft YaHei" :size 14))))
+ 
+ ;;(set-face-attribute 'default nil
+ ;;		    :family "Consolas" :height 120)
+-- 
+2.0.4
+

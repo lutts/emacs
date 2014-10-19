@@ -1,0 +1,36 @@
+From 91ee3cb8139a360530256c867f60b7cf0bc69930 Mon Sep 17 00:00:00 2001
+From: Lutts Cao <lutts.cao@gmail.com>
+Date: Sun, 19 Oct 2014 21:26:05 +0800
+Subject: [PATCH 56/58] xcscope: when only single match, display to upper win
+
+---
+ elisp/xcscope.el | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/elisp/xcscope.el b/elisp/xcscope.el
+index 750f063..2db5300 100644
+--- a/elisp/xcscope.el
++++ b/elisp/xcscope.el
+@@ -1821,7 +1821,9 @@ using the mouse."
+   "Sentinel for when the cscope process dies."
+   (let* ( (buffer (process-buffer process)) window update-window
+          (done t) (old-buffer (current-buffer))
+-	 (old-buffer-window (get-buffer-window old-buffer)) )
++	 (old-buffer-window (get-buffer-window old-buffer))
++	 (myupperwin (window-at (- (frame-width) 5) 5))
++	 )
+     (set-buffer buffer)
+     (save-window-excursion
+       (save-excursion
+@@ -1891,7 +1893,7 @@ using the mouse."
+        (if cscope-display-cscope-buffer
+            (if (and cscope-edit-single-match (not cscope-matched-multiple))
+                (cscope-show-entry-internal(car cscope-first-match)
+-                                           (cdr cscope-first-match) t))
++                                           (cdr cscope-first-match) t myupperwin))
+          (cscope-select-entry-specified-window old-buffer-window))
+        )
+      )
+-- 
+2.0.4
+

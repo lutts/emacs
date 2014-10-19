@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+	<title>tempo-snippets</title>
+	<meta http-equiv="Content-type" content="text/html;charset=UTF-8"/>
+	<meta name="author" content="Nikolaj Schumacher"/>
+	<meta name="description" content="visual insertion of tempo templates"/>
+	<link rel="stylesheet" type="text/css" href="tempo-snippets_files/style.css"/>
+	<script src="tempo-snippets_files/email.js" type="text/javascript" language="javascript"/>
+  </head>
+  <body>
+	<ul id="nav" title="navigation">
+	  <li><a href="http://nschum.de/src/emacs/" title="a list of my emacs extensions">Emacs extensions</a></li>
+	</ul>
+
+	<h1>tempo-snippets (0.1.4)</h1>
+	<h2>What's this for?</h2>
+	<p>A <a href="http://www.kazmier.com/computer/snippet.el">snippet.el</a>-like interface for your tempo templates.  Watch the <a href="http://nschum.de/src/emacs/tempo-snippets/screencast/">demo</a>.</p>
+
+	<h2>Screenshot</h2>
+	<p>
+	  <a href="http://nschum.de/src/emacs/tempo-snippets/tempo-snippets.png">
+		<img src="tempo-snippets_files/tempo-snippets.png" alt="screenshot of tempo-snippets"/>
+	  </a>
+	</p>
+
+	<h2>Configuration</h2>
+	<p>Add the following to your .emacs file:</p>
+	<pre>(add-to-list 'load-path "/path/to/tempo-snippets")
+(require 'tempo-snippets)</pre>
+
+	<h2>Usage</h2>
+	<p>Use <code>tempo-define-snippet</code> instead of <code>tempo-define-template</code>.  The arguments can remain the same.  Insertion works like for any tempo-template with <code>tempo-template-your-template-name</code>.</p>
+
+	<p>When adding lisp forms in your templates that use <code>tempo-lookup-named</code>, make sure they don't have side-effects, because they will be evaluated every time the variables change.</p>
+
+	<p>You can navigate between input forms with <code>tempo-snippets-next-field</code> and <code>tempo-snippets-previous-field</code>.  When the point is on an input field, those commands are bound to M-n and M-p by default.  You can use <code>tempo-snippets-keymap</code> to bind keys for input fields.</p>
+
+	<h2>Download</h2>
+	<dl>
+	  <dt><a href="http://nschum.de/src/emacs/tempo-snippets/tempo-snippets.el">tempo-snippets.el</a></dt>
+	  <dd>tempo-snippets</dd>
+	</dl>
+
+	<h2>Feedback</h2>
+	<p>If you have any feedback, please
+	<a href="mailto:bugs%20at%20read.current.domain" onfocus="despamEmail(this)" onmouseover="despamEmail(this)">email</a> me, or visit this package's <a href="http://www.emacswiki.org/cgi-bin/emacs-en/TempoSnippets">page at the Emacs wiki</a>.</p>
+
+  </body>
+</html>

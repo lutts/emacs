@@ -1,0 +1,254 @@
+From b45d1bc1bec8cea967284d9a31ca35ebbd06c733 Mon Sep 17 00:00:00 2001
+From: Lutts Cao <lutts.cao@gmail.com>
+Date: Wed, 18 Sep 2013 22:37:52 +0800
+Subject: [PATCH 46/58] ignore elc files
+
+---
+ elisp/.gitignore                                   |   1 +
+ elisp/auto-complete-1.3.1/auto-complete-config.elc | Bin 15977 -> 0 bytes
+ elisp/auto-complete-1.3.1/auto-complete.elc        | Bin 60004 -> 0 bytes
+ elisp/auto-complete-1.3.1/fuzzy.elc                | Bin 7441 -> 0 bytes
+ elisp/auto-complete-1.3.1/popup.elc                | Bin 64899 -> 0 bytes
+ elisp/autopair.elc                                 | Bin 24025 -> 0 bytes
+ elisp/bm.elc                                       | Bin 29296 -> 0 bytes
+ elisp/color-theme.elc                              | Bin 47864 -> 0 bytes
+ elisp/column-marker.elc                            | Bin 7143 -> 0 bytes
+ elisp/gtags.elc                                    | Bin 23245 -> 0 bytes
+ elisp/hide-comnt.elc                               | Bin 3778 -> 0 bytes
+ elisp/hide-region.elc                              | Bin 2584 -> 0 bytes
+ elisp/highlight-parentheses.elc                    | Bin 4555 -> 0 bytes
+ elisp/highlight-symbol.elc                         | Bin 8933 -> 0 bytes
+ elisp/highline.elc                                 | Bin 16536 -> 0 bytes
+ elisp/icicles/icicles-cmd.elc                      | Bin 402963 -> 0 bytes
+ elisp/icicles/icicles-face.elc                     | Bin 16989 -> 0 bytes
+ elisp/icicles/icicles-fn.elc                       | Bin 125805 -> 0 bytes
+ elisp/icicles/icicles-mac.elc                      | Bin 15504 -> 0 bytes
+ elisp/icicles/icicles-mcmd.elc                     | Bin 174943 -> 0 bytes
+ elisp/icicles/icicles-menu.elc                     | Bin 5423 -> 0 bytes
+ elisp/icicles/icicles-mode.elc                     | Bin 139120 -> 0 bytes
+ elisp/icicles/icicles-opt.elc                      | Bin 67553 -> 0 bytes
+ elisp/icicles/icicles-var.elc                      | Bin 24046 -> 0 bytes
+ elisp/icicles/icicles.elc                          | Bin 1440 -> 0 bytes
+ elisp/icicles/icomplete+.elc                       | Bin 6859 -> 0 bytes
+ elisp/irfc.elc                                     | Bin 26380 -> 0 bytes
+ elisp/mic-paren.elc                                | Bin 30830 -> 0 bytes
+ elisp/ppindent.elc                                 | Bin 2435 -> 0 bytes
+ elisp/session.elc                                  | Bin 41816 -> 0 bytes
+ elisp/shebang.elc                                  | Bin 2218 -> 0 bytes
+ elisp/shell-pop.elc                                | Bin 3528 -> 0 bytes
+ elisp/smart-compile.elc                            | Bin 4256 -> 0 bytes
+ elisp/smooth-scrolling.elc                         | Bin 4797 -> 0 bytes
+ elisp/tabbar.elc                                   | Bin 43236 -> 0 bytes
+ elisp/tempo-snippets.elc                           | Bin 15516 -> 0 bytes
+ elisp/themes/color-theme-example.elc               | Bin 1513 -> 0 bytes
+ elisp/themes/color-theme-library.elc               | Bin 742896 -> 0 bytes
+ elisp/xcscope.elc                                  | Bin 52848 -> 0 bytes
+ elisp/xgtags.elc                                   | Bin 53102 -> 0 bytes
+ 40 files changed, 1 insertion(+)
+ create mode 100644 elisp/.gitignore
+ delete mode 100644 elisp/auto-complete-1.3.1/auto-complete-config.elc
+ delete mode 100644 elisp/auto-complete-1.3.1/auto-complete.elc
+ delete mode 100644 elisp/auto-complete-1.3.1/fuzzy.elc
+ delete mode 100644 elisp/auto-complete-1.3.1/popup.elc
+ delete mode 100644 elisp/autopair.elc
+ delete mode 100644 elisp/bm.elc
+ delete mode 100644 elisp/color-theme.elc
+ delete mode 100644 elisp/column-marker.elc
+ delete mode 100644 elisp/gtags.elc
+ delete mode 100644 elisp/hide-comnt.elc
+ delete mode 100644 elisp/hide-region.elc
+ delete mode 100644 elisp/highlight-parentheses.elc
+ delete mode 100644 elisp/highlight-symbol.elc
+ delete mode 100644 elisp/highline.elc
+ delete mode 100644 elisp/icicles/icicles-cmd.elc
+ delete mode 100644 elisp/icicles/icicles-face.elc
+ delete mode 100644 elisp/icicles/icicles-fn.elc
+ delete mode 100644 elisp/icicles/icicles-mac.elc
+ delete mode 100644 elisp/icicles/icicles-mcmd.elc
+ delete mode 100644 elisp/icicles/icicles-menu.elc
+ delete mode 100644 elisp/icicles/icicles-mode.elc
+ delete mode 100644 elisp/icicles/icicles-opt.elc
+ delete mode 100644 elisp/icicles/icicles-var.elc
+ delete mode 100644 elisp/icicles/icicles.elc
+ delete mode 100644 elisp/icicles/icomplete+.elc
+ delete mode 100644 elisp/irfc.elc
+ delete mode 100644 elisp/mic-paren.elc
+ delete mode 100644 elisp/ppindent.elc
+ delete mode 100644 elisp/session.elc
+ delete mode 100644 elisp/shebang.elc
+ delete mode 100644 elisp/shell-pop.elc
+ delete mode 100644 elisp/smart-compile.elc
+ delete mode 100644 elisp/smooth-scrolling.elc
+ delete mode 100644 elisp/tabbar.elc
+ delete mode 100644 elisp/tempo-snippets.elc
+ delete mode 100644 elisp/themes/color-theme-example.elc
+ delete mode 100644 elisp/themes/color-theme-library.elc
+ delete mode 100644 elisp/xcscope.elc
+ delete mode 100644 elisp/xgtags.elc
+
+diff --git a/elisp/.gitignore b/elisp/.gitignore
+new file mode 100644
+index 0000000..c531d98
+--- /dev/null
++++ b/elisp/.gitignore
+@@ -0,0 +1 @@
++*.elc
+diff --git a/elisp/auto-complete-1.3.1/auto-complete-config.elc b/elisp/auto-complete-1.3.1/auto-complete-config.elc
+deleted file mode 100644
+index 6e325e0..0000000
+Binary files a/elisp/auto-complete-1.3.1/auto-complete-config.elc and /dev/null differ
+diff --git a/elisp/auto-complete-1.3.1/auto-complete.elc b/elisp/auto-complete-1.3.1/auto-complete.elc
+deleted file mode 100644
+index 8ff110e..0000000
+Binary files a/elisp/auto-complete-1.3.1/auto-complete.elc and /dev/null differ
+diff --git a/elisp/auto-complete-1.3.1/fuzzy.elc b/elisp/auto-complete-1.3.1/fuzzy.elc
+deleted file mode 100644
+index 69da7c0..0000000
+Binary files a/elisp/auto-complete-1.3.1/fuzzy.elc and /dev/null differ
+diff --git a/elisp/auto-complete-1.3.1/popup.elc b/elisp/auto-complete-1.3.1/popup.elc
+deleted file mode 100644
+index b67e2da..0000000
+Binary files a/elisp/auto-complete-1.3.1/popup.elc and /dev/null differ
+diff --git a/elisp/autopair.elc b/elisp/autopair.elc
+deleted file mode 100644
+index 1fbbb2e..0000000
+Binary files a/elisp/autopair.elc and /dev/null differ
+diff --git a/elisp/bm.elc b/elisp/bm.elc
+deleted file mode 100644
+index ff8cfa5..0000000
+Binary files a/elisp/bm.elc and /dev/null differ
+diff --git a/elisp/color-theme.elc b/elisp/color-theme.elc
+deleted file mode 100644
+index d53a81b..0000000
+Binary files a/elisp/color-theme.elc and /dev/null differ
+diff --git a/elisp/column-marker.elc b/elisp/column-marker.elc
+deleted file mode 100644
+index 4ed2d83..0000000
+Binary files a/elisp/column-marker.elc and /dev/null differ
+diff --git a/elisp/gtags.elc b/elisp/gtags.elc
+deleted file mode 100644
+index 47efde6..0000000
+Binary files a/elisp/gtags.elc and /dev/null differ
+diff --git a/elisp/hide-comnt.elc b/elisp/hide-comnt.elc
+deleted file mode 100644
+index 41d1f3d..0000000
+Binary files a/elisp/hide-comnt.elc and /dev/null differ
+diff --git a/elisp/hide-region.elc b/elisp/hide-region.elc
+deleted file mode 100644
+index 9b9e9f3..0000000
+Binary files a/elisp/hide-region.elc and /dev/null differ
+diff --git a/elisp/highlight-parentheses.elc b/elisp/highlight-parentheses.elc
+deleted file mode 100644
+index 68afd29..0000000
+Binary files a/elisp/highlight-parentheses.elc and /dev/null differ
+diff --git a/elisp/highlight-symbol.elc b/elisp/highlight-symbol.elc
+deleted file mode 100644
+index beeefbb..0000000
+Binary files a/elisp/highlight-symbol.elc and /dev/null differ
+diff --git a/elisp/highline.elc b/elisp/highline.elc
+deleted file mode 100644
+index d2c780b..0000000
+Binary files a/elisp/highline.elc and /dev/null differ
+diff --git a/elisp/icicles/icicles-cmd.elc b/elisp/icicles/icicles-cmd.elc
+deleted file mode 100644
+index c232caf..0000000
+Binary files a/elisp/icicles/icicles-cmd.elc and /dev/null differ
+diff --git a/elisp/icicles/icicles-face.elc b/elisp/icicles/icicles-face.elc
+deleted file mode 100644
+index 53caeb8..0000000
+Binary files a/elisp/icicles/icicles-face.elc and /dev/null differ
+diff --git a/elisp/icicles/icicles-fn.elc b/elisp/icicles/icicles-fn.elc
+deleted file mode 100644
+index c43f875..0000000
+Binary files a/elisp/icicles/icicles-fn.elc and /dev/null differ
+diff --git a/elisp/icicles/icicles-mac.elc b/elisp/icicles/icicles-mac.elc
+deleted file mode 100644
+index 12c2ffe..0000000
+Binary files a/elisp/icicles/icicles-mac.elc and /dev/null differ
+diff --git a/elisp/icicles/icicles-mcmd.elc b/elisp/icicles/icicles-mcmd.elc
+deleted file mode 100644
+index 5b3114c..0000000
+Binary files a/elisp/icicles/icicles-mcmd.elc and /dev/null differ
+diff --git a/elisp/icicles/icicles-menu.elc b/elisp/icicles/icicles-menu.elc
+deleted file mode 100644
+index 49e684c..0000000
+Binary files a/elisp/icicles/icicles-menu.elc and /dev/null differ
+diff --git a/elisp/icicles/icicles-mode.elc b/elisp/icicles/icicles-mode.elc
+deleted file mode 100644
+index c4f01a3..0000000
+Binary files a/elisp/icicles/icicles-mode.elc and /dev/null differ
+diff --git a/elisp/icicles/icicles-opt.elc b/elisp/icicles/icicles-opt.elc
+deleted file mode 100644
+index e445b94..0000000
+Binary files a/elisp/icicles/icicles-opt.elc and /dev/null differ
+diff --git a/elisp/icicles/icicles-var.elc b/elisp/icicles/icicles-var.elc
+deleted file mode 100644
+index bcc80ec..0000000
+Binary files a/elisp/icicles/icicles-var.elc and /dev/null differ
+diff --git a/elisp/icicles/icicles.elc b/elisp/icicles/icicles.elc
+deleted file mode 100644
+index dc167c7..0000000
+Binary files a/elisp/icicles/icicles.elc and /dev/null differ
+diff --git a/elisp/icicles/icomplete+.elc b/elisp/icicles/icomplete+.elc
+deleted file mode 100644
+index b97f6ac..0000000
+Binary files a/elisp/icicles/icomplete+.elc and /dev/null differ
+diff --git a/elisp/irfc.elc b/elisp/irfc.elc
+deleted file mode 100644
+index bad45a2..0000000
+Binary files a/elisp/irfc.elc and /dev/null differ
+diff --git a/elisp/mic-paren.elc b/elisp/mic-paren.elc
+deleted file mode 100644
+index 282f1c5..0000000
+Binary files a/elisp/mic-paren.elc and /dev/null differ
+diff --git a/elisp/ppindent.elc b/elisp/ppindent.elc
+deleted file mode 100644
+index b5813e4..0000000
+Binary files a/elisp/ppindent.elc and /dev/null differ
+diff --git a/elisp/session.elc b/elisp/session.elc
+deleted file mode 100644
+index 2b56951..0000000
+Binary files a/elisp/session.elc and /dev/null differ
+diff --git a/elisp/shebang.elc b/elisp/shebang.elc
+deleted file mode 100644
+index 9e4e740..0000000
+Binary files a/elisp/shebang.elc and /dev/null differ
+diff --git a/elisp/shell-pop.elc b/elisp/shell-pop.elc
+deleted file mode 100644
+index fb7b5df..0000000
+Binary files a/elisp/shell-pop.elc and /dev/null differ
+diff --git a/elisp/smart-compile.elc b/elisp/smart-compile.elc
+deleted file mode 100644
+index 4a6a66b..0000000
+Binary files a/elisp/smart-compile.elc and /dev/null differ
+diff --git a/elisp/smooth-scrolling.elc b/elisp/smooth-scrolling.elc
+deleted file mode 100644
+index 8c6f76f..0000000
+Binary files a/elisp/smooth-scrolling.elc and /dev/null differ
+diff --git a/elisp/tabbar.elc b/elisp/tabbar.elc
+deleted file mode 100644
+index bf206e8..0000000
+Binary files a/elisp/tabbar.elc and /dev/null differ
+diff --git a/elisp/tempo-snippets.elc b/elisp/tempo-snippets.elc
+deleted file mode 100644
+index a51c11c..0000000
+Binary files a/elisp/tempo-snippets.elc and /dev/null differ
+diff --git a/elisp/themes/color-theme-example.elc b/elisp/themes/color-theme-example.elc
+deleted file mode 100644
+index f97935a..0000000
+Binary files a/elisp/themes/color-theme-example.elc and /dev/null differ
+diff --git a/elisp/themes/color-theme-library.elc b/elisp/themes/color-theme-library.elc
+deleted file mode 100644
+index d4e2831..0000000
+Binary files a/elisp/themes/color-theme-library.elc and /dev/null differ
+diff --git a/elisp/xcscope.elc b/elisp/xcscope.elc
+deleted file mode 100644
+index fe89173..0000000
+Binary files a/elisp/xcscope.elc and /dev/null differ
+diff --git a/elisp/xgtags.elc b/elisp/xgtags.elc
+deleted file mode 100644
+index a22b7a8..0000000
+Binary files a/elisp/xgtags.elc and /dev/null differ
+-- 
+2.0.4
+

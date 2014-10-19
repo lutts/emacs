@@ -1,0 +1,28 @@
+From 0d37b90ec7d66487ab49cf26ce48b15a5946a8b0 Mon Sep 17 00:00:00 2001
+From: Cao ShaoLin <slcao@ingenic.cn>
+Date: Sun, 21 Oct 2012 23:09:04 +0800
+Subject: [PATCH 28/58] move which-func display before mode-line
+
+---
+ .emacs | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/.emacs b/.emacs
+index 28c0a69..a774c9e 100755
+--- a/.emacs
++++ b/.emacs
+@@ -26,9 +26,9 @@ mouse-3: Remove current window from display")) mode-line-mule-info mode-line-cli
+ mouse-2: Make current window occupy the whole frame
+ mouse-3: Remove current window from display")) mode-line-position (vc-mode vc-mode) #("  " 0 2 (help-echo "mouse-1: Select (drag to resize)
+ mouse-2: Make current window occupy the whole frame
+-mouse-3: Remove current window from display")) mode-line-modes (which-func-mode ("" which-func-format #("--" 0 2 (help-echo "mouse-1: Select (drag to resize)
++mouse-3: Remove current window from display")) (which-func-mode ("" which-func-format #("--" 0 2 (help-echo "mouse-1: Select (drag to resize)
+ mouse-2: Make current window occupy the whole frame
+-mouse-3: Remove current window from display")))) (global-mode-string (#("--" 0 2 (help-echo "mouse-1: Select (drag to resize)
++mouse-3: Remove current window from display")))) mode-line-modes  (global-mode-string (#("--" 0 2 (help-echo "mouse-1: Select (drag to resize)
+ mouse-2: Make current window occupy the whole frame
+ mouse-3: Remove current window from display")) global-mode-string)) #("-%-" 0 3 (help-echo "mouse-1: Select (drag to resize)
+ mouse-2: Make current window occupy the whole frame
+-- 
+2.0.4
+

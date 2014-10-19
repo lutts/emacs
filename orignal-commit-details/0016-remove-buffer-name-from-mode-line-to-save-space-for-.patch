@@ -1,0 +1,71 @@
+From 07be56510f50c3d434cd61b22bd981a4ea9e7cd3 Mon Sep 17 00:00:00 2001
+From: Lutts Cao <lutts.cao@gmail.com>
+Date: Sat, 6 Oct 2012 17:59:45 +0800
+Subject: [PATCH 16/58] remove buffer name from mode line to save space for
+ which-func-mode
+
+---
+ .emacs                          | 19 ++++++++++++++++---
+ rc/emacs-rc-buffer-switching.el |  4 ++--
+ 2 files changed, 18 insertions(+), 5 deletions(-)
+
+diff --git a/.emacs b/.emacs
+index 1a65495..bc6f4ed 100755
+--- a/.emacs
++++ b/.emacs
+@@ -20,6 +20,19 @@
+  '(ecb-layout-window-sizes (quote (("lutts" (0.23684210526315788 . 0.4791666666666667) (0.23684210526315788 . 0.5) (0.19473684210526315 . 0.9791666666666666)) ("left-symboldef" (0.3263157894736842 . 0.2916666666666667) (0.3263157894736842 . 0.22916666666666666) (0.3263157894736842 . 0.22916666666666666) (0.3263157894736842 . 0.22916666666666666)))))
+  '(ecb-options-version "2.40")
+  '(menu-bar-mode t)
++ '(mode-line-format (quote ("%e" #("-" 0 1 (help-echo "mouse-1: Select (drag to resize)
++mouse-2: Make current window occupy the whole frame
++mouse-3: Remove current window from display")) mode-line-mule-info mode-line-client mode-line-modified mode-line-remote mode-line-frame-identification #("   " 0 3 (help-echo "mouse-1: Select (drag to resize)
++mouse-2: Make current window occupy the whole frame
++mouse-3: Remove current window from display")) mode-line-position (vc-mode vc-mode) #("  " 0 2 (help-echo "mouse-1: Select (drag to resize)
++mouse-2: Make current window occupy the whole frame
++mouse-3: Remove current window from display")) mode-line-modes (which-func-mode ("" which-func-format #("--" 0 2 (help-echo "mouse-1: Select (drag to resize)
++mouse-2: Make current window occupy the whole frame
++mouse-3: Remove current window from display")))) (global-mode-string (#("--" 0 2 (help-echo "mouse-1: Select (drag to resize)
++mouse-2: Make current window occupy the whole frame
++mouse-3: Remove current window from display")) global-mode-string)) #("-%-" 0 3 (help-echo "mouse-1: Select (drag to resize)
++mouse-2: Make current window occupy the whole frame
++mouse-3: Remove current window from display")))))
+  '(scroll-bar-mode nil)
+  '(tool-bar-mode nil)
+  '(transient-mark-mode t))
+@@ -82,9 +95,9 @@
+ (global-auto-revert-mode 1)
+ 
+ ;;; display time in 24hour format in mode line
+-(display-time-mode 1)
+-(setq display-time-24hr-format t)
+-(setq display-time-day-and-date t)
++;;(display-time-mode 1)
++;;(setq display-time-24hr-format t)
++;;(setq display-time-day-and-date t)
+ 
+ ;;; mouse releated
+ (mouse-avoidance-mode 'animate)
+diff --git a/rc/emacs-rc-buffer-switching.el b/rc/emacs-rc-buffer-switching.el
+index 1c3aa8c..04ef8e1 100644
+--- a/rc/emacs-rc-buffer-switching.el
++++ b/rc/emacs-rc-buffer-switching.el
+@@ -125,7 +125,7 @@
+       (progn (split-window-horizontally)
+ 	     (other-window 1)
+ 	     (split-window-vertically)
+-	     (fix-window-horizontal-size 75)
++	     (fix-window-horizontal-size 80)
+ 	     (other-window 2)
+ 	     )
+     )
+@@ -399,4 +399,4 @@
+   (if (= 2 (length (window-list)))
+       (change-split-type-2)
+     (change-split-type-3)
+-    ))
+\ No newline at end of file
++    ))
+-- 
+2.0.4
+

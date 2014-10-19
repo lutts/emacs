@@ -1,0 +1,24 @@
+From 30b3b5435c7762ddfa4debc622118894ae69f68f Mon Sep 17 00:00:00 2001
+From: Cao ShaoLin <slcao@ingenic.cn>
+Date: Sun, 9 Mar 2014 11:58:59 +0800
+Subject: [PATCH 49/58] remove c-subword-mode from c++-mode-hook
+
+---
+ rc/emacs-rc-c-c++.el | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/rc/emacs-rc-c-c++.el b/rc/emacs-rc-c-c++.el
+index ec18ddd..f1a6de4 100644
+--- a/rc/emacs-rc-c-c++.el
++++ b/rc/emacs-rc-c-c++.el
+@@ -122,6 +122,4 @@
+ ;;; C++ mode configurations
+ (add-hook 'c++-mode-hook
+ 	  '(lambda ()
+-	     (c-set-style "stroustrup")
+-	     (c-subword-mode 1)))
+-
++	     (c-set-style "stroustrup")))
+-- 
+2.0.4
+

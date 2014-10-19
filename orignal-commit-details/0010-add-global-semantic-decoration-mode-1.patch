@@ -1,0 +1,24 @@
+From 1c62119e765d6387067745105ff9f76c90445dee Mon Sep 17 00:00:00 2001
+From: Lutts Cao <lutts.cao@gmail.com>
+Date: Sun, 23 Sep 2012 23:21:43 +0800
+Subject: [PATCH 10/58] add (global-semantic-decoration-mode 1)
+
+---
+ rc/emacs-rc-cedet.el | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/rc/emacs-rc-cedet.el b/rc/emacs-rc-cedet.el
+index 022b112..b82f112 100644
+--- a/rc/emacs-rc-cedet.el
++++ b/rc/emacs-rc-cedet.el
+@@ -42,6 +42,7 @@
+ (setq semantic-imenu-auto-rebuild-directory-indexes nil)
+ (global-srecode-minor-mode 1)
+ (global-semantic-mru-bookmark-mode 1)
++(global-semantic-decoration-mode 1)
+ 
+ (require 'semantic-tag-folding nil 'noerror)
+ (global-semantic-tag-folding-mode 1)
+-- 
+2.0.4
+

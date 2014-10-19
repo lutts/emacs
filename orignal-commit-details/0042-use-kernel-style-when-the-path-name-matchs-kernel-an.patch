@@ -1,0 +1,27 @@
+From b03139d460617288ba1bd03d02543206c63de177 Mon Sep 17 00:00:00 2001
+From: Cao ShaoLin <slcao@ingenic.cn>
+Date: Thu, 27 Dec 2012 09:57:25 +0800
+Subject: [PATCH 42/58] use kernel style when the path name matchs "kernel" and
+ "linux"
+
+---
+ rc/emacs-rc-c-c++.el | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/rc/emacs-rc-c-c++.el b/rc/emacs-rc-c-c++.el
+index b375c8b..30c825a 100644
+--- a/rc/emacs-rc-c-c++.el
++++ b/rc/emacs-rc-c-c++.el
+@@ -85,7 +85,8 @@
+             (let ((filename (buffer-file-name)))
+               ;; Enable kernel mode for the appropriate files
+               (when (and filename
+-			 (string-match "linux" filename))
++			 (or (string-match "linux" filename)
++			     (string-match "kernel" filename)))
+                 (setq indent-tabs-mode t)
+                 (c-set-style "linux-tabs-only")))))
+ 
+-- 
+2.0.4
+

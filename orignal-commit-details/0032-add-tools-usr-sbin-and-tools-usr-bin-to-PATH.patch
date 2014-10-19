@@ -1,0 +1,30 @@
+From a24de695ee56ff399e837b40a9c93dd1307fb67f Mon Sep 17 00:00:00 2001
+From: Cao ShaoLin <slcao@ingenic.cn>
+Date: Thu, 15 Nov 2012 15:15:26 +0800
+Subject: [PATCH 32/58] add tools/usr/sbin and tools/usr/bin to PATH
+
+---
+ .emacs | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/.emacs b/.emacs
+index a774c9e..863fa03 100755
+--- a/.emacs
++++ b/.emacs
+@@ -6,8 +6,11 @@
+       (setq exec-path (append exec-path '("/opt/texlive/2011/bin/x86_64-linux"))))
+ 
+ (when (string= (getenv "USER") "lutts")
+-  (setenv "PATH" (concat (getenv "PATH") ":/home/lutts/tools/bin"))
+-  (setq exec-path (append exec-path '("/home/lutts/tools/bin"))))
++  (setenv "PATH" (concat (getenv "PATH") ":/home/lutts/tools/bin:/home/lutts/tools/usr/sbin:/home/lutts/tools/usr/bin"))
++  (setq exec-path (append exec-path '("/home/lutts/tools/bin")))
++  (setq exec-path (append exec-path '("/home/lutts/tools/usr/sbin")))
++  (setq exec-path (append exec-path '("/home/lutts/tools/usr/bin")))
++)
+ 
+ 
+ (custom-set-variables
+-- 
+2.0.4
+

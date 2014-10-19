@@ -1,0 +1,1229 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>EmacsWiki: irfc.el</title><link rel="alternate" type="application/wiki" title="Edit this page" href="http://www.emacswiki.org/emacs?action=edit;id=irfc.el" /><link type="text/css" rel="stylesheet" href="/emacs/wiki.css" /><meta name="robots" content="INDEX,FOLLOW" /><link rel="alternate" type="application/rss+xml" title="EmacsWiki" href="http://www.emacswiki.org/emacs?action=rss" /><link rel="alternate" type="application/rss+xml" title="EmacsWiki: irfc.el" href="http://www.emacswiki.org/emacs?action=rss;rcidonly=irfc.el" />
+<link rel="alternate" type="application/rss+xml"
+      title="Emacs Wiki with page content"
+      href="http://www.emacswiki.org/emacs/full.rss" />
+<link rel="alternate" type="application/rss+xml"
+      title="Emacs Wiki with page content and diff"
+      href="http://www.emacswiki.org/emacs/full-diff.rss" />
+<link rel="alternate" type="application/rss+xml"
+      title="Emacs Wiki including minor differences"
+      href="http://www.emacswiki.org/emacs/minor-edits.rss" />
+<link rel="alternate" type="application/rss+xml"
+      title="Changes for irfc.el only"
+      href="http://www.emacswiki.org/emacs?action=rss;rcidonly=irfc.el" /><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/></head><body class="http://www.emacswiki.org/emacs"><div class="header"><a class="logo" href="http://www.emacswiki.org/emacs/SiteMap"><img class="logo" src="/emacs_logo.png" alt="[Home]" /></a><span class="gotobar bar"><a class="local" href="http://www.emacswiki.org/emacs/SiteMap">SiteMap</a> <a class="local" href="http://www.emacswiki.org/emacs/Search">Search</a> <a class="local" href="http://www.emacswiki.org/emacs/ElispArea">ElispArea</a> <a class="local" href="http://www.emacswiki.org/emacs/HowTo">HowTo</a> <a class="local" href="http://www.emacswiki.org/emacs/RecentChanges">RecentChanges</a> <a class="local" href="http://www.emacswiki.org/emacs/News">News</a> <a class="local" href="http://www.emacswiki.org/emacs/Problems">Problems</a> <a class="local" href="http://www.emacswiki.org/emacs/Suggestions">Suggestions</a> </span>
+<!-- Google CSE Search Box Begins  -->
+<form class="tiny" action="http://www.google.com/cse" id="searchbox_004774160799092323420:6-ff2s0o6yi"><p>
+<input type="hidden" name="cx" value="004774160799092323420:6-ff2s0o6yi" />
+<input type="text" name="q" size="25" />
+<input type="submit" name="sa" value="Search" />
+</p></form>
+<script type="text/javascript" src="http://www.google.com/coop/cse/brand?form=searchbox_004774160799092323420%3A6-ff2s0o6yi"></script>
+<!-- Google CSE Search Box Ends -->
+<h1><a title="Click to search for references to this page" rel="nofollow" href="http://www.google.com/cse?cx=004774160799092323420:6-ff2s0o6yi&amp;q=%22irfc.el%22">irfc.el</a></h1></div><div class="wrapper"><div class="content browse"><p><a href="http://www.emacswiki.org/emacs/download/irfc.el">Download</a></p><pre class="code"><span class="linecomment">;;; irfc.el --- Interface for IETF RFC document.</span>
+
+<span class="linecomment">;; Filename: irfc.el</span>
+<span class="linecomment">;; Description: Interface for IETF RFC document.</span>
+<span class="linecomment">;; Author: Andy Stewart &lt;lazycat.manatee@gmail.com&gt;</span>
+<span class="linecomment">;;         Juanma Barranquero &lt;lekktu@gmail.com&gt;</span>
+<span class="linecomment">;; Maintainer: Andy Stewart &lt;lazycat.manatee@gmail.com&gt;</span>
+<span class="linecomment">;; Copyright (C) 2009, Andy Stewart, all rights reserved.</span>
+<span class="linecomment">;; Copyright (C) 2009, Juanma Barranquero, all rights reserved.</span>
+<span class="linecomment">;; Created: 2009-01-14 08:13:15</span>
+<span class="linecomment">;; Version: 0.5.4</span>
+<span class="linecomment">;; Last-Updated: 2009-02-13 10:33:22</span>
+<span class="linecomment">;;           By: Andy Stewart</span>
+<span class="linecomment">;; URL: http://www.emacswiki.org/emacs/download/irfc.el</span>
+<span class="linecomment">;; Keywords: RFC, IETF</span>
+<span class="linecomment">;; Compatibility: GNU Emacs 22 ~ 23</span>
+<span class="linecomment">;;</span>
+<span class="linecomment">;; Features that might be required by this library:</span>
+<span class="linecomment">;;</span>
+<span class="linecomment">;; `cl' `url-vars'</span>
+<span class="linecomment">;;</span>
+
+<span class="linecomment">;;; This file is NOT part of GNU Emacs</span>
+
+<span class="linecomment">;;; License</span>
+<span class="linecomment">;;</span>
+<span class="linecomment">;; This program is free software; you can redistribute it and/or modify</span>
+<span class="linecomment">;; it under the terms of the GNU General Public License as published by</span>
+<span class="linecomment">;; the Free Software Foundation; either version 3, or (at your option)</span>
+<span class="linecomment">;; any later version.</span>
+
+<span class="linecomment">;; This program is distributed in the hope that it will be useful,</span>
+<span class="linecomment">;; but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="linecomment">;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="linecomment">;; GNU General Public License for more details.</span>
+
+<span class="linecomment">;; You should have received a copy of the GNU General Public License</span>
+<span class="linecomment">;; along with this program; see the file COPYING.  If not, write to</span>
+<span class="linecomment">;; the Free Software Foundation, Inc., 51 Franklin Street, Fifth</span>
+<span class="linecomment">;; Floor, Boston, MA 02110-1301, USA.</span>
+
+<span class="linecomment">;; Introduction:</span>
+<span class="linecomment">;;</span>
+<span class="linecomment">;; For historical reasons, IETF Internet RFCs are required to be in a plain</span>
+<span class="linecomment">;; ASCII text format that's best-suited for sending directly to a 6-lpi</span>
+<span class="linecomment">;; US-letter-size printer.  This makes them suboptimal for viewing on-screen,</span>
+<span class="linecomment">;; as you will be doing for countless hours if you're ever doing network</span>
+<span class="linecomment">;; programming to one of them.  Fortunately, the ASCII format is usually</span>
+<span class="linecomment">;; close to what you, the Emacs zealot, *truly* want -- which is a format</span>
+<span class="linecomment">;; suited to more pleasurably viewing the RFC in Emacs.</span>
+<span class="linecomment">;;</span>
+<span class="linecomment">;; The `irfc' package uses Emacs overlays to add some fortification and</span>
+<span class="linecomment">;; hide the page headers and footers (which it replaces with one-line page</span>
+<span class="linecomment">;; number references that look like "(p.1)", right-justified).  The file is</span>
+<span class="linecomment">;; never modified, and you can see the raw ASCII text by pressing `T'.</span>
+<span class="linecomment">;;</span>
+
+<span class="linecomment">;;; Commentary:</span>
+<span class="linecomment">;;</span>
+<span class="linecomment">;; Interface for IETF RFC document.</span>
+<span class="linecomment">;;</span>
+<span class="linecomment">;; This package use some code from `rfcview.el'.</span>
+<span class="linecomment">;; Thanks "Neil W.  Van Dyke"!</span>
+<span class="linecomment">;;</span>
+<span class="linecomment">;; The features this package provide:</span>
+<span class="linecomment">;;</span>
+<span class="linecomment">;; * Format RFC document for easy reading.</span>
+<span class="linecomment">;; * Single keystroke for fast view.</span>
+<span class="linecomment">;; * Render status switch.</span>
+<span class="linecomment">;; * Smart table and content switch.</span>
+<span class="linecomment">;; * Visit RFC link around point.</span>
+<span class="linecomment">;; * Download RFC document *asynchronous*.</span>
+<span class="linecomment">;;</span>
+<span class="linecomment">;; Below are commands you can use:</span>
+<span class="linecomment">;;</span>
+<span class="linecomment">;; `irfc-render-toggle'         Toggle render status with RFC buffer.</span>
+<span class="linecomment">;; `irfc-quit'                  Quit RFC buffer.</span>
+<span class="linecomment">;; `irfc-visit'                 Ask for RFC number and visit document.</span>
+<span class="linecomment">;; `irfc-follow'                Visit RFC document around point.</span>
+<span class="linecomment">;; `irfc-table-jump'            Switch between table and content.</span>
+<span class="linecomment">;; `irfc-page-goto'             Goto page.</span>
+<span class="linecomment">;; `irfc-page-next'             Jump next page.</span>
+<span class="linecomment">;; `irfc-page-prev'             Jump previous page.</span>
+<span class="linecomment">;; `irfc-page-first'            Jump first page.</span>
+<span class="linecomment">;; `irfc-page-last'             Jump last page.</span>
+<span class="linecomment">;; `irfc-page-table'            Jump table page.</span>
+<span class="linecomment">;; `irfc-head-next'             Jump next heading.</span>
+<span class="linecomment">;; `irfc-head-prev'             Jump previous heading.</span>
+<span class="linecomment">;; `irfc-rfc-link-next'         Jump next RFC link.</span>
+<span class="linecomment">;; `irfc-rfc-link-prev'         Jump previous RFC link.</span>
+<span class="linecomment">;; `irfc-scroll-up-one-line'    Scroll up one line.</span>
+<span class="linecomment">;; `irfc-scroll-down-one-line'  Scroll down one line.</span>
+<span class="linecomment">;;</span>
+<span class="linecomment">;; Tips:</span>
+<span class="linecomment">;;</span>
+<span class="linecomment">;; You can use command `irfc-render-toggle' to toggle render status.</span>
+<span class="linecomment">;;</span>
+<span class="linecomment">;; Command `irfc-table-jump' can switch between table and content,</span>
+<span class="linecomment">;; example you stay cursor at *table*, and type "G" will jump corresponding</span>
+<span class="linecomment">;; content in buffer, alike, you can stay at any content and type "G"</span>
+<span class="linecomment">;; will jump corresponding table item.</span>
+<span class="linecomment">;;</span>
+<span class="linecomment">;; Command `irfc-follow' will visit RFC document around point,</span>
+<span class="linecomment">;; example you stay cursor at "[RFC3986]", and type "o" will</span>
+<span class="linecomment">;; open rfc3986.txt in storage directory.  If have not found</span>
+<span class="linecomment">;; this file in directory, will download from `http://www.ietf.org/rfc/'</span>
+<span class="linecomment">;; and open it when download complete.</span>
+<span class="linecomment">;;</span>
+<span class="linecomment">;; And command ‘irfc-follow’ can also use at title of RFC document.</span>
+<span class="linecomment">;; Example rfc3986.txt contain “Obsoletes: 2732, 2396, 1808” at title,</span>
+<span class="linecomment">;; you can move cursor to “2732” and type “o” will visit RFC 2732 document.</span>
+<span class="linecomment">;; ‘irfc-follow’ support below keywords in title:</span>
+<span class="linecomment">;;</span>
+<span class="linecomment">;;        “Request for Comments:”</span>
+<span class="linecomment">;;        “Updates:”</span>
+<span class="linecomment">;;        “Obsoletes:”</span>
+<span class="linecomment">;;</span>
+<span class="linecomment">;; You can use command `irfc-rfc-link-next' or `irfc-rfc-link-prev'</span>
+<span class="linecomment">;; to jump next or previous RFC link in document.</span>
+<span class="linecomment">;;</span>
+<span class="linecomment">;; Command `irfc-visit' will ask the user for a RFC number and will</span>
+<span class="linecomment">;; visit that document, either from `irfc-directory', if exists, or by</span>
+<span class="linecomment">;; downloading it.  This command can serve as entry point for Irfc,</span>
+<span class="linecomment">;; to go to a RFC without having to visit the file or remember</span>
+<span class="linecomment">;; whether it is already in `irfc-directory'.</span>
+<span class="linecomment">;; And if you visit same document with your previous type, so just</span>
+<span class="linecomment">;; hit RET, and don't need type RFC document number.</span>
+<span class="linecomment">;;</span>
+
+
+<span class="linecomment">;;; Installation:</span>
+<span class="linecomment">;;</span>
+<span class="linecomment">;; Put irfc.el to your load-path.</span>
+<span class="linecomment">;; The load-path is usually ~/elisp/.</span>
+<span class="linecomment">;; It's set in your ~/.emacs like this:</span>
+<span class="linecomment">;; (add-to-list 'load-path (expand-file-name "~/elisp"))</span>
+<span class="linecomment">;;</span>
+<span class="linecomment">;; And the following to your ~/.emacs startup file.</span>
+<span class="linecomment">;;</span>
+<span class="linecomment">;; (require 'irfc)</span>
+<span class="linecomment">;;</span>
+<span class="linecomment">;; Setup your storage directory for RFC documents.</span>
+<span class="linecomment">;;</span>
+<span class="linecomment">;; (setq irfc-directory "YourStorageDirectory")</span>
+<span class="linecomment">;;</span>
+<span class="linecomment">;; If you want make RFC document load `irfc-mode' automatically,</span>
+<span class="linecomment">;; setup like below:</span>
+<span class="linecomment">;;</span>
+<span class="linecomment">;; (setq irfc-assoc-mode t)</span>
+<span class="linecomment">;;</span>
+
+<span class="linecomment">;;; Customize:</span>
+<span class="linecomment">;;</span>
+<span class="linecomment">;; `irfc-assoc-mode' whether assoc RFC document with `irfc-mode'.</span>
+<span class="linecomment">;; `irfc-directory' the storage directory for RFC document.</span>
+<span class="linecomment">;; `irfc-download-base-url' the base url for download RFC document.</span>
+<span class="linecomment">;;</span>
+<span class="linecomment">;; All of the above can customize by:</span>
+<span class="linecomment">;;      M-x customize-group RET irfc RET</span>
+<span class="linecomment">;;</span>
+
+<span class="linecomment">;;; Change log:</span>
+<span class="linecomment">;;</span>
+<span class="linecomment">;; 2009/02/13</span>
+<span class="linecomment">;;   * Andy Stewart:</span>
+<span class="linecomment">;;      * New variable `irfc-table-regex'.</span>
+<span class="linecomment">;;      * Fix bug of `irfc-table-jump'.</span>
+<span class="linecomment">;;      * Fix doc.</span>
+<span class="linecomment">;;</span>
+<span class="linecomment">;; 2009/01/29</span>
+<span class="linecomment">;;   * Andy Stewart:</span>
+<span class="linecomment">;;      * Fix overlay RFC link (as format [RFC-number]) in RFC1034.txt.</span>
+<span class="linecomment">;;      * Fix RFC link jump bug.</span>
+<span class="linecomment">;;</span>
+<span class="linecomment">;; 2009/01/22</span>
+<span class="linecomment">;;   * Juanma Barranquero</span>
+<span class="linecomment">;;      * Add require information to avoid compile warning.</span>
+<span class="linecomment">;;      * Add new function `irfc-unload-function' to cleanup</span>
+<span class="linecomment">;;        when execute command `unload-feature'.</span>
+<span class="linecomment">;;</span>
+<span class="linecomment">;; 2009/01/21</span>
+<span class="linecomment">;;   * Juanma Barranquero</span>
+<span class="linecomment">;;      * Add new command `irfc-visit' for fast open or download RFC</span>
+<span class="linecomment">;;        document.</span>
+<span class="linecomment">;;      * Fix doc.</span>
+<span class="linecomment">;;   * Andy Stewart:</span>
+<span class="linecomment">;;      * Applied Juanma's patch (with slightly modified). Thanks!</span>
+<span class="linecomment">;;      * Add variable `irfc-last-visit-number' to record last input</span>
+<span class="linecomment">;;        RFC document number, save type if have to visit same document</span>
+<span class="linecomment">;;        with previous times.</span>
+<span class="linecomment">;;      * Fix bug of function `irfc-download-callback'.</span>
+<span class="linecomment">;;        Display error information when download RFC document failed.</span>
+<span class="linecomment">;;</span>
+<span class="linecomment">;; 2009/01/18</span>
+<span class="linecomment">;;   * Andy Stewart:</span>
+<span class="linecomment">;;      * Make `irfc-follow' can open RFC link at title.</span>
+<span class="linecomment">;;        Now support below keyword in title:</span>
+<span class="linecomment">;;              "Request for Comments:"</span>
+<span class="linecomment">;;              "Updates:"</span>
+<span class="linecomment">;;              "Obsoletes:"</span>
+<span class="linecomment">;;      * Add new commands: `irfc-rfc-link-next' and `irfc-rfc-link-prev'.</span>
+<span class="linecomment">;;      * Fix doc.</span>
+<span class="linecomment">;;</span>
+<span class="linecomment">;;   * Juanma Barranquero:</span>
+<span class="linecomment">;;      * Fix defface error, and improve document.</span>
+<span class="linecomment">;;</span>
+<span class="linecomment">;; 2009/01/17</span>
+<span class="linecomment">;;   * Andy Stewart:</span>
+<span class="linecomment">;;      * Fix doc.</span>
+<span class="linecomment">;;      * Remove function `irfc-render-buffer-hide-cr'.</span>
+<span class="linecomment">;;      * Thanks "Juanma Barranquero" improve document and advices. :)</span>
+<span class="linecomment">;;</span>
+<span class="linecomment">;; 2009/01/16</span>
+<span class="linecomment">;;   * Andy Stewart:</span>
+<span class="linecomment">;;      * Modified code for 22 compatibility.</span>
+<span class="linecomment">;;      * Fix doc.</span>
+<span class="linecomment">;;</span>
+<span class="linecomment">;; 2009/01/14</span>
+<span class="linecomment">;;   * Andy Stewart:</span>
+<span class="linecomment">;;      * First released.</span>
+<span class="linecomment">;;</span>
+
+<span class="linecomment">;;; Acknowledgements:</span>
+<span class="linecomment">;;</span>
+<span class="linecomment">;;      Neil W. Van Dyke        &lt;neil@neilvandyke.org&gt;</span>
+<span class="linecomment">;;              For create rfcview.el</span>
+<span class="linecomment">;;      Juanma Barranquero      &lt;lekktu@gmail.com&gt;</span>
+<span class="linecomment">;;              Thanks Juanma Barranquero send many patches.</span>
+<span class="linecomment">;;              Juanma, thank you very much! :)</span>
+<span class="linecomment">;;</span>
+
+<span class="linecomment">;;; TODO</span>
+<span class="linecomment">;;</span>
+<span class="linecomment">;;</span>
+<span class="linecomment">;;</span>
+
+<span class="linecomment">;;; Require</span>
+(eval-when-compile (require 'cl))
+(require 'url-vars)
+
+<span class="linecomment">;;; Code:</span>
+
+<span class="linecomment">;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Customize ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;</span>
+(defgroup irfc nil
+  "<span class="quote">Interface for IETF RFC documents.</span>"
+  :group 'edit)
+
+(defcustom irfc-assoc-mode nil
+  "<span class="quote">If t, RFC documents are associated with `irfc-mode'.
+Default is nil.</span>"
+  :type 'boolean
+  :set (lambda (symbol value)
+         (set symbol value)
+         (if value
+             (add-to-list 'auto-mode-alist
+                          '("<span class="quote">/rfc[0-9]+\\.txt\\'</span>" . irfc-mode))
+           (remove-hook 'auto-mode-alist
+                        '("<span class="quote">/rfc[0-9]+\\.txt\\'</span>" . irfc-mode))))
+  :group 'irfc)
+
+(defcustom irfc-directory "<span class="quote">~/.emacs.d/RFC/</span>"
+  "<span class="quote">The storage directory for RFC document download and search.</span>"
+  :type 'string
+  :group 'irfc)
+
+(defcustom irfc-download-base-url "<span class="quote">http://www.ietf.org/rfc/</span>"
+  "<span class="quote">The base URL for downloading RFC documents.</span>"
+  :type 'string
+  :group 'irfc)
+
+<span class="linecomment">;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Faces ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;</span>
+(defface irfc-title-face
+  '((t (:foreground "<span class="quote">Gold</span>" :bold t)))
+  "<span class="quote">Face used for titles.</span>"
+  :group 'irfc)
+(defvar irfc-title-overlay nil
+  "<span class="quote">Overlay for `irfc-title-face'.</span>")
+
+(defface irfc-head-name-face
+  '((t (:foreground "<span class="quote">DarkRed</span>" :bold t :underline t)))
+  "<span class="quote">Face used for heading names.</span>"
+  :group 'irfc)
+(defvar irfc-head-name-overlay nil
+  "<span class="quote">Overlay for `irfc-head-name-face'.</span>")
+
+(defface irfc-head-number-face
+  '((t (:foreground "<span class="quote">DarkRed</span>" :bold t)))
+  "<span class="quote">Face used for heading numbers.</span>"
+  :group 'irfc)
+(defvar irfc-head-number-overlay nil
+  "<span class="quote">Overlay for `irfc-head-number-face'.</span>")
+
+(defface irfc-rfc-number-face
+  '((t (:foreground "<span class="quote">Green3</span>" :bold t)))
+  "<span class="quote">Face used for RFC number in the header.</span>"
+  :group 'irfc)
+(defvar irfc-rfc-number-overlay nil
+  "<span class="quote">Overlay for `irfc-rfc-number-face'.</span>")
+
+(defface irfc-std-number-face
+  '((t (:foreground "<span class="quote">Grey</span>" :bold t)))
+  "<span class="quote">Face used for STD number in the header.</span>"
+  :group 'irfc)
+(defvar irfc-std-number-overlay nil
+  "<span class="quote">Overlay for `irfc-std-number-face'.</span>")
+
+(defface irfc-rfc-link-face
+  '((t (:foreground "<span class="quote">Grey30</span>" :bold t)))
+  "<span class="quote">Face used for RFC link in the header.</span>"
+  :group 'irfc)
+(defvar irfc-rfc-link-overlay nil
+  "<span class="quote">Overlay for `irfc-rfc-link-face'.</span>")
+
+(defface irfc-table-item-face
+  '((t (:foreground "<span class="quote">LawnGreen</span>")))
+  "<span class="quote">Face used for Table item.</span>"
+  :group 'irfc)
+(defvar irfc-table-item-overlay nil
+  "<span class="quote">Overlay for `irfc-table-item-face'.</span>")
+
+(defvar irfc-hide-overlay nil
+  "<span class="quote">Overlay for hiding whitespace or blank lines.</span>")
+
+(defvar irfc-page-number-overlay nil
+  "<span class="quote">Overlay for page number.</span>")
+
+<span class="linecomment">;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Variable ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;</span>
+(defvar irfc-mode-map
+  (let ((map (make-sparse-keymap)))
+    (define-key map (kbd "<span class="quote">j</span>") 'next-line)
+    (define-key map (kbd "<span class="quote">k</span>") 'previous-line)
+    (define-key map (kbd "<span class="quote">h</span>") 'backward-char)
+    (define-key map (kbd "<span class="quote">l</span>") 'forward-char)
+    (define-key map (kbd "<span class="quote">e</span>") 'scroll-down)
+    (define-key map (kbd "<span class="quote">SPC</span>") 'scroll-up)
+    (define-key map (kbd "<span class="quote">J</span>") 'irfc-scroll-up-one-line)
+    (define-key map (kbd "<span class="quote">K</span>") 'irfc-scroll-down-one-line)
+    (define-key map (kbd "<span class="quote">,</span>") 'end-of-buffer)
+    (define-key map (kbd "<span class="quote">.</span>") 'beginning-of-buffer)
+    (define-key map (kbd "<span class="quote">T</span>") 'irfc-render-toggle)
+    (define-key map (kbd "<span class="quote">q</span>") 'irfc-quit)
+    (define-key map (kbd "<span class="quote">o</span>") 'irfc-follow)
+    (define-key map (kbd "<span class="quote">v</span>") 'irfc-visit)
+    (define-key map (kbd "<span class="quote">g</span>") 'irfc-page-goto)
+    (define-key map (kbd "<span class="quote">N</span>") 'irfc-page-next)
+    (define-key map (kbd "<span class="quote">P</span>") 'irfc-page-prev)
+    (define-key map (kbd "<span class="quote">&lt;</span>") 'irfc-page-last)
+    (define-key map (kbd "<span class="quote">&gt;</span>") 'irfc-page-first)
+    (define-key map (kbd "<span class="quote">b</span>") 'irfc-page-table)
+    (define-key map (kbd "<span class="quote">H</span>") 'irfc-head-next)
+    (define-key map (kbd "<span class="quote">L</span>") 'irfc-head-prev)
+    (define-key map (kbd "<span class="quote">G</span>") 'irfc-table-jump)
+    (define-key map (kbd "<span class="quote">&lt;tab&gt;</span>") 'irfc-rfc-link-next)
+    (define-key map (kbd "<span class="quote">&lt;backtab&gt;</span>") 'irfc-rfc-link-prev)
+    map)
+  "<span class="quote">Keymap used by `irfc-mode'.</span>")
+
+(defvar irfc-stock-section-names
+  '("<span class="quote">abstract</span>"
+    "<span class="quote">acknowledgement</span>"
+    "<span class="quote">acknowledgements</span>"
+    "<span class="quote">acknowledgment</span>"
+    "<span class="quote">acknowledgments</span>"
+    "<span class="quote">appendices</span>"
+    "<span class="quote">author's address</span>"
+    "<span class="quote">authors' addresses</span>"
+    "<span class="quote">bibliography</span>"
+    "<span class="quote">chair's address</span>"
+    "<span class="quote">copyright notice</span>"
+    "<span class="quote">copyright statement</span>"
+    "<span class="quote">editor's address</span>"
+    "<span class="quote">editors' addresses</span>"
+    "<span class="quote">full copyright notice</span>"
+    "<span class="quote">full copyright statement</span>"
+    "<span class="quote">iesg note</span>"
+    "<span class="quote">index</span>"
+    "<span class="quote">introduction</span>"
+    "<span class="quote">references and bibliography</span>"
+    "<span class="quote">references</span>"
+    "<span class="quote">security considerations</span>"
+    "<span class="quote">status of this memo</span>"
+    "<span class="quote">table of contents</span>")
+  "<span class="quote">The stock name for overlay heading.</span>")
+
+(defvar irfc-download-buffer nil
+  "<span class="quote">Download buffer used by `url-retrieve'.
+This variable is always buffer-local.</span>")
+(make-variable-buffer-local 'irfc-download-buffer)
+
+(defvar irfc-download-url nil
+  "<span class="quote">URL from which to download files.
+This variable is always buffer-local.</span>")
+(make-variable-buffer-local 'irfc-download-url)
+
+(defvar irfc-render-p t
+  "<span class="quote">Render status for RFC buffer.
+This variable is always buffer-local.</span>")
+(make-variable-buffer-local 'irfc-render-p)
+
+(defvar irfc-total-pages 0
+  "<span class="quote">Total number of pages in RFC buffer.
+This variable is always buffer-local.</span>")
+(make-variable-buffer-local 'irfc-total-pages)
+
+(defvar irfc-last-visit-number nil
+  "<span class="quote">Number of the last RFC document visited.</span>")
+
+(defvar irfc-table-regex "<span class="quote">^[ ]+[A-Z]?[0-9\\.]*[ ]+\\([^\\.\n]+\\)[\\. ]+\\([0-9]+\\)$</span>"
+  "<span class="quote">The regular-expression that match table item.</span>")
+
+<span class="linecomment">;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Interactive functions ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;</span>
+(define-derived-mode irfc-mode text-mode "<span class="quote">Irfc</span>"
+  "<span class="quote">Major mode for IETF RFC documents.</span>"
+  <span class="linecomment">;; Setup.</span>
+  (use-local-map irfc-mode-map)
+  (setq buffer-read-only t)
+  (setq font-lock-defaults nil)
+  (auto-save-mode 0)
+  <span class="linecomment">;; Render.</span>
+  (irfc-render-buffer))
+
+(defun irfc-render-buffer ()
+  "<span class="quote">Render RFC buffer.</span>"
+  (interactive)
+  (save-excursion
+    (let ((case-fold-search nil)
+          (top-point (point-min))
+          (title-line-point nil)
+          temp-point)
+      <span class="linecomment">;; Clean up overlays.</span>
+      (irfc-overlay-remove-all)
+      <span class="linecomment">;; Hide whitespace at start of file.</span>
+      (setq temp-point (irfc-render-buffer-hide-whitespace-at-start))
+      (if temp-point (setq top-point temp-point))
+      <span class="linecomment">;; Hide any extraneous blank lines.</span>
+      (setq title-line-point (irfc-render-buffer-hide-blank-line top-point))
+      <span class="linecomment">;; Add overlays for page headers and footers.</span>
+      (irfc-render-buffer-overlay-page-number)
+      <span class="linecomment">;; Add overlay for the RFC number.</span>
+      (irfc-render-buffer-overlay-rfc-number top-point title-line-point)
+      <span class="linecomment">;; Add overlay for the STD number.</span>
+      (irfc-render-buffer-overlay-std-number top-point title-line-point)
+      <span class="linecomment">;; Add overlay for the table item.</span>
+      (irfc-render-buffer-overlay-table-item top-point)
+      <span class="linecomment">;; Add overlay for the RFC link.</span>
+      (irfc-render-buffer-overlay-rfc-link top-point)
+      <span class="linecomment">;; Add overlay for the title.</span>
+      (irfc-render-buffer-overlay-title title-line-point)
+      <span class="linecomment">;; Add overlay for the heading.</span>
+      (irfc-render-buffer-overlay-head title-line-point))))
+
+(defun irfc-render-toggle ()
+  "<span class="quote">Toggle RFC buffer render status.</span>"
+  (interactive)
+  (if irfc-render-p
+      (irfc-render-turn-off)
+    (irfc-render-turn-on)))
+
+(defun irfc-render-turn-on ()
+  "<span class="quote">Turn on RFC buffer render status.</span>"
+  (irfc-render-buffer)
+  (setq irfc-render-p t))
+
+(defun irfc-render-turn-off ()
+  "<span class="quote">Turn off RFC buffer render status.</span>"
+  (irfc-overlay-remove-all)
+  (setq irfc-render-p nil))
+
+(defun irfc-quit ()
+  "<span class="quote">Quit RFC buffer.</span>"
+  (interactive)
+  (kill-buffer (current-buffer)))
+
+(defun irfc-table-jump ()
+  "<span class="quote">Jump between table and content.
+You can jump to the corresponding table item when you are at content.
+You can jump to the corresponding content when you are at table.</span>"
+  (interactive)
+  (if (irfc-have-table-p)
+      (let ((original-position (point))
+            head-name
+            page-number
+            match-list)
+        (cond ((irfc-in-table-p)
+               <span class="linecomment">;; When in table.</span>
+               (beginning-of-line)
+               (if (search-forward-regexp irfc-table-regex (line-end-position) t)
+                   <span class="linecomment">;; Jump content when find valid table item.</span>
+                   (progn
+                     <span class="linecomment">;; Get head name and page number.</span>
+                     (setq head-name (match-string 0))
+                     (setq head-name (replace-regexp-in-string "<span class="quote">[\\. ]+\\([0-9]+\\)$</span>" "<span class="quote"></span>" head-name))
+                     (setq head-name (replace-regexp-in-string "<span class="quote">^[ ]+</span>" "<span class="quote"></span>" head-name))
+                     (setq page-number (string-to-number (match-string 2)))
+                     <span class="linecomment">;; Jump page.</span>
+                     (irfc-page-goto page-number)
+                     <span class="linecomment">;; Search head.</span>
+                     (re-search-forward head-name nil t)
+                     <span class="linecomment">;; Indent.</span>
+                     (back-to-indentation))
+                 <span class="linecomment">;; Restore original position and output message</span>
+                 <span class="linecomment">;; when at invalid table item.</span>
+                 (message "<span class="quote">Invalid table item.</span>")
+                 (goto-char original-position)))
+              <span class="linecomment">;; Do nothing when at front of table.</span>
+              ((irfc-front-table-p)
+               (message "<span class="quote">In front of table.</span>"))
+              <span class="linecomment">;; Jump corresponding table item from content.</span>
+              (t
+               <span class="linecomment">;; Get head name and page number.</span>
+               (end-of-line)
+               (setq match-list (irfc-head-move t))
+               (setq head-name (buffer-substring-no-properties (nth 2 match-list) (nth 3 match-list)))
+               (setq page-number (irfc-current-page))
+               <span class="linecomment">;; Jump table.</span>
+               (irfc-page-table)
+               <span class="linecomment">;; Search head.</span>
+               (re-search-forward (concat (regexp-quote head-name) "<span class="quote">[\\. ]+</span>" (regexp-quote (number-to-string page-number))))
+               <span class="linecomment">;; Indent.</span>
+               (back-to-indentation))))
+    <span class="linecomment">;; Do nothing when haven't table in this RFC document.</span>
+    (message "<span class="quote">This RFC document contains no Table of Contents.</span>")))
+
+(defun irfc-page-goto (number)
+  "<span class="quote">Goto page NUMBER.</span>"
+  (interactive "<span class="quote">nPage number: </span>")
+  (cond ((&lt;= number 1)
+         <span class="linecomment">;; Move beginning of buffer when page number</span>
+         <span class="linecomment">;; is equal or below 1.</span>
+         (call-interactively 'beginning-of-buffer)
+         (if (&lt; number 1)
+             (message "<span class="quote">Reach top page.</span>")))
+        (t
+         <span class="linecomment">;; Move special page.</span>
+         (let ((original-position (point))
+               (original-render-status irfc-render-p)
+               reach-bottom-p)
+           <span class="linecomment">;; Set max page number when</span>
+           <span class="linecomment">;; query page is above max limit.</span>
+           (when (&gt; number irfc-total-pages)
+             (setq number irfc-total-pages)
+             (setq reach-bottom-p t))
+           <span class="linecomment">;; Turn off render.</span>
+           (irfc-render-turn-off)
+           <span class="linecomment">;; Search page number.</span>
+           (goto-char (point-min))
+           (if (re-search-forward (concat "<span class="quote">\\[Page </span>" (regexp-quote (number-to-string (1- number))) "<span class="quote">\\]$</span>")
+                                  nil t)
+               <span class="linecomment">;; Move special page when search successful.</span>
+               (progn
+                 <span class="linecomment">;; Adjust cursor position.</span>
+                 (forward-line +3)
+                 (re-search-forward "<span class="quote">^.+$</span>" nil t)
+                 (back-to-indentation)
+                 <span class="linecomment">;; Recenter when reach bottom page.</span>
+                 (when reach-bottom-p
+                   (recenter 0)
+                   (message "<span class="quote">Reach bottom page.</span>")))
+             <span class="linecomment">;; Restore original position when search failed.</span>
+             (goto-char original-position))
+           <span class="linecomment">;; Revert render status.</span>
+           (unless (equal original-render-status irfc-render-p)
+             (irfc-render-toggle))))))
+
+(defun irfc-page-next (arg)
+  "<span class="quote">Move to next ARGth page.
+ARG defaults to 1.</span>"
+  (interactive "<span class="quote">P</span>")
+  (irfc-page-goto (+ (irfc-current-page) (or arg 1))))
+
+(defun irfc-page-prev (arg)
+  "<span class="quote">Move to previous ARGth page.
+ARG defaults to 1.</span>"
+  (interactive "<span class="quote">P</span>")
+  (irfc-page-goto (- (irfc-current-page) (or arg 1))))
+
+(defun irfc-page-first ()
+  "<span class="quote">Move to first page.</span>"
+  (interactive)
+  (irfc-page-goto 1))
+
+(defun irfc-page-last ()
+  "<span class="quote">Move to last page.</span>"
+  (interactive)
+  (irfc-page-goto irfc-total-pages))
+
+(defun irfc-page-table ()
+  "<span class="quote">Move to Table of Contents.</span>"
+  (interactive)
+  (if (irfc-have-table-p)
+      (progn
+        (goto-char (point-min))
+        (re-search-forward "<span class="quote">^Table of Contents$</span>" nil t)
+        (back-to-indentation))
+    (message "<span class="quote">This RFC document has no Table of Contents.</span>")))
+
+(defun irfc-follow ()
+  "<span class="quote">Open RFC document around point.
+Download and open RFC document if it
+does not exist in `irfc-directory'.</span>"
+  (interactive)
+  (let ((rfc-file-name (irfc-get-rfc-filename)))
+    (if rfc-file-name
+        <span class="linecomment">;; Open RFC document.</span>
+        (irfc-open rfc-file-name)
+      (message "<span class="quote">Not found valid RFC link at cursor.</span>"))))
+
+(defun irfc-visit (&optional rfc-number)
+  "<span class="quote">Open RFC document RFC-NUMBER.
+Download and open RFC document if it
+does not exist in `irfc-directory'.</span>"
+  (interactive)
+  (or rfc-number
+      (setq rfc-number (read-number
+                        "<span class="quote">RFC document to visit: </span>"
+                        irfc-last-visit-number)))
+  (setq irfc-last-visit-number rfc-number)
+  (irfc-open (format "<span class="quote">rfc%s.txt</span>" rfc-number)))
+
+(defun irfc-head-next ()
+  "<span class="quote">Move to next heading.</span>"
+  (interactive)
+  (let ((original-position (point)))
+    (end-of-line)
+    (if (irfc-head-move)
+        <span class="linecomment">;; Move to next heading,</span>
+        <span class="linecomment">;; when search successful.</span>
+        (beginning-of-line)
+      <span class="linecomment">;; Restore original position</span>
+      <span class="linecomment">;; when search failed.</span>
+      (goto-char original-position)
+      (message "<span class="quote">No next heading.</span>"))))
+
+(defun irfc-head-prev ()
+  "<span class="quote">Move to previous heading.</span>"
+  (interactive)
+  (let ((original-position (point)))
+    (beginning-of-line)
+    (unless (irfc-head-move t)
+      <span class="linecomment">;; Restore original position</span>
+      <span class="linecomment">;; when search failed.</span>
+      (goto-char original-position)
+      (message "<span class="quote">No previous heading.</span>"))))
+
+(defun irfc-scroll-up-one-line ()
+  "<span class="quote">Scroll up one line.</span>"
+  (interactive)
+  (scroll-up 1))
+
+(defun irfc-scroll-down-one-line ()
+  "<span class="quote">Scroll down one line.</span>"
+  (interactive)
+  (scroll-down 1))
+
+(defun irfc-rfc-link-next ()
+  "<span class="quote">Move the point to the next RFC link.</span>"
+  (interactive)
+  (let ((original-point (point)))
+    (if (re-search-forward "<span class="quote">\\(\\B\\[RFC-?[0-9]+\\]\\B\\|[ \t]+[0-9]+\\)</span>" nil t)
+        (catch 'match
+          (while (and (not (string-match "<span class="quote">\\[\\(RFC-?[0-9]+\\)\\]</span>" (irfc-get-symbol-non-blank)))
+                      (or (not (irfc-title-rfc-link-p)) <span class="linecomment">;not valid RFC link number</span>
+                          (eolp)                        <span class="linecomment">;number at end of line is invalid RFC number</span>
+                          ))
+            (unless (re-search-forward "<span class="quote">\\(\\B\\[RFC-?[0-9]+\\]\\B\\|[ \t]+[0-9]+\\)</span>" nil t)
+              (goto-char original-point)
+              (message "<span class="quote">No next RFC link.</span>")
+              (throw 'match "<span class="quote">Match last one.</span>")))))))
+
+(defun irfc-rfc-link-prev ()
+  "<span class="quote">Move the point to the previous RFC link.</span>"
+  (interactive)
+  (let ((original-point (point)))
+    (if (re-search-backward "<span class="quote">\\(\\B\\[RFC-?[0-9]+\\]\\B\\|[ \t]+[0-9]+\\)</span>" nil t)
+        (catch 'match
+          (while
+              <span class="linecomment">;; Not match [RFCnnn] format.</span>
+              (not (string-match "<span class="quote">\\[\\(RFC-?[0-9]+\\)\\]</span>" (irfc-get-symbol-non-blank)))
+            (skip-chars-forward "<span class="quote"> </span>")
+            (if (and (irfc-title-rfc-link-p) <span class="linecomment">;is valid RFC link number</span>
+                     (save-excursion         <span class="linecomment">;skip number at end of line.</span>
+                       (search-forward-regexp "<span class="quote">[0-9]+</span>" nil t)
+                       (not (eolp))))
+                (progn
+                  (if (string-match "<span class="quote">^request for comments:[ \t]+$</span>"
+                                    (buffer-substring-no-properties (line-beginning-position) (point)))
+                      (message "<span class="quote">No previous RFC link.</span>"))
+                  (throw 'match "<span class="quote">Match title RFC link.</span>"))
+              (re-search-backward "<span class="quote">\\(\\B\\[RFC-?[0-9]+\\]\\B\\|[ \t]+[0-9]+\\)</span>" nil t)))))))
+
+<span class="linecomment">;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Utilities functions ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;</span>
+(defun irfc-open (rfc-file-name)
+  "<span class="quote">Open RFC document with RFC-FILE-NAME.</span>"
+  (let (filepath)
+    (if (string-equal rfc-file-name (buffer-name))
+        <span class="linecomment">;; Notify user if current buffer is search RFC document.</span>
+        (message "<span class="quote">Current RFC document.</span>")
+      <span class="linecomment">;; Get full file path.</span>
+      (setq filepath (expand-file-name rfc-file-name irfc-directory))
+      (cond ((file-exists-p filepath)
+             <span class="linecomment">;; Open corresponding RFC document.</span>
+             (if (get-buffer rfc-file-name)
+                 <span class="linecomment">;; Switch corresponding buffer when it open.</span>
+                 (switch-to-buffer rfc-file-name)
+               <span class="linecomment">;; Or open that file.</span>
+               (find-file filepath)))
+            (t
+             <span class="linecomment">;; Otherwise download and open corresponding RFC document.</span>
+             (irfc-download (concat irfc-download-base-url rfc-file-name)))))))
+
+(defun irfc-render-buffer-hide-whitespace-at-start ()
+  "<span class="quote">Hide whitespace at start of file.
+Return adjusted point.</span>"
+  (goto-char (point-min))
+  (if (re-search-forward "<span class="quote">\\`\\([ \t\f]*\r?\n\\)+</span>" nil t)
+      (progn
+        (irfc-overlay-hide-region (match-beginning 0) (match-end 0))
+        (point))
+    nil))
+
+(defun irfc-render-buffer-overlay-page-number ()
+  "<span class="quote">Add overlays for page headers and footers.</span>"
+  (let ((headerfooter-re (concat "<span class="quote">^[ \t]*</span>"
+                                 "<span class="quote">\\(\r?\n\\)</span>"        <span class="linecomment">; #1</span>
+                                 "<span class="quote">\\([ \t]*\r?\n\\)*</span>" <span class="linecomment">; #2</span>
+                                 "<span class="quote">[^ \t\f].*\\[Page </span>"
+                                 "<span class="quote">\\([0-9iIvVxX]+\\)</span>" <span class="linecomment">; #3</span>
+                                 "<span class="quote">\\][ ]*\r?\n?</span>"
+                                 "<span class="quote">\\(</span>"  <span class="linecomment">; &lt;#4</span>
+                                 "<span class="quote">\f</span>"
+                                 "<span class="quote">\\([ \t]*\r?\n\\)?</span>" <span class="linecomment">; #5</span>
+                                 "<span class="quote">\\(</span>"                <span class="linecomment">; &lt;#6</span>
+                                 "<span class="quote">\\(</span>"                <span class="linecomment">; &lt;#7</span>
+                                 "<span class="quote">RFC [0-9]+</span>"
+                                 "<span class="quote">\\|</span>"  <span class="linecomment">; |#7</span>
+                                 "<span class="quote">Internet-Draft[ \t]</span>"
+                                 "<span class="quote">\\)</span>"  <span class="linecomment">; &gt;#7</span>
+                                 "<span class="quote">.*\r?\n</span>"
+                                 "<span class="quote">\\([ \t]*\r?\n\\)*</span>" <span class="linecomment">; #8</span>
+                                 "<span class="quote">\\)?</span>"               <span class="linecomment">; &gt;#6</span>
+                                 "<span class="quote">\\)?</span>"               <span class="linecomment">; &gt;#4</span>
+                                 )))
+    (while (re-search-forward headerfooter-re nil t)
+      <span class="linecomment">;; Hide old page information for clear reading.</span>
+      (irfc-overlay-hide-region (match-end 1) (match-end 0))
+      (when (match-beginning 6)
+        (let* ((overlay (irfc-overlay-add (match-beginning 1)
+                                          (match-end 1)
+                                          'irfc-page-number-overlay))
+               <span class="linecomment">;; Get page number.</span>
+               (page-num (1+ (string-to-number (match-string 3))))
+               <span class="linecomment">;; Generate page string.</span>
+               (page-str (format "<span class="quote">(p.%s)</span>" (number-to-string page-num)))
+               <span class="linecomment">;; Generate new page string.</span>
+               (new-str (concat (make-string (max (- 79
+                                                     (- (match-beginning 1)
+                                                        (match-beginning 0))
+                                                     (length page-str))
+                                                  0)
+                                             32)
+                                page-str)))
+          <span class="linecomment">;; Record total pages number.</span>
+          (setq irfc-total-pages page-num)
+          <span class="linecomment">;; Overlay new page string instead old one.</span>
+          (overlay-put overlay
+                       'before-string
+                       new-str))))))
+
+(defun irfc-render-buffer-hide-blank-line (top-point)
+  "<span class="quote">Hide any extraneous blank lines between top header and before title.
+Argument TOP-POINT is the top point of RFC buffer after render.</span>"
+  (goto-char top-point)
+  (unless (re-search-forward (concat "<span class="quote">^[ \t]*\r?\n</span>"
+                                     "<span class="quote">\\(\\([ \t]*\r?\n\\)+\\)?</span>")
+                             nil t)
+    (error "<span class="quote">This doesn't seem to be an RFC - no blank line before title</span>"))
+  (when (match-beginning 1)
+    <span class="linecomment">;; Hide blanks lines between top header and before title.</span>
+    (irfc-overlay-hide-region (match-beginning 1) (match-end 1)))
+  (point))
+
+(defun irfc-render-buffer-overlay-rfc-number (top-point title-line-point)
+  "<span class="quote">Overlay RFC number.
+Argument TOP-POINT is the top point of RFC buffer after render.
+Argument TITLE-LINE-POINT is the title line point of RFC buffer after render.</span>"
+  (goto-char top-point)
+  (while (let ((case-fold-search t))
+           (re-search-forward "<span class="quote">^\\(request for comments\\|updates\\|obsoletes\\):\\( RFCs\\)?[ \t]+\\(\\([0-9X]+\\)\\(,[ \t]+[0-9]+\\)*\\)</span>"
+                              title-line-point t))
+    <span class="linecomment">;; Overlay RFC number.</span>
+    (irfc-overlay-add (match-beginning 3)
+                      (match-end 3)
+                      'irfc-rfc-number-overlay)))
+
+(defun irfc-render-buffer-overlay-std-number (top-point title-line-point)
+  "<span class="quote">Overlay STD number.
+Argument TOP-POINT is the top point of RFC buffer after render.
+Argument TITLE-LINE-POINT is the title line point of RFC buffer after render.</span>"
+  (goto-char top-point)
+  (when (let ((case-fold-search nil))
+          (re-search-forward "<span class="quote">^STD:[ \t]+[0-9]+</span>"
+                             title-line-point t))
+    <span class="linecomment">;; Overlay STD number.</span>
+    (irfc-overlay-add (match-beginning 0)
+                      (match-end 0)
+                      'irfc-std-number-overlay)))
+
+(defun irfc-render-buffer-overlay-table-item (top-point)
+  "<span class="quote">Overlay valid item in table for jump.
+Argument TOP-POINT is the top point of RFC buffer after render.</span>"
+  (when (irfc-have-table-p)             <span class="linecomment">;whether have table in current buffer</span>
+    (goto-char top-point)
+    (let* ((case-fold-search t)
+           (start-position (re-search-forward "<span class="quote">^Table of Contents$</span>" nil t))
+           (end-position (re-search-forward "<span class="quote">^[0-9\\.]+</span>" nil t)))
+      (goto-char start-position)
+      (while (re-search-forward irfc-table-regex end-position t)
+        <span class="linecomment">;; Overlay valid table item.</span>
+        (irfc-overlay-add (match-beginning 1)
+                          (match-end 1)
+                          'irfc-table-item-overlay)))))
+
+(defun irfc-render-buffer-overlay-rfc-link (top-point)
+  "<span class="quote">Overlay valid RFC link.
+Argument TOP-POINT is the top point of RFC buffer after render.</span>"
+  (goto-char top-point)
+  (while (let ((case-fold-search nil))
+           (re-search-forward "<span class="quote">\\[RFC-?[0-9]+\\]</span>"
+                              nil t))
+    <span class="linecomment">;; Overlay valid RFC link.</span>
+    (irfc-overlay-add (match-beginning 0)
+                      (match-end 0)
+                      'irfc-rfc-link-overlay)))
+
+(defun irfc-render-buffer-overlay-title (title-line-point)
+  "<span class="quote">Add overlays to the title line(s).
+Note that we currently assume no blank lines in the title; otherwise
+we have to do a perfect job of identifying the first non-title line
+\(usually a section heading, which some some RFCs make difficult to
+always identify).
+Argument TITLE-LINE-POINT is the title line point of RFC buffer after render.</span>"
+  (goto-char title-line-point)
+  (if (re-search-forward (concat
+                          "<span class="quote">\\([^ \t\f\r\n].*[^ \t\f\r\n]\\)</span>"
+                          "<span class="quote">\\(\r?\n[ \t]*[^ \t\f\r\n].*[^ \t\f\r\n]\\)*</span>"))
+      <span class="linecomment">;; Overlay title.</span>
+      (irfc-overlay-add (match-beginning 0)
+                        (match-end       0)
+                        'irfc-title-overlay)))
+
+(defun irfc-render-buffer-overlay-head (title-line-point)
+  "<span class="quote">Overlay heading.
+Argument TITLE-LINE-POINT is the title line point of RFC buffer after render.</span>"
+  (goto-char title-line-point)
+  (let (match-list)
+    (while (setq match-list (irfc-head-move))
+      (if (and (nth 0 match-list) (nth 1 match-list))
+          <span class="linecomment">;; Overlay heading number.</span>
+          (irfc-overlay-add (nth 0 match-list)
+                            (nth 1 match-list)
+                            'irfc-head-number-overlay))
+      <span class="linecomment">;; Overlay heading name.</span>
+      (irfc-overlay-add (nth 2 match-list)
+                        (nth 3 match-list)
+                        'irfc-head-name-overlay))))
+
+(defun irfc-head-move (&optional reverse)
+  "<span class="quote">Move to special heading.
+Return heading list for overlay.
+Default is to move to next heading;
+move to previous heading if REVERSE is `non-nil'.</span>"
+  (let ((case-fold-search t)
+        <span class="linecomment">;; Note: We can't just look for lines that begin in column 0, since</span>
+        <span class="linecomment">;; some RFCs put source code, ASCII-art, description list headings,</span>
+        <span class="linecomment">;; body text, and other stuff in column 0.</span>
+        <span class="linecomment">;; So we look for stock headings and ones that appear to</span>
+        <span class="linecomment">;; begin with section numbers.</span>
+        (heading-re (concat
+                     "<span class="quote">^</span>"
+                     "<span class="quote">\\(</span>"                         <span class="linecomment">; &lt;#1</span>
+                     "<span class="quote">\\(</span>"                         <span class="linecomment">; &lt;#2 = numbered section</span>
+                     "<span class="quote">\\(</span>"                         <span class="linecomment">; &lt;#3 = number</span>
+                     "<span class="quote">\\([0-9]+\\.?\\|[A-Z]\\.\\)</span>" <span class="linecomment">; #4</span>
+                     "<span class="quote">\\([0-9]+\\.?\\)*</span>"           <span class="linecomment">; #5</span>
+                     "<span class="quote">\\)</span>"                         <span class="linecomment">; &gt;#3 = number</span>
+                     "<span class="quote">[ \t]+</span>"
+                     "<span class="quote">\\([^\r\n]+\\)</span>"   <span class="linecomment">; #6 = name</span>
+                     "<span class="quote">\\)</span>"              <span class="linecomment">; &gt;#2 = numbered section</span>
+                     "<span class="quote">\\|</span>"              <span class="linecomment">; |#1</span>
+                     "<span class="quote">\\(</span>"              <span class="linecomment">; &lt;#7 = stock section</span>
+                     "<span class="quote">\\(</span>"              <span class="linecomment">; &lt;#8</span>
+                     (mapconcat 'identity irfc-stock-section-names "<span class="quote">\\|</span>")
+                     "<span class="quote">\\)</span>"              <span class="linecomment">; &gt;#8</span>
+                     "<span class="quote">:?[ \t]*$</span>"
+                     "<span class="quote">\\)</span>"              <span class="linecomment">; &gt;#7 = stock section</span>
+                     "<span class="quote">\\|</span>"              <span class="linecomment">; |#1</span>
+                     "<span class="quote">\\(</span>"              <span class="linecomment">; &lt;#9 = lit-appendix</span>
+
+                     "<span class="quote">appendix[ \t]+</span>"
+                     "<span class="quote">\\([A-Z]\\)</span>"      <span class="linecomment">; #10 = number</span>
+
+                     "<span class="quote">\\(\\.\\|:\\|[ \t]+-\\)</span>" <span class="linecomment">; #11</span>
+                     "<span class="quote">[ \t]+</span>"
+                     "<span class="quote">\\([^\r\n]+\\)</span>"   <span class="linecomment">; #12 = name</span>
+
+                     "<span class="quote">\\)</span>"              <span class="linecomment">; &gt;#9 = lit-appendix</span>
+                     "<span class="quote">\\)</span>"              <span class="linecomment">; &gt;#1</span>
+                     )))
+    (if (if reverse
+            <span class="linecomment">;; Search backward.</span>
+            (re-search-backward heading-re nil t)
+          <span class="linecomment">;; Search forward.</span>
+          (re-search-forward heading-re nil t))
+        (let ((num-match nil)
+              (num-highlight-begin nil)
+              (num-highlight-end nil)
+              (name-match nil))
+          <span class="linecomment">;; Get the match data numbers.</span>
+          (cond ((match-beginning 3) (setq num-match 3
+                                           name-match 6))
+                ((match-beginning 8) (setq num-match nil
+                                           name-match 8))
+                ((match-beginning 9) (setq num-match 10
+                                           name-match 12)
+                 (setq num-highlight-begin (match-beginning 9)
+                       num-highlight-end (match-end 11)))
+                (t (error "<span class="quote"> should never happen</span>")))
+          <span class="linecomment">;; Return heading list for overlay.</span>
+          (list
+           (if num-match
+               (or num-highlight-begin
+                   (match-beginning num-match))
+             nil)
+           (if num-match
+               (or num-highlight-end
+                   (match-end num-match))
+             nil)
+           (match-beginning name-match)
+           (match-end name-match)))
+      nil)))
+
+(defun irfc-overlay-put-alist (symbol alist)
+  "<span class="quote">Put special overlay prop with value.
+SYMBOL is overlay variable.
+ALIST contain special properties for overlay.</span>"
+  (mapcar (function (lambda (cell)
+                      (put symbol (nth 0 cell) (cdr cell))))
+          alist))
+
+(defun irfc-overlay-remove-all ()
+  "<span class="quote">Remove all overlays from current buffer.</span>"
+  (mapcar (function (lambda (lst)
+                      (while lst
+                        (delete-overlay (car lst))
+                        (setq lst (cdr lst)))))
+          (let ((lists (overlay-lists)))
+            (list (car lists) (cdr lists)))))
+
+(defun irfc-overlay-add (begin end category)
+  "<span class="quote">Add overlay.
+BEGIN is start position to overlay.
+END is end position to overlay.
+CATEGORY is special overlay variable.</span>"
+  (or category (error "<span class="quote">Irfc-overlay-add nil category</span>"))
+  (let ((overlay (make-overlay begin end)))
+    (overlay-put overlay 'category category)
+    overlay))
+
+(defun irfc-overlay-hide-region (start end)
+  "<span class="quote">Use overlay to hide region.
+START is start position to hide.
+END is end position to hide.</span>"
+  (irfc-overlay-add start end 'irfc-hide-overlay))
+
+(defun irfc-have-table-p ()
+  "<span class="quote">Return non-nil if the RFC contain a Table of Contents.</span>"
+  (save-excursion
+    (let ((case-fold-search t))
+      (goto-char (point-min))
+      (re-search-forward "<span class="quote">^Table of Contents$</span>" nil t))))
+
+(defun irfc-front-table-p ()
+  "<span class="quote">Return t when point is before the Table of Contents.</span>"
+  (let ((case-fold-search t)
+        (original-position (point))
+        table-start-position)
+    (save-excursion
+      (goto-char (point-min))
+      (setq table-start-position (re-search-forward "<span class="quote">^Table of Contents$</span>" nil t))
+      (&lt; original-position table-start-position))))
+
+(defun irfc-in-table-p ()
+  "<span class="quote">Return t when point is in the Table of Contents.</span>"
+  (let ((case-fold-search t)
+        (original-position (point))
+        table-start-position
+        table-end-position)
+    (save-excursion
+      <span class="linecomment">;; Get start and end position of table.</span>
+      (goto-char (point-min))
+      (re-search-forward "<span class="quote">^Table of Contents$</span>" nil t)
+      (beginning-of-line)
+      (setq table-start-position (point))
+      (re-search-forward "<span class="quote">^[0-9\\.]+</span>" nil t)
+      (beginning-of-line)
+      (forward-char -1)
+      <span class="linecomment">;; Compare current cursor with table scope.</span>
+      (setq table-end-position (point))
+      (and (&gt;= original-position table-start-position)
+           (&lt;= original-position table-end-position)))))
+
+(defun irfc-current-page ()
+  "<span class="quote">Return current page number at point.</span>"
+  (let ((original-render-status irfc-render-p)
+        current-page)
+    (save-excursion
+      <span class="linecomment">;; Turn off render.</span>
+      (irfc-render-turn-off)
+      (if (re-search-forward "<span class="quote">\\[Page \\([0-9]+\\)\\]$</span>" nil t)
+          <span class="linecomment">;; Set current page number when search successful.</span>
+          (setq current-page (string-to-number (match-string 1)))
+        <span class="linecomment">;; Set max page number when search failed.</span>
+        (setq current-page irfc-total-pages))
+      <span class="linecomment">;; Revert render status.</span>
+      (unless (equal original-render-status irfc-render-p)
+        (irfc-render-toggle)))
+    current-page))
+
+(defun irfc-download (url)
+  "<span class="quote">Download RFC document URL.
+URL is download URL that base on `irfc-download-base-url'.</span>"
+  (let* ((url-request-method "<span class="quote">GET</span>")
+         (url-request-extra-headers nil)
+         (url-mime-accept-string "<span class="quote">*/*</span>")
+         (parsed-url (url-generic-parse-url url))
+         download-buffer
+         download-buffer-name)
+    <span class="linecomment">;; Get unique buffer for handle download information.</span>
+    (setq download-buffer (irfc-get-buffer))
+    (setq download-buffer-name (buffer-name download-buffer))
+    (with-current-buffer (get-buffer download-buffer-name)
+      <span class="linecomment">;; Bind download url with local buffer.</span>
+      (setq irfc-download-url url)
+      (setq irfc-download-buffer (url-retrieve parsed-url 'irfc-download-callback (list download-buffer-name))))))
+
+(defun irfc-download-callback (&optional redirect download-buffer-name)
+  "<span class="quote">Callback for `irfc-download'.
+With `irfc-download', this downloads RFC files asynchronously.
+REDIRECT is default return argument for `url-retrieve'.
+DOWNLOAD-BUFFER-NAME is the buffer name for handling download content.</span>"
+  (if (eq (car redirect) ':error)
+      <span class="linecomment">;; Output error information if download RFC document failed.</span>
+      (with-current-buffer (get-buffer download-buffer-name)
+        (message "<span class="quote">Not found %s.</span>" irfc-download-url)
+        (kill-buffer download-buffer-name))
+    <span class="linecomment">;; Decode retrieve information.</span>
+    (irfc-retrieve-decode download-buffer-name 'utf-8)
+    (with-current-buffer (get-buffer download-buffer-name)
+      <span class="linecomment">;; Write file.</span>
+      (write-file (expand-file-name (url-file-nondirectory irfc-download-url) irfc-directory))
+      <span class="linecomment">;; Switch buffer.</span>
+      (switch-to-buffer (current-buffer)))))
+
+(defun irfc-retrieve-decode (retrieve-buffer-name coding)
+  "<span class="quote">Decode the retrieve buffer RETRIEVE-BUFFER-NAME with coding CODING.</span>"
+  (declare (special url-http-end-of-headers))
+  (with-current-buffer (get-buffer retrieve-buffer-name)
+    (insert
+     (with-current-buffer irfc-download-buffer
+       (set-buffer-multibyte t)
+       (goto-char (1+ url-http-end-of-headers))
+       (decode-coding-region
+        (point) (point-max)
+        (coding-system-change-eol-conversion coding 'dos))
+       (buffer-substring (point) (point-max))))
+    (goto-char (point-min))))
+
+(defun irfc-get-buffer ()
+  "<span class="quote">Get a buffer for temporary storage of downloaded content.
+Uses `current-time' to make buffer name unique.</span>"
+  (let (time-now buffer)
+    (setq time-now (current-time))
+    (get-buffer-create (format "<span class="quote">*%s&lt;%s-%s-%s&gt;*</span>"
+                               "<span class="quote">irfc</span>"
+                               (nth 0 time-now) (nth 1 time-now) (nth 2 time-now)))))
+
+(defun irfc-get-rfc-filename ()
+  "<span class="quote">Return filename for RFC file.
+Look at point and extract an RFC number: either a string `[RFCnnn]',
+or a RFC Number in a standard header field (`Updates:', etc.).
+In that case, return `rfcnnn.txt'; otherwise return nil.</span>"
+  (let (case-fold-search
+        (symbol (irfc-get-symbol-non-blank)))
+    (cond ((string-match "<span class="quote">\\[\\(RFC-?[0-9]+\\)\\]</span>" symbol)
+           (format "<span class="quote">%s.txt</span>" (replace-regexp-in-string "<span class="quote">-</span>" "<span class="quote"></span>" (downcase (match-string 1 symbol)))))
+          ((and (string-match "<span class="quote">^\\([0-9]+\\),*$</span>" symbol)
+                (irfc-title-rfc-link-p))
+           (string-match "<span class="quote">^\\([0-9]+\\),*$</span>" symbol)
+           (format "<span class="quote">rfc%s.txt</span>" (match-string 1 symbol)))
+          (t
+           nil))))
+
+(defun irfc-title-rfc-link-p ()
+  "<span class="quote">Return t if current point is at title RFC link.
+Otherwise return nil.</span>"
+  (save-excursion
+    (let ((case-fold-search t))
+      (search-forward-regexp "<span class="quote"> \\|$</span>" nil t)
+      (skip-chars-backward "<span class="quote"> </span>")
+      (if (string-match "<span class="quote">^\\(request for comments\\|updates\\|obsoletes\\):\\( RFCs\\)?[ \t]+\\(\\([0-9X]+\\)\\(,[ \t]+[0-9]+\\)*\\)\\b</span>"
+                        (buffer-substring-no-properties (line-beginning-position) (point)))
+          t
+        nil))))
+
+(defun irfc-get-symbol-non-blank ()
+  "<span class="quote">Return symbol between `blank'.</span>"
+  (save-excursion
+    (let (start end)
+      (search-backward-regexp "<span class="quote"> \\|^</span>" nil t)
+      (skip-chars-forward "<span class="quote"> </span>")
+      (setq start (point))
+      (search-forward-regexp "<span class="quote"> \\|$</span>" nil t)
+      (skip-chars-backward "<span class="quote"> </span>")
+      (setq end (point))
+      (if (and start
+               end
+               (&gt;= end start))
+          (buffer-substring-no-properties start end)
+        nil))))
+
+<span class="linecomment">;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Setup ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;</span>
+<span class="linecomment">;; Overlay setup.</span>
+(irfc-overlay-put-alist 'irfc-title-overlay '((face . irfc-title-face)))
+(irfc-overlay-put-alist 'irfc-head-name-overlay '((face . irfc-head-name-face)))
+(irfc-overlay-put-alist 'irfc-head-number-overlay '((face . irfc-head-number-face)))
+(irfc-overlay-put-alist 'irfc-rfc-number-overlay '((face . irfc-rfc-number-face)))
+(irfc-overlay-put-alist 'irfc-std-number-overlay '((face . irfc-std-number-face)))
+(irfc-overlay-put-alist 'irfc-rfc-link-overlay '((face . irfc-rfc-link-face)))
+(irfc-overlay-put-alist 'irfc-table-item-overlay '((face . irfc-table-item-face)))
+(irfc-overlay-put-alist 'irfc-hide-overlay
+                        '((face . default)
+                          (intangible . t)
+                          (invisible . t)))
+
+<span class="linecomment">;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Cleanup ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;</span>
+(defun irfc-unload-function ()
+  "<span class="quote">Unload the Irfc library.</span>"
+  (dolist (buffer (buffer-list))
+    (set-buffer buffer)
+    (when (eq major-mode 'irfc-mode)
+      (irfc-render-turn-off)
+      (text-mode)))
+  <span class="linecomment">;; `nil' mean continue standard unloading.</span>
+  nil)
+
+(provide 'irfc)
+
+<span class="linecomment">;;; irfc.el ends here</span>
+
+<span class="linecomment">;;; LocalWords:  irfc IETF lpi rfcview Dyke txt YourStorageDirectory DarkRed cr</span>
+<span class="linecomment">;;; LocalWords:  LawnGreen iesg nPage filepath headerfooter iIvVxX num str SPC</span>
+<span class="linecomment">;;; LocalWords:  lst eol Juanma Barranquero ARGth RFCnnn backtab rfcnnn regex</span>
+<span class="linecomment">;;; LocalWords:  Juanma's</span></span></pre></div><div class="wrapper close"></div></div><div class="footer"><hr /><span class="gotobar bar"><a class="local" href="http://www.emacswiki.org/emacs/SiteMap">SiteMap</a> <a class="local" href="http://www.emacswiki.org/emacs/Search">Search</a> <a class="local" href="http://www.emacswiki.org/emacs/ElispArea">ElispArea</a> <a class="local" href="http://www.emacswiki.org/emacs/HowTo">HowTo</a> <a class="local" href="http://www.emacswiki.org/emacs/RecentChanges">RecentChanges</a> <a class="local" href="http://www.emacswiki.org/emacs/News">News</a> <a class="local" href="http://www.emacswiki.org/emacs/Problems">Problems</a> <a class="local" href="http://www.emacswiki.org/emacs/Suggestions">Suggestions</a> </span><span class="translation bar"><br />  <a class="translation new" rel="nofollow" href="http://www.emacswiki.org/emacs?action=translate;id=irfc.el;missing=de_es_fr_it_ja_ko_pt_ru_se_zh">Add Translation</a></span><span class="edit bar"><br /> <a class="edit" accesskey="e" title="Click to edit this page" rel="nofollow" href="http://www.emacswiki.org/emacs?action=edit;id=irfc.el">Edit this page</a> <a class="history" rel="nofollow" href="http://www.emacswiki.org/emacs?action=history;id=irfc.el">View other revisions</a> <a class="admin" rel="nofollow" href="http://www.emacswiki.org/emacs?action=admin;id=irfc.el">Administration</a></span><span class="time"><br /> Last edited 2009-02-13 04:56 UTC by <a class="author" title="from 196.141.212.222.broad.cd.sc.dynamic.163data.com.cn" href="http://www.emacswiki.org/emacs/AndyStewart">AndyStewart</a> <a class="diff" rel="nofollow" href="http://www.emacswiki.org/emacs?action=browse;diff=2;id=irfc.el">(diff)</a></span><div style="float:right; margin-left:1ex;">
+<!-- Creative Commons License -->
+<a href="http://creativecommons.org/licenses/GPL/2.0/"><img alt="CC-GNU GPL" style="border:none" src="/pics/cc-GPL-a.png" /></a>
+<!-- /Creative Commons License -->
+</div>
+
+<!--
+<rdf:RDF xmlns="http://web.resource.org/cc/"
+ xmlns:dc="http://purl.org/dc/elements/1.1/"
+ xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+<Work rdf:about="">
+   <license rdf:resource="http://creativecommons.org/licenses/GPL/2.0/" />
+  <dc:type rdf:resource="http://purl.org/dc/dcmitype/Software" />
+</Work>
+
+<License rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
+   <permits rdf:resource="http://web.resource.org/cc/Reproduction" />
+   <permits rdf:resource="http://web.resource.org/cc/Distribution" />
+   <requires rdf:resource="http://web.resource.org/cc/Notice" />
+   <permits rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+   <requires rdf:resource="http://web.resource.org/cc/ShareAlike" />
+   <requires rdf:resource="http://web.resource.org/cc/SourceCode" />
+</License>
+</rdf:RDF>
+-->
+
+<p class="legal">
+This work is licensed to you under version 2 of the
+<a href="http://www.gnu.org/">GNU</a> <a href="/GPL">General Public License</a>.
+Alternatively, you may choose to receive this work under any other
+license that grants the right to use, copy, modify, and/or distribute
+the work, as long as that license imposes the restriction that
+derivative works have to grant the same rights and impose the same
+restriction. For example, you may choose to receive this work under
+the
+<a href="http://www.gnu.org/">GNU</a>
+<a href="/FDL">Free Documentation License</a>, the
+<a href="http://creativecommons.org/">CreativeCommons</a>
+<a href="http://creativecommons.org/licenses/sa/1.0/">ShareAlike</a>
+License, the XEmacs manual license, or
+<a href="/OLD">similar licenses</a>.
+</p>
+</div>
+</body>
+</html>

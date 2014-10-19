@@ -1,0 +1,84 @@
+From 247c0cd163d2f8d542f9a5e86614578272f898ff Mon Sep 17 00:00:00 2001
+From: Lutts Cao <lutts.cao@gmail.com>
+Date: Sat, 6 Oct 2012 14:58:34 +0800
+Subject: [PATCH 15/58] =?UTF-8?q?=E4=BF=AE=E6=94=B9gtags,=E4=BD=BF?=
+ =?UTF-8?q?=E4=B9=8B=E6=B0=B8=E8=BF=9C=E5=9C=A8=E5=8F=B3=E4=B8=8A=E7=AA=97?=
+ =?UTF-8?q?=E5=8F=A3=E6=98=BE=E7=A4=BA=E5=9B=9E=E8=BD=A6=E5=90=8E=E7=9A=84?=
+ =?UTF-8?q?=E7=BB=93=E6=9E=9C?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+---
+ elisp/gtags.el                  |  22 ++++++++++++++++------
+ elisp/gtags.elc                 | Bin 22975 -> 23188 bytes
+ rc/emacs-rc-buffer-switching.el |   2 +-
+ 3 files changed, 17 insertions(+), 7 deletions(-)
+
+diff --git a/elisp/gtags.el b/elisp/gtags.el
+index 1db7798..a334cb0 100644
+--- a/elisp/gtags.el
++++ b/elisp/gtags.el
+@@ -12,12 +12,12 @@
+ ;; it under the terms of the GNU General Public License as published by
+ ;; the Free Software Foundation, either version 3 of the License, or
+ ;; (at your option) any later version.
+-;; 
++;;
+ ;; This program is distributed in the hope that it will be useful,
+ ;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+ ;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ ;; GNU General Public License for more details.
+-;; 
++;;
+ ;; You should have received a copy of the GNU General Public License
+ ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ;;
+@@ -797,14 +797,24 @@
+       ;; will be changed. This might cause loading error, if you use relative
+       ;; path in [GTAGS SELECT MODE], because emacs's buffer has its own
+       ;; current directory.
+-      ;; 
++      ;;
+       (let ((prev-buffer (current-buffer)))
+         ;; move to the context
+-        (if gtags-read-only 
+-	    (if (null other-win) (find-file-read-only file) 
++        (if gtags-read-only
++	    (if (null other-win) (find-file-read-only file)
+ 	      (find-file-read-only-other-window file))
+ 	  (if (null other-win) (find-file file)
+-	    (find-file-other-window file)))
++;;	    (find-file-other-window file)))
++	    (let ((myupperwin (window-at (- (frame-width) 5) 5))
++		  )
++	      (let ((myexistbuffer (get-file-buffer file))
++		    )
++		(message (buffer-file-name myexistbuffer))
++		(if (null myexistbuffer)
++		    (set-window-buffer myupperwin (find-file-noselect file))
++		  (set-window-buffer myupperwin myexistbuffer)))
++	      (select-window myupperwin)
++	      )))
+         (if delete (kill-buffer prev-buffer)))
+       (setq gtags-current-buffer (current-buffer))
+       (goto-line line)
+diff --git a/elisp/gtags.elc b/elisp/gtags.elc
+index b523143..6c3f3c1 100644
+Binary files a/elisp/gtags.elc and b/elisp/gtags.elc differ
+diff --git a/rc/emacs-rc-buffer-switching.el b/rc/emacs-rc-buffer-switching.el
+index 72db566..1c3aa8c 100644
+--- a/rc/emacs-rc-buffer-switching.el
++++ b/rc/emacs-rc-buffer-switching.el
+@@ -125,7 +125,7 @@
+       (progn (split-window-horizontally)
+ 	     (other-window 1)
+ 	     (split-window-vertically)
+-	     (fix-window-horizontal-size 65)
++	     (fix-window-horizontal-size 75)
+ 	     (other-window 2)
+ 	     )
+     )
+-- 
+2.0.4
+

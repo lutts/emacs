@@ -1,0 +1,20 @@
+From cab1afc7c15f2407e2f13d5b2c3f4c6fafa6e167 Mon Sep 17 00:00:00 2001
+From: Lutts Cao <lutts.cao@gmail.com>
+Date: Sun, 19 Oct 2014 21:52:44 +0800
+Subject: [PATCH 57/58] add elpy
+
+---
+ tools/elpy | 1 +
+ 1 file changed, 1 insertion(+)
+ create mode 160000 tools/elpy
+
+diff --git a/tools/elpy b/tools/elpy
+new file mode 160000
+index 0000000..473de81
+--- /dev/null
++++ b/tools/elpy
+@@ -0,0 +1 @@
++Subproject commit 473de81727de913a580f826511dddb233930dd11
+-- 
+2.0.4
+

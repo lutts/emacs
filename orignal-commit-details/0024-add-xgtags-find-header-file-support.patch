@@ -1,0 +1,43 @@
+From f7597743fbfd77ac512df3ee21e1df3db63bde94 Mon Sep 17 00:00:00 2001
+From: Lutts Cao <lutts.cao@gmail.com>
+Date: Tue, 16 Oct 2012 22:18:23 +0800
+Subject: [PATCH 24/58] add xgtags--find-header-file support
+
+---
+ rc/emacs-rc-xgtags.el | 17 +++++++++++++++--
+ 1 file changed, 15 insertions(+), 2 deletions(-)
+
+diff --git a/rc/emacs-rc-xgtags.el b/rc/emacs-rc-xgtags.el
+index 4ea7330..e5b3e1f 100644
+--- a/rc/emacs-rc-xgtags.el
++++ b/rc/emacs-rc-xgtags.el
+@@ -1,11 +1,24 @@
+ (require 'xgtags)
+ 
++(defun xgtags--file-header ()
++  "get the current file's header file name."
++  (concat (base-name (curr-file)) ".h"))
++
++(defun xgtags-find-header-file ()
++  "Input pattern and move to the top of the file."
++  (interactive)
++  (xgtags--find-with "Find file:"
++                     :option 'path
++                     :get-token 'xgtags--file-header
++                     :history nil))
++
+ (add-hook 'xgtags-mode-hook
+ 	  '(lambda ()
++	     ;; I use this keys because these keybindings can finish with just the left hand
+ 	     (define-key xgtags-mode-map (kbd "C-c a f") 'xgtags-find-file)
+-	     (define-key xgtags-mode-map (kbd "C-c a p") 'xgtags-parse-file)
++	     (define-key xgtags-mode-map (kbd "C-c a t") 'xgtags-find-header-file)
+ 	     (define-key xgtags-mode-map (kbd "C-c a e") 'xgtags-find-with-grep)
+-	     (define-key xgtags-mode-map (kbd "C-c a s") 'xgtags-find-symbol)
++	     (define-key xgtags-mode-map (kbd "C-c a s") 'xgtags-find-symbol) ; inconvinient, but I do not use this often
+ 	     (define-key xgtags-mode-map (kbd "C-c a c") 'xgtags-find-rtag)
+ 	     (define-key xgtags-mode-map (kbd "C-c a g") 'xgtags-find-tag)
+ 	     ))
+-- 
+2.0.4
+

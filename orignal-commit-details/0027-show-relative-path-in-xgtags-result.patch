@@ -1,0 +1,45 @@
+From 6fa46ed6ca5614c9ea851045453993a542ecbee6 Mon Sep 17 00:00:00 2001
+From: Lutts Cao <lutts.cao@gmail.com>
+Date: Tue, 16 Oct 2012 23:53:20 +0800
+Subject: [PATCH 27/58] show relative path in xgtags result
+
+---
+ elisp/xgtags.el  |  11 ++++++++++-
+ elisp/xgtags.elc | Bin 52262 -> 53031 bytes
+ 2 files changed, 10 insertions(+), 1 deletion(-)
+
+diff --git a/elisp/xgtags.el b/elisp/xgtags.el
+index 553402a..83c479a 100644
+--- a/elisp/xgtags.el
++++ b/elisp/xgtags.el
+@@ -361,6 +361,14 @@ killed!"
+   `(let ((process-environment (copy-alist process-environment)))
+      (when xgtags-rootdir
+        (setenv "GTAGSROOT" xgtags-rootdir))
++     (with-temp-buffer
++       (setq curr-gtags-root
++	     (if (zerop (call-process "global" nil t nil "-pr"))
++		 (file-name-as-directory (buffer-substring (point-min)
++							   (1- (point-max))))
++	       default-directory))
++;       (setenv "CURRGTAGSROOT" curr-gtags-root)
++       )
+      ,@body))
+ (put 'with-xgtags-environment 'lisp-indent-function 0)
+ 
+@@ -461,7 +469,8 @@ killed!"
+         (let ((expanded (file-truename abs-file)))
+           (setf (xgtags--tag-abs-file tag) expanded
+                 (xgtags--tag-file tag) expanded))
+-      (setf (xgtags--tag-abs-file tag) abs-file))
++	(setf (xgtags--tag-abs-file tag) abs-file
++	      (xgtags--tag-file tag) (file-relative-name abs-file  curr-gtags-root)))
+     tag))
+ 
+ (defun xgtags--tag-position (tag)
+diff --git a/elisp/xgtags.elc b/elisp/xgtags.elc
+index 195f5af..b42cab7 100644
+Binary files a/elisp/xgtags.elc and b/elisp/xgtags.elc differ
+-- 
+2.0.4
+

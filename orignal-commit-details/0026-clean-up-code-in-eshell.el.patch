@@ -1,0 +1,32 @@
+From 66fd5309f9a6f08bafe332a6969a24ea4dad50c7 Mon Sep 17 00:00:00 2001
+From: Lutts Cao <lutts.cao@gmail.com>
+Date: Tue, 16 Oct 2012 23:52:49 +0800
+Subject: [PATCH 26/58] clean up code in eshell.el
+
+---
+ rc/emacs-rc-eshell.el | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/rc/emacs-rc-eshell.el b/rc/emacs-rc-eshell.el
+index c9617d5..2f65241 100644
+--- a/rc/emacs-rc-eshell.el
++++ b/rc/emacs-rc-eshell.el
+@@ -26,11 +26,11 @@
+ (defalias 'open 'find-file-other-window)
+ 
+ (require 'shell-pop)
+-					;(shell-pop-set-internal-mode "ansi-term")
++;; (shell-pop-set-internal-mode "ansi-term")
+ (shell-pop-set-internal-mode "eshell")
+ (shell-pop-set-internal-mode-shell "/bin/bash")
+-					;the number for the percentage of the selected window. if 100, shell-pop use the whole of selected window, not spliting.
++;; the number for the percentage of the selected window. if 100, shell-pop use the whole of selected window, not spliting.
+ (shell-pop-set-window-height 60)
+-					;shell-pop-up position. You can choose "top" or "bottom".
++;; shell-pop-up position. You can choose "top" or "bottom".
+ (shell-pop-set-window-position "bottom")
+ (global-set-key [f8] 'shell-pop)
+\ No newline at end of file
+-- 
+2.0.4
+

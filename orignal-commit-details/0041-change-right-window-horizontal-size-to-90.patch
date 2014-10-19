@@ -1,0 +1,25 @@
+From 97f1ee2ce474f6fb986daf6df2a335a268fffa76 Mon Sep 17 00:00:00 2001
+From: Cao ShaoLin <slcao@ingenic.cn>
+Date: Wed, 26 Dec 2012 14:24:16 +0800
+Subject: [PATCH 41/58] change right window horizontal size to 90
+
+---
+ rc/emacs-rc-buffer-switching.el | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/rc/emacs-rc-buffer-switching.el b/rc/emacs-rc-buffer-switching.el
+index da71188..4d31abb 100644
+--- a/rc/emacs-rc-buffer-switching.el
++++ b/rc/emacs-rc-buffer-switching.el
+@@ -135,7 +135,7 @@
+ 	     (other-window 1)
+ 	     (split-window-vertically)
+ 	     (fix-window-vertical-size 33)
+-	     (fix-window-horizontal-size 85)
++	     (fix-window-horizontal-size 90)
+ 	     (other-window 2)
+ 	     )
+     )
+-- 
+2.0.4
+

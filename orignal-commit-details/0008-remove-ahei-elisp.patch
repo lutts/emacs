@@ -1,0 +1,604 @@
+From 6cac96420e0fa10bb873d9242022606734a2703c Mon Sep 17 00:00:00 2001
+From: Lutts Cao <lutts.cao@gmail.com>
+Date: Sun, 23 Sep 2012 21:18:41 +0800
+Subject: [PATCH 08/58] remove ahei-elisp
+
+---
+ ahei-elisp/ahei-misc.el       |  95 ----------------
+ ahei-elisp/eval-after-load.el | 255 ------------------------------------------
+ ahei-elisp/util.el            | 219 ------------------------------------
+ 3 files changed, 569 deletions(-)
+ delete mode 100644 ahei-elisp/ahei-misc.el
+ delete mode 100644 ahei-elisp/eval-after-load.el
+ delete mode 100644 ahei-elisp/util.el
+
+diff --git a/ahei-elisp/ahei-misc.el b/ahei-elisp/ahei-misc.el
+deleted file mode 100644
+index 6e83c23..0000000
+--- a/ahei-elisp/ahei-misc.el
++++ /dev/null
+@@ -1,95 +0,0 @@
+-;;; ahei-misc.el --- Some basic utility function of ahei
+-;; -*- Emacs-Lisp -*-
+-
+-;; Time-stamp: <2010-09-11 09:53:02 Saturday by taoshanwen>
+-
+-;; This  file is free  software; you  can redistribute  it and/or
+-;; modify it under the terms of the GNU General Public License as
+-;; published by  the Free Software Foundation;  either version 3,
+-;; or (at your option) any later version.
+-
+-;; This file is  distributed in the hope that  it will be useful,
+-;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+-;; MERCHANTABILITY or FITNESS FOR  A PARTICULAR PURPOSE.  See the
+-;; GNU General Public License for more details.
+-
+-;; You  should have  received a  copy of  the GNU  General Public
+-;; License along with  GNU Emacs; see the file  COPYING.  If not,
+-;; write  to  the Free  Software  Foundation,  Inc., 51  Franklin
+-;; Street, Fifth Floor, Boston, MA 02110-1301, USA.
+-
+-
+-;;; Commentary:
+-;; 
+-
+-;;; Code:
+-
+-(when (>= 21 emacs-major-version)
+-  (defalias 'move-beginning-of-line 'beginning-of-line)
+-  (defalias 'move-end-of-line       'end-of-line))
+-
+-;;;###autoload
+-(defun am-add-hooks (hooks function &optional append local)
+-  "Call `add-hook' on hook list HOOKS use arguments FUNCTION, APPEND, LOCAL.
+-
+-HOOKS can be one list or just a hook."
+-  (if (listp hooks)
+-      (mapc
+-       `(lambda (hook)
+-          (add-hook hook ',function append local))
+-       hooks)
+-    (add-hook hooks function append local)))
+-
+-;;;###autoload
+-(defun am-intern (&rest strings)
+-  "`intern' use STRINGS."
+-  (intern
+-   (apply
+-    'concat
+-    (mapcar
+-     (lambda (element)
+-       (if (stringp element) element (symbol-name element)))
+-     strings))))
+-
+-;;;###autoload
+-(defun am-variable-is-t (symbol)
+-  "Return SYMBOL's value is t or not."
+-  (and (boundp symbol) (symbol-value symbol)))
+-
+-;;;###autoload
+-(defmacro am-def-active-fun (symbol &optional fun-name)
+-  "Make definition of function judge variable is active or not."
+-  `(defun ,(if fun-name fun-name symbol) ()
+-     ,(concat "`" (symbol-name symbol) "' is t or not.")
+-     (am-variable-is-t ',symbol)))
+-
+-;;;###autoload
+-(defun am-forward-word-or-to-word ()
+-  "`forward-word' or `forward-to-word'.
+-If after excute `forward-to-word', current position
+-is at next line, then rollback and excute `forward-word'"
+-  (interactive)
+-  (let ((noo (line-number-at-pos)) no)
+-    (save-excursion
+-      (forward-to-word 1)
+-      (setq no (line-number-at-pos)))
+-    (if (> no noo)
+-        (forward-word)
+-      (forward-to-word 1))))
+-
+-;;;###autoload
+-(defmacro am-with-temp-mode (mode &rest body)
+-  "Create a temporary buffer with mode MODE, and evaluate BODY there like `progn'.
+-See also `with-temp-buffer'."
+-  `(with-temp-buffer
+-     (funcall ,mode)
+-     ,@body))
+-
+-;;;###autoload
+-(defun am-equal-ignore-case (str1 str2)
+-  "STR1 equal ignore case to STR2 or not."
+-  (string= (downcase str1) (downcase str2)))
+-
+-(provide 'ahei-misc)
+-
+-;;; ahei-misc.el ends here
+diff --git a/ahei-elisp/eval-after-load.el b/ahei-elisp/eval-after-load.el
+deleted file mode 100644
+index 28c3348..0000000
+--- a/ahei-elisp/eval-after-load.el
++++ /dev/null
+@@ -1,255 +0,0 @@
+-;;; eval-after-load.el --- `eval-after-load' by mode, map, hook
+-
+-;; Author: ahei <ahei0802@gmail.com>
+-;; Keywords: eval-after-load, autoload
+-;; URL: http://code.google.com/p/dea/source/browse/trunk/my-lisps/eval-after-load.el
+-;; Time-stamp: <2011-04-28 15:41:47 Thursday by taoshanwen>
+-
+-;; This  file is free  software; you  can redistribute  it and/or
+-;; modify it under the terms of the GNU General Public License as
+-;; published by  the Free Software Foundation;  either version 3,
+-;; or (at your option) any later version.
+-
+-;; This file is  distributed in the hope that  it will be useful,
+-;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+-;; MERCHANTABILITY or FITNESS FOR  A PARTICULAR PURPOSE.  See the
+-;; GNU General Public License for more details.
+-
+-;; You  should have  received a  copy of  the GNU  General Public
+-;; License along with  GNU Emacs; see the file  COPYING.  If not,
+-;; write  to  the Free  Software  Foundation,  Inc., 51  Franklin
+-;; Street, Fifth Floor, Boston, MA 02110-1301, USA.
+-
+-;;; Commentary:
+-;;
+-;; This package make you can `eval-after-load' by modes, keymaps,
+-;; by    use    `eal-eval-by-modes',   `eal-eval-by-maps',    and
+-;; `define-key'  more convenient  use  function `eal-define-key',
+-;; `eal-define-key',    `eal-define-keys-commonly'.    For   more
+-;; details, see article http://emacser.com/eval-after-load.htm
+-
+-;;; History:
+-;;
+-;; 2010-4-5
+-;;      * initial version 1.0.
+-
+-;;; Code:
+-
+-(eval-when-compile
+-  (require 'cl))
+-
+-(defgroup eal nil
+-  "Package use `eval-after-load' technique."
+-  :prefix "eal-")
+-
+-;;;###autoload
+-(defcustom eal-loadfile-mode-maps
+-  `(("cc-mode"         nil                    c-mode-base-map)
+-    ("cc-mode"         c-mode                 c-mode-map)
+-    ("cc-mode"         c++-mode               c++-mode-map)
+-    ("cc-mode"         java-mode              java-mode-map)
+-    ("cc-mode"         awk-mode               awk-mode-map)
+-    "lisp-mode"
+-    ("lisp-mode"       emacs-lisp-mode        emacs-lisp-mode-map)
+-    "help-mode"
+-    ("man"             Man-mode               Man-mode-map)
+-    "log-view"
+-    ("compile"         compilation-mode       compilation-mode-map)
+-    ("gud")
+-    ("lisp-mode"       lisp-interaction-mode  lisp-interaction-mode-map)
+-    "browse-kill-ring"
+-    ("simple"          completion-list-mode   completion-list-mode-map)
+-    ("inf-ruby"        inferior-ruby-mode     inferior-ruby-mode-map)
+-    "ruby-mode"
+-    ("cus-edit"        custom-mode            custom-mode-map)
+-    ("info"            Info-mode              Info-mode-map)
+-    ("psvn"            svn-log-edit-mode      svn-log-edit-mode-map)
+-    ("psvn"            svn-status-mode        svn-status-mode-map)
+-    ("psvn"            svn-info-mode          svn-info-mode-map)
+-    ("package"         package-menu-mode      package-menu-mode-map)
+-    "dired"
+-    "apropos"
+-    "emaci"
+-    "cflow-mode"
+-    ("psvn"            svn-log-view-mode      svn-log-view-mode-map)
+-    ("vc-svn"          vc-svn-log-view-mode   vc-svn-log-view-mode-map)
+-    ("log-view"        log-view-mode          log-view-mode-map)
+-    "diff-mode"
+-    ("sgml-mode"       html-mode              html-mode-map)
+-    "sgml-mode"
+-    "w3m"
+-    ("data-debug"      data-debug-mode)
+-    ("debug"           debugger-mode          debugger-mode-map)
+-    "text-mode"
+-    "color-theme"
+-    "woman"
+-    "doxymacs"
+-    "grep"
+-    "view"
+-    ("hi-lock"         hi-lock-mode           hi-lock-map)
+-    "autoconf"
+-    "tcl"
+-    "sgml-mode"
+-    "image-mode"
+-    "shell"
+-    "sql"
+-    "rhtml-mode"
+-    "senator"
+-    "org"
+-    "org-agenda"
+-    "python"
+-    ("python-mode"     nil                     py-mode-map)
+-    "groovy-mode"
+-    "nxml-mode"
+-    "perl-mode"
+-    "cperl-mode"
+-    "artist"
+-    "calendar"
+-    "outline"
+-    "google-maps-static"
+-    "flymake"
+-    "ezbl"
+-    "markdown-mode"
+-    "graphviz-dot-mode"
+-    ("speedbar"        speedbar-mode          speedbar-key-map)
+-    ("speedbar"        speedbar-mode          speedbar-file-key-map)
+-    ("yasnippet"       nil                    yas/keymap)
+-    ("yasnippet"       yas/minor-mode         yas/minor-mode-map)
+-    ("chart"           chart-mode             chart-map)
+-    ("recentf"         recentf-dialog-mode    recentf-dialog-mode-map)
+-    ("conf-mode"       conf-javaprop-mode     conf-javaprop-mode-map)
+-    ("conf-mode"       conf-space-mode        conf-space-mode-map)
+-    ("cua-base"        nil                    cua--rectangle-keymap)
+-    ("make-mode"       makefile-gmake-mode    makefile-gmake-mode-map)
+-    ("make-mode"       makefile-mode          makefile-mode-map)
+-    ("make-mode"       makefile-automake-mode makefile-automake-mode-map)
+-    ("sh-script"       sh-mode                sh-mode-map)
+-    ("auto-complete"   auto-complete-mode     ac-completing-map)
+-    ("auto-complete"   nil                    ac-mode-map)
+-    ("list-processes+" nil                    list-processes-mode-map)
+-    ("semantic-decoration-on-include" nil semantic-decoration-on-include-map)
+-    ("semantic-symref-list" semantic-symref-results-mode semantic-symref-results-mode-map))
+-  "*List used to find load file by mode or map.
+-
+-Every element of list is or a list consisted by load file, mode and map,
+-or just one load file, or nil. If element is a list, and its last element is nil,
+-it will be ignored."
+-  :type 'alist
+-  :group 'eal)
+-
+-;;;###autoload
+-(defun eal-eval-by-modes (modes fun)
+-  "Run `eval-after-load' on function FUN by MODES.
+-
+-FUN will be called by `eval' with argument mode of MODES.
+-Example:
+-\(eal-eval-by-modes
+- ac-modes
+- (lambda (mode)
+-   (let ((mode-name (symbol-name mode)))
+-     (when (and (intern-soft mode-name) (intern-soft (concat mode-name \"-map\")))
+-       (define-key (symbol-value (am-intern mode-name \"-map\")) (kbd \"C-c a\") 'ac-start)))))"
+-  (if (listp modes)
+-      (eal-eval-by-symbols modes 1 fun)
+-    (eal-eval-by-symbol modes 1 fun)))
+-
+-;;;###autoload
+-(defun eal-eval-by-maps (maps fun)
+-  "Run `eval-after-load' on function FUN by MAPS.
+-
+-FUN will be call by `eval' with argument mode of MAPS."
+-  (if (listp maps)
+-      (eal-eval-by-symbols maps 2 fun)
+-    (eal-eval-by-symbol maps 2 fun)))
+-
+-;;;###autoload
+-(defun eal-eval-by-symbols (symbols pos fun)
+-  "Run `eval-after-load' on function FUN by SYMBOLS.
+-
+-FUN will be call by `eval' with argument mode of SYMBOLS. "
+-  (mapc
+-   `(lambda (symbol)
+-      (eal-eval-by-symbol symbol ,pos ,fun))
+-   symbols))
+-
+-;;;###autoload
+-(defun eal-eval-by-symbol (symbol pos fun)
+-  "Run `eval-after-load' on function FUN by SYMBOL."
+-  (let ((file (eal-find-loadfile-by-symbol symbol pos))
+-        (form `(,fun ',symbol)))
+-    (if file
+-        (eval-after-load file form)
+-      (eval form))))
+-
+-;;;###autoload
+-(defun eal-find-loadfile-by-mode (mode)
+-  "Find load file by mode MODE."
+-  (eal-find-loadfile-by-symbol mode 1))
+-
+-;;;###autoload
+-(defun eal-find-loadfile-by-map (map)
+-  "Find load file by map MAP."
+-  (eal-find-loadfile-by-symbol map 2))
+-
+-;;;###autoload
+-(defun eal-find-loadfile-by-symbol (symbol pos)
+-  "Find load file by symbol SYMBOL, its position is POS."
+-  (let* ((symbol-name (symbol-name symbol))
+-         (first
+-          (find-if
+-           (lambda (pair)
+-             (if (stringp pair)
+-                 (if (string= symbol-name (eal-get-name-by-loadfile pair pos))
+-                     pair
+-                   (let ((file (and (string-match "^\\(.+\\)-mode$" pair)
+-                                    (match-string 1 pair))))
+-                     (if file
+-                         (if (string= symbol-name (eal-get-name-by-loadfile file pos))
+-                             pair))))
+-               (if pair
+-                   (if (eq (nth pos pair) symbol)
+-                       (car pair)))))
+-           eal-loadfile-mode-maps)))
+-    (if (listp first) (car first) first)))
+-
+-;;;###autoload
+-(defun eal-get-name-by-loadfile (file pos)
+-  "Get `symbol-name' by load file FILE and position POS."
+-  (concat file "-" (if (= pos 1) "mode" "mode-map")))
+-
+-;;;###autoload
+-(defun eal-define-keys (keymaps key-defs)
+-  "Execute `define-key' on KEYMAPS by `eval-after-load' technique use arguments from element of list KEY-DEFS.
+-
+-KEY-DEFS should be one list, every element of it is a list
+-whose first element is key like argument of `define-key', and second element is command
+-like argument of `define-key'."
+-  (eal-eval-by-maps
+-   keymaps
+-   `(lambda (keymap)
+-      (eal-define-keys-commonly (symbol-value keymap) ',key-defs))))
+-
+-;;;###autoload
+-(defun eal-define-keys-commonly (keymap key-defs)
+-  "Execute `define-key' on KEYMAP use arguments from KEY-DEFS.
+-
+-KEY-DEFS should be one list, every element of it is a list
+-whose first element is key like argument of `define-key', and second element is command
+-like argument of `define-key'."
+-   (dolist (key-def key-defs)
+-     (when key-def
+-       (define-key keymap (eval `(kbd ,(car key-def))) (nth 1 key-def)))))
+-
+-;;;###autoload
+-(defun eal-define-key (keymap key def)
+-  "Execute `define-key' use arguments KEYMAP, KEY, DEF by `eval-after-load' technique.
+-
+-*Note*: KEYMAP should be quoted, this is diference between argument of `define-key'."
+-  (eal-eval-by-maps
+-   keymap
+-   `(lambda (keymap)
+-      (define-key (symbol-value keymap) ,key ',def))))
+-
+-(provide 'eval-after-load)
+-
+-;;; eval-after-load.el ends here
+diff --git a/ahei-elisp/util.el b/ahei-elisp/util.el
+deleted file mode 100644
+index f86fe26..0000000
+--- a/ahei-elisp/util.el
++++ /dev/null
+@@ -1,219 +0,0 @@
+-;; -*- Emacs-Lisp -*-
+-
+-;; Time-stamp: <2011-02-18 14:29:30 Friday by taoshanwen>
+-
+-(require 'eval-after-load)
+-
+-(defvar mswin  (equal window-system 'w32)  "Non-nil means windows system.")
+-(defvar cygwin (equal system-type 'cygwin) "Non-nil means cygwin system.")
+-
+-(defvar use-cua nil "Use CUA mode or not.")
+-
+-(defvar last-region-beg     nil "Beginning of last region.")
+-(defvar last-region-end     nil "End of last region.")
+-(defvar last-region-is-rect nil "Last region is rectangle or not.")
+-(defvar last-region-use-cua nil "Last region use CUA mode or not.")
+-
+-(defconst system-head-file-dir (list "/usr/include" "/usr/local/include" "/usr/include/sys") "系统头文件目录")
+-(defconst user-head-file-dir   (list "." "../hdr" "../include") "用户头文件目录")
+-
+-(defconst is-before-emacs-21 (<= emacs-major-version 21) "是否是emacs 21或以前的版本")
+-(defconst is-after-emacs-23  (>= emacs-major-version 23) "是否是emacs 23或以后的版本")
+-(defconst is-after-emacs-24  (>= emacs-major-version 24) "是否是emacs 24或以后的版本")
+-
+-(defvar c-modes '(c-mode c++-mode awk-mode java-mode) "*C modes.")
+-(defvar dev-modes (append c-modes '(python-mode perl-mode makefile-gmake-mode)) "*Modes for develop.")
+-
+-(defvar makefile-mode-map-list nil "the list of `makefile-mode-map'")
+-(if is-before-emacs-21
+-    (setq makefile-mode-map-list '(makefile-mode-map))
+-  (setq makefile-mode-map-list '(makefile-gmake-mode-map makefile-automake-mode-map)))
+-
+-;;;###autoload
+-(defun execute-command-on-file (file command)
+-  "对FILE执行命令COMMAND"
+-  (interactive
+-   (list (read-file-name "File execute command on: ")
+-         (let* ((input ""))
+-           (while (string= input "")
+-             (setq input (read-string "命令: ")))
+-           input)))
+-  (if file
+-      (when (yes-or-no-p (concat command " file `" file "'?"))
+-        (shell-command (concat command " \"" file "\"")))
+-    (message "Executing command `%s'..." command)
+-    (shell-command command)))
+-
+-;;;###autoload
+-(defun execute-command-on-current-file (command)
+-  "对当前buffer执行命令COMMAND, 如果该buffer对应文件的话, 再执行`revert-buffer-no-confirm'"
+-  (interactive
+-   (list (let* ((input ""))
+-           (while (string= input "")
+-             (setq input (read-string "命令: ")))
+-           input)))
+-  (let* ((file (buffer-file-name)))
+-    (execute-command-on-file file command)
+-    (if file
+-        (revert-buffer-no-confirm))))
+-
+-;;;###autoload
+-(defun execute-command-on-current-dir (command)
+-  "对当前目录执行命令COMMAND."
+-  (interactive
+-   (list (let* ((input ""))
+-           (while (string= input "")
+-             (setq input (read-string "命令: ")))
+-           input)))
+-  (let* ((file (buffer-file-name)))
+-    (execute-command-on-file default-directory command)
+-    (if file
+-        (revert-buffer-no-confirm))))
+-
+-;;;###autoload
+-(defmacro def-execute-command-on-file-command (command)
+-  "Make definition of command which execute command on file."
+-  `(defun ,(intern (subst-char-in-string ?\ ?- command)) (file)
+-     ,(concat "Run command `" command "' on file FILE.")
+-     (interactive (list (read-file-name (concat "File to " ,command ": "))))
+-     (execute-command-on-file file ,command)))
+-
+-;;;###autoload
+-(defmacro def-execute-command-on-current-file-command (command)
+-  "Make definition of command which execute command on current file."
+-  `(defun ,(am-intern (subst-char-in-string ?\ ?- command) "-current-file") ()
+-     ,(concat "Execute command `" command "' on current file.")
+-     (interactive)
+-     (execute-command-on-current-file ,command)))
+-
+-;;;###autoload
+-(defmacro def-execute-command-on-current-dir-command (command)
+-  "Make definition of command which execute command on current directory."
+-  `(defun ,(am-intern (subst-char-in-string ?\ ?- command) "-current-dir") ()
+-     ,(concat "Execute command `" command "' on current directory.")
+-     (interactive)
+-     (execute-command-on-current-dir ,command)))
+-
+-;;;###autoload
+-(defmacro define-kbd     (keymap key def) `(define-key ,keymap (kbd ,key) ,def))
+-;;;###autoload
+-(defmacro local-set-kbd  (key command)    `(local-set-key (kbd ,key) ,command))
+-;;;###autoload
+-(defmacro global-set-kbd (key command)    `(global-set-key (kbd ,key) ,command))
+-
+-;;;###autoload
+-(defalias 'apply-define-key 'eal-define-keys-commonly)
+-;;;###autoload
+-(defalias 'define-key-list 'eal-define-keys-commonly)
+-
+-;;;###autoload
+-(defun apply-args-list-to-fun (fun-list args-list)
+-  "Apply args list to function FUN-LIST.
+-FUN-LIST can be a symbol, also can be a list whose element is a symbol."
+-  (let ((is-list (and (listp fun-list) (not (functionp fun-list)))))
+-    (dolist (args args-list)
+-      (if is-list
+-          (dolist (fun fun-list)
+-            (apply-args-to-fun fun args))
+-        (apply-args-to-fun fun-list args)))))
+-
+-;;;###autoload
+-(defun apply-args-to-fun (fun args)
+-  "Apply args to function FUN."
+-  (if (listp args)
+-      (eval `(,fun ,@args))
+-    (eval `(,fun ,args))))
+-
+-;;;###autoload
+-(defun kill-buffer-when-shell-command-exit ()
+-  "Close current buffer when `shell-command' exit."
+-  (let ((process (ignore-errors (get-buffer-process (current-buffer)))))
+-    (when process
+-      (set-process-sentinel process
+-                            (lambda (proc change)
+-                              (when (string-match "\\(finished\\|exited\\)" change)
+-                                (kill-buffer (process-buffer proc))))))))
+-
+-;;;###autoload
+-(defun list-colors-display-htm (&optional list)
+-  "Create HTML page which lists all the defined colors."
+-  (interactive)
+-  (if (and (null list) window-system)
+-      (progn
+-        (setq list (x-defined-colors))
+-        ;; Delete duplicate colors.
+-        (let ((l list))
+-          (while (cdr l)
+-            (if (facemenu-color-equal (car l) (car (cdr l)))
+-                (setcdr l (cdr (cdr l)))
+-              (setq l (cdr l)))))))
+-  (with-output-to-temp-buffer "*Colors*"
+-    (save-excursion
+-      (set-buffer standard-output)
+-      (insert "<html>\n"
+-              "<head>\n"
+-              "<meta http-equiv=\"Content-Style-Type\" content=\"text/css\">\n"
+-              "<title>Colors</title>\n"
+-              "</head>\n"
+-              "<body>\n"
+-              "<h1>Colors</h1>\n"
+-              "<p>\n"
+-              "<pre>\n")
+-      (let (s)
+-        (while list
+-          (insert (format (concat "<span style=\"background-color:%s\">%-20s</span>"
+-                                  "  "
+-                                  "<span style=\"color:%s\">%s</span>"
+-                                  "\n")
+-                          (html-color (car list)) (car list)
+-                          (html-color (car list)) (car list)))
+-          (setq list (cdr list))))
+-      (insert "</pre>"
+-              "</body>"
+-              "</html>"))))
+-
+-;;;###autoload
+-(defun html-color (string)
+-  "Convert colors names to rgb(n1,n2,n3) strings."
+-  (format "rgb(%d,%d,%d)"
+-          (/ (nth 0 (x-color-values string)) 256)
+-          (/ (nth 1 (x-color-values string)) 256)
+-          (/ (nth 2 (x-color-values string)) 256)))
+-
+-;;;###autoload
+-(defmacro def-command-max-window (command)
+-  "Make definition of command which after execute command COMMAND execute `delete-other-windows'."
+-  `(defun ,(am-intern command "-max-window") ()
+-     ,(concat "After run command `" command "' execute command `delete-other-windows'.")
+-     (interactive)
+-     (call-interactively ',(intern command))
+-     (delete-other-windows)))
+-
+-;;;###autoload
+-(defun delete-current-window (&optional frame)
+-  "Delete window which showing current buffer."
+-  (interactive
+-   (list (and current-prefix-arg
+-              (or (natnump (prefix-numeric-value current-prefix-arg))
+-                  'visible))))
+-  (if (one-window-p)
+-      (bury-buffer)
+-    (delete-windows-on (current-buffer) frame)))
+-
+-;;;###autoload
+-(defmacro def-turn-on (command &optional is-on)
+-  "Make definition of command whose name is COMMAND-on when IS-ON is t
+-and COMMAND-off when IS-ON is nil."
+-  (let ((on (if is-on "on" "off")))
+-    `(defun ,(am-intern command "-" on) ()
+-       ,(concat "Turn " on " `" command "'.")
+-       (interactive)
+-       (funcall ',(intern command) ,(if is-on 1 -1)))))
+-
+-;;;###autoload
+-(defun unset-key (keymap key)
+-  "Remove binding of KEY in map KEYMAP.
+-KEY is a string or vector representing a sequence of keystrokes."
+-  (define-key keymap key nil))
+-
+-(provide 'util)
+-- 
+2.0.4
+

@@ -1,0 +1,38 @@
+From f26b1c2e87357e5dbbccecde118347a8e5c30857 Mon Sep 17 00:00:00 2001
+From: Lutts Cao <lutts.cao@gmail.com>
+Date: Tue, 16 Oct 2012 22:17:41 +0800
+Subject: [PATCH 23/58] use C-c e to jump to the BIG editing buffer
+
+---
+ rc/emacs-rc-buffer-switching.el | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/rc/emacs-rc-buffer-switching.el b/rc/emacs-rc-buffer-switching.el
+index 6620e45..a7a10f0 100644
+--- a/rc/emacs-rc-buffer-switching.el
++++ b/rc/emacs-rc-buffer-switching.el
+@@ -35,8 +35,11 @@
+ 	"^\\*Shell Command Output\\*$"
+ 	"^\\*Async Shell Command\\*$"
+ 	"^\\*buffer-selection\\*$"	; C-x C-b
++	"^\\*cscope\\*$"
+ 	"^\\*xgtags\\*$"
+-	"^\\*GTAGS.*"))
++	"^\\*GTAGS.*"
++	"^\\*Backtrace\\*$"
++	))
+ 
+ (defun lutts-display-special-buffer (buf &optional data)
+   "put the special buffers in the right spot (bottom rigt)"
+@@ -166,7 +169,7 @@
+   (interactive)
+   (select-window (get-largest-window)))
+ 
+-(global-set-key (kbd "C-c b") 'lutts-goto-largest-window)
++(global-set-key (kbd "C-c e") 'lutts-goto-largest-window)
+ 
+ 
+ ;  +----------------------+                 +----------- +-----------+
+-- 
+2.0.4
+

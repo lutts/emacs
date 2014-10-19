@@ -1,0 +1,485 @@
+/* CSS Copyright 2007 by amitp@cs.stanford.edu (Amit J. Patel)  */
+
+/* I don't mind if you copy my stylesheet.  However, I'd appreciate it
+   if you gave me credit. */
+
+h1, h2, h3 {
+    font-family: "charcoal cy", "arial black", impact, sans-serif;
+    font-weight: normal;
+    letter-spacing: -0.05em;
+}
+
+h4, h5, h6, .footer {
+    font-family: sans-serif;
+}
+
+h1 { 
+    font-size: 2em;
+    margin: 0;
+}
+
+@media screen { 
+  h1 {
+    padding: 1em 1em;
+    background-color: #369;
+    color: #fff;
+    text-shadow: 0.1em 0.1em 0.1em #000;
+    text-align: right;
+  }
+
+  h2, h3 {
+    text-shadow: #aaa 0.2em 0.1em 0.3em;
+  }
+
+  body.gameprog h1, body.gameprog div.nav {
+    background-color: #a44;
+ }
+  body.gameprog h1 {
+    background-image: url(blob.gif);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: 0.5em 0.5em;
+  }
+}
+
+h2 {
+    margin: 1.2em 0;
+    font-size: 1.2em;
+}
+
+h3 {
+    margin: 1.3em 0;
+    font-size: 1.0em;
+}
+
+/* Navigation */
+
+div.nav {
+    float: right;
+    width: 15em;
+    margin-left: 0.5em;
+    margin-bottom: 1em;
+    padding-bottom: 1em;
+    font-family: sans-serif;
+    text-shadow: 1px 1px 3px #000;
+}
+div.nav ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+    
+@media screen {
+  div.nav {
+    background-color: #369;
+    color: #fff;
+    border-left: 1px solid #888;
+    border-bottom: 1px solid #000;
+    -moz-border-radius-bottomleft: 10px;
+    -webkit-border-bottom-left-radius: 10px;
+  }
+}
+
+@media print {
+  div.nav {
+    display: none;
+  }
+}
+
+/* Target */
+
+h2:target {
+    font-size: 2em;
+}
+div:target {
+    border: 1px dashed #888;
+}
+
+/* Blog header links are not underlined */
+body#blog h2 :link, body#blog h2 :visited {
+    text-decoration: none;
+}
+
+/* Footer links are not colored, but are underlined */
+.footer a {
+    color: #000;
+}
+
+/* Top level block elements */
+
+html {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #fff;
+    color: #000;
+    
+    margin: 0;
+    padding: 0;
+}
+
+.footnotes { /* occur inside the main page content */
+    border-top: 1px solid gray;
+    margin-top: 2em;
+}
+
+.footer { /* occurs outside the main page content */
+    font-size: small;
+    padding: 0.1em 1em;
+}
+
+@media screen {
+  body {
+    background-color: #d0d8e0;
+    
+    /* Ugh, it's hard to find serif fonts that are widespread. Mac OS X 
+       doesn't come with Palatino, unless you have iWork (which is on 
+       many newer Macs. Cambria is for Vista, Palatino is for Mac, and
+       Georgia is for Windows and Mac. */
+    font-family: Cambria, Palatino, Georgia, serif;
+
+    min-height: 95%;
+  }
+
+  body.gameprog { 
+    background-color: #c8b8b8;
+  }
+}
+
+/* Text sizing, from http://alistapart.com/articles/howtosizetextincss */
+
+@media screen {
+   body {
+    font-size: 100%;
+    line-height: 1.125em;
+  }
+  div.main, div.nav {
+    font-size: 0.875em;
+  }
+  .note {
+    font-size: 0.75em;
+  }
+}
+
+@media print {
+  body {
+    font-family: "Book Antiqua", "Times New Roman", serif;
+    font-size: 10pt;
+    line-height: 1.2;
+  }
+  tt, code, kbd, pre {
+    font-family: "Courier", "Courier New", monospace;
+    font-size: 10pt;
+  }
+}
+
+div.topic {
+    margin-left: 3em;
+    margin-bottom: 2.4em;
+}
+
+@media screen {
+  div.topic { 
+    max-width: 33em;
+  }
+}
+
+@media print {
+  div.topic {
+    max-width: 45em;
+  }
+}
+
+/* Main body shadow effect */
+
+@media screen {
+
+  div.main1 {
+    background-color: #c8d0d8;
+    padding: 0 0 2px 2px;
+    margin: 0 0 1em 6em;
+    -webkit-border-radius: 0 0 0 14px;
+    -moz-border-radius: 0 0 0 14px;
+  }
+
+  div.main2 {
+    background-color: #b8c0c8;
+    padding: 0 0 2px 2px;
+    -webkit-border-radius: 0 0 0 12px;
+    -moz-border-radius: 0 0 0 12px;
+  }
+
+  div.main3 {
+    border-top: 1px solid #444;
+    border-left: 1px solid #444;
+    border-bottom: 1px solid #444;
+    background-color: #fff;
+    margin: 0;
+    padding: 0 1em;
+    -webkit-border-radius: 0 0 0 10px;
+    -moz-border-radius: 0 0 0 10px;
+  }
+
+  body.gameprog div.main1 {
+    background-color: #c0b0b0;
+  }
+
+  body.gameprog div.main2 {
+    background-color: #b0a0a0;
+  }
+}
+
+
+/* Used for an inset appearance */
+
+@media screen {
+  div.inverse1 {
+    border: 1px solid #aaa;
+    border-top-color: #888;
+    border-bottom-color: #ccc;
+    background-color: #eee;
+    
+    width: 35em;
+    resize: both; /* See http://www.css3.info/preview/resize.html */
+    overflow: auto;
+  }
+  ul div.inverse1, ol div.inverse1 {
+    width: 30em;
+  }
+
+  div.inverse2 {
+    border-top: 1px solid #aaa;
+  }
+  div.inverse3 {
+    border: 1px solid #ccc;
+    border-bottom-width: 0px;
+    padding: 2px;
+  }
+}
+
+/* Link colors */
+
+/* http://www.accessibleinter.net/portfolio/writing/revised_method_link_pseudoclasses.php */ 
+
+div.main :link {
+    color: #237;
+}
+
+body.gameprog div.main :link {
+    color: #a44;
+}
+
+div.main :visited {
+    color: #626;
+}
+
+body.gameprog div.main :visited {
+    color: #842;
+}
+
+/* Low level block elements */
+
+p, ul {
+    /* Need to increase the margin here to match the increase in line spacing */
+    margin: 1.2em 0;
+}
+
+.note {
+    float: right;
+    width: 15em;
+    margin-left: 1em;
+    margin-right: 0;
+    padding: 1.714em; /* = body.line-height / .main.font-size / .note.font-size */
+    border: 1px solid #888;
+    background-color: #eee;
+}
+.note p, .note ul {
+    margin: 1.714em 0; /* Note to self: needed? we already have padding on .note */
+}
+.note p:first-child, .note p:last-child {
+    margin: 0; /* No extra margin at top and bottom of note */
+}
+.note {
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+}
+
+@media screen {
+  code {
+    /* background-color: #f8f8f4; */
+    padding: 0 0.2em;
+  }
+
+  pre, code {
+    color: #442;
+  }
+
+  pre {
+    font-size: small;
+    white-space: pre;
+  }
+
+  .additional-name {
+    display: none;
+  }    
+    /* TODO: use "Goudy Old Style", "Palatino", "Book Antiqua" for ampersand font */
+}
+
+/* Handle borders for pre that isn't inside inverse */
+@media screen {
+  pre {
+    background-color: #f8f8f4;
+    border: 1px solid #888;
+    padding: 4px 12px;
+  }
+  pre.simple, div.inverse3 pre {
+    background-color: transparent;
+    border-width: 0;
+    padding: 0;
+  }
+  pre.simple {
+    width: 45em;
+  }
+}
+
+pre.snippet {
+    border-style: dashed;
+}
+
+div.topic > pre:only-child {
+    /* This style is used on old usenet posts that I haven't converted yet.
+       Unfortunately only-child is not widely supported. I should instead
+       either fix the posts or handle this in XSLT. */
+    padding-bottom: 1em;
+    border-bottom: 1px solid #888;
+}
+
+blockquote {
+    font-style: italic;
+    max-width: 35em;
+}
+
+table.standard {
+    border: 1px solid #888;
+    border-collapse: collapse;
+}
+table.standard th {
+    background-color: #eff;
+}
+body.gameprog table.standard th {
+    background-color: #ffe;
+}
+table.standard td {
+    background-color: #fff;
+}
+table.standard th, table.standard td {
+    border: 1px solid #888;
+}
+
+/* Browsers do not all agree on whether the indentation for lists 
+   should use padding or margin. I will use padding. */
+ul, ol {
+    padding-left: 3em;
+    margin-left: 0; 
+}
+
+/* Inline elements */
+
+address {
+    text-align: right;
+}
+
+.footer address {
+    text-align: left;
+}
+
+sup, sub {
+    font-size: 0.5em;
+}
+
+sup.footnote {
+    color: red;
+}
+
+sup.new {
+    font-family: sans-serif;
+    font-size: 0.5em;
+    color: #400;
+    background-color: #ffc;
+    text-transform: uppercase;
+}
+sup.verynew {
+    color: #000;
+    background-color: #ff8;
+}
+
+li > em:first-child, li > strong:first-child, dt { 
+    color: #369;
+}
+dt {
+    font-weight: bold;
+}
+
+body.gameprog li > em:first-child, body.gameprog li > strong:first-child, body.gameprog dt {
+    color: #a44;
+}
+
+/* Forms */
+
+input[type="text"] {
+    border: 1px solid #000;
+    font-weight: bold;
+    text-align: center;
+    color: #000;
+    background-color: #f8f8f4;
+}
+input[type="text"]:focus {
+    background-color: #fffff4;
+}
+
+/* For the blogs */
+
+div.byline {
+    text-align: right;
+}
+
+p.blogger-labels {
+    text-align: right;
+    font-size: small;
+}
+p.blogger-labels a[rel="tag"] {
+    font-family: sans-serif;
+    text-decoration: none;
+    padding: 0.2em 1em;
+    
+    background-color: #c8d0d8;
+    border: 1px outset #c8d0d8;
+}
+body.gameprog p.blogger-labels a[rel="tag"] {
+    background-color: #c0b0b0;
+    border: 1px outset #c0b0b0;
+}
+
+/* For the del.icio.us Tagometer: http://del.icio.us/help/tagometer
+   See http://images.del.icio.us/static/css/blogbadge.css for the CSS they use;
+   that's how I overrode their styles. */
+
+.nav .delicious-blogbadge-tall { margin-left: auto; margin-right: auto; border: 1px solid #d0d8e0; margin-bottom: 1em; text-shadow: 0 0; }
+.nav .delicious-blogbadge-tall .save-to-link { color: #fff ! important; }
+.nav .delicious-blogbadge-tall .top-tags li a { color: #444 ! important; text-decoration: underline; }
+.nav .delicious-blogbadge-tall .url-link .post-count { background-color: #009; }
+.nav .delicious-blogbadge-tall .top-tags-container { background-color: #d0d8e0; color: #000; }
+.nav .delicious-blogbadge-tall .empty-message { display: none; }
+
+body.gameprog .nav .delicious-blogbadge-tall { border: 1px solid #c8b8b8; }
+body.gameprog .nav .delicious-blogbadge-tall .url-link .post-count { background-color: #900; }
+body.gameprog .nav .delicious-blogbadge-tall .top-tags-container { background-color: #c8b8b8; }
+
+/* I'm no longer using these, I think */
+font, center {
+    color: #ff0000;
+    font-weight: bold;
+    background-color: #ffff00;
+    border: 2px dashed #ff0000;
+}
