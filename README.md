@@ -34,13 +34,14 @@ At the beginning of .emacs, you can see the following environment variable setti
 
 ## byte compile all `el`s
 ```
-# cd /path/to/this/repository
-# ./rebuild.sh
+$ cd /path/to/this/repository
+$ ./rebuild.sh
 ```
 
 # start multi emacs instance under server mode #
 Because I used server mode in .emacs, so only one instance can be started.  To start multi instance, use `useradd` to create a user (e.g., emacs1), clone this project to that user, change environment variables, etc., then using the following command to start a second emacs instance
 
 ```
-ssh -i /home/lutts/.ssh/lutts -Y emacs1@127.0.0.1 "emacs -mm"
+$ sudo useradd -m -s /bin/bash emacs1
+$ ssh -i /home/lutts/.ssh/lutts -Y emacs1@127.0.0.1 "emacs -mm"
 ```
