@@ -60,5 +60,5 @@ Because I used server mode in .emacs, so only one instance can be started.  To s
 $ sudo useradd -m -s /bin/bash emacs1
 $ sudo passwd emacs1
 $ ssh-copy-id -i .ssh/lutts emacs1@127.0.0.1 
-$ ssh -i /home/lutts/.ssh/lutts -Y emacs1@127.0.0.1 "emacs -mm"
+$ ssh -i /home/lutts/.ssh/lutts -Y emacs1@127.0.0.1 'eval $(dbus-launch --close-stderr --sh-syntax); emacs -mm; kill -TERM $DBUS_SESSION_BUS_PID'
 ```
