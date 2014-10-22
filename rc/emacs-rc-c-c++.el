@@ -91,26 +91,22 @@
 	     ; can use M-x delete-trailing-whitespace <RET> to delete all trailing whitespace within cur buf
 	     (setq show-trailing-whitespace t)
 	     (paren-toggle-open-paren-context 1)
+	     ;cscope configuration
+	     (require 'xcscope)
+	     (setq cscope-do-not-update-database t)
+	     (require 'ifdef)
+	     (imenu-add-menubar-index)
 	     )
 	  )
 
 (defun my-c-common-hook ()
   (setq c-basic-offset 8)
   (setq tab-width 8 indent-tabs-mode t)
-  ;cscope configuration
-  (require 'xcscope)
-  (setq cscope-do-not-update-database t)
-  (require 'ifdef)
-  (imenu-add-menubar-index)
 )
 
 (defun my-c++-common-hook ()
   (setq c-basic-offset 4)
   (setq tab-width 4 indent-tabs-mode nil)
-  (require 'xcscope)
-  (setq cscope-do-not-update-database t)
-  (require 'ifdef)
-  (imenu-add-menubar-index)
 )
 
 (add-hook 'c-mode-hook 'my-c-common-hook)
