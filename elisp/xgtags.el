@@ -361,6 +361,8 @@ killed!"
   `(let ((process-environment (copy-alist process-environment)))
      (when xgtags-rootdir
        (setenv "GTAGSROOT" xgtags-rootdir))
+     (when (locate-dominating-file default-directory (lambda (parent) (directory-files parent nil ".*\.pro$")))
+       (setenv "GTAGSLIBPATH" (getenv "MY_GTAGSLIBPATH")))
      (with-temp-buffer
        (setq curr-gtags-root
 	     (if (zerop (call-process "global" nil t nil "-pr"))

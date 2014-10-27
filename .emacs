@@ -2,6 +2,7 @@
 (when (equal system-type 'gnu/linux)
       (message "Emacs Run on GNU/Linux")
       (setenv "PATH" (concat "/opt/mips-4.3/bin:/opt/texlive/2011/bin/x86_64-linux:" (getenv "PATH")))
+      (setenv "MY_GTAGSLIBPATH" "/home/lutts/devel2/Qt/qt-everywhere-opensource-src-4.8.6")
       (setq exec-path (append exec-path '("/opt/mips-4.3/bin")))
       (setq exec-path (append exec-path '("/opt/texlive/2011/bin/x86_64-linux"))))
 
