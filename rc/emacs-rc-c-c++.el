@@ -187,3 +187,5 @@
   )
 
 (add-hook 'c++-mode-hook 'my-c++-common-hook)
+
+(load "~/emacs/rc/emacs-rc-tempo.el")
