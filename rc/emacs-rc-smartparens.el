@@ -12,6 +12,11 @@
 (defun my-create-newline-and-enter-sexp (&rest _ignored)
   "Open a new brace or bracket expression, with relevant newlines and indent."
   (newline)
+  (forward-line -2)
+  (indent-according-to-mode)
+  (forward-line)
+  (indent-according-to-mode)
+  (forward-line)
   (indent-according-to-mode)
   (forward-line -1)
   (indent-according-to-mode))
