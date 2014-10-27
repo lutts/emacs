@@ -158,8 +158,8 @@ CC Mode
 
 @copying
 Copyright @copyright{} 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002,
-2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013  Free
-Software Foundation, Inc.
+2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011  Free Software
+Foundation, Inc.
 
 This manual is free documentation; you can redistribute it and/or
 modify it under the terms of the GNU General Public License as
@@ -201,11 +201,9 @@ file @file{COPYING}, along with @ccmode{}.  If not, see
 @vskip 0pt plus 1filll
 @insertcopying
 
-This manual was generated from $Revision: 36fd962a8c22 $ of
-cc-mode.texi.  It can be downloaded from the URL formed by
-substituting that 12 digit hexadecimal revision for ''<rev>'' in
-@*http://cc-mode.hg.sourceforge.net/hgweb/cc-mode/cc-mode/raw-file/<rev>/cc-mode.texi.
-
+This manual was generated from $Revision: 5.266 $ of $RCSfile: cc-mode.texi,v $, which can be
+downloaded from
+@url{http://cvs.sf.net/viewcvs.py/cc-mode/cc-mode/cc-mode.texi}.
 @end titlepage
 
 @comment !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -5187,7 +5185,7 @@ indentation.
 @comment !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 This section explains the structure and semantics of the style
-variable @code{c-offsets-alist}, the principal variable for configuring
+variable @code{c-offset-alist}, the principal variable for configuring
 indentation.  Details of how to set it up, and its relationship to
 @ccmode{}'s style system are given in @ref{Style Variables}.
 
@@ -6467,14 +6465,13 @@ think is generally useful, you're very welcome to contribute it;
 please contact @email{bug-cc-mode@@gnu.org}.
 
    Line-up functions are passed a single argument, the syntactic
-element (see below).  At the time of the call, point will be somewhere
-on the line being indented.  The return value is a
-@code{c-offsets-alist} offset specification: for example, an integer,
-a symbol such as @code{+}, a vector, @code{nil}@footnote{Returning
-@code{nil} is useful when the offset specification for a syntactic
-element is a list containing the line-up function
-(@pxref{c-offsets-alist}).}, or even another line-up function.  Full
-details of these are in @ref{c-offsets-alist}.
+element (see below).  The return value is a @code{c-offsets-alist}
+offset specification: for example, an integer, a symbol such as
+@code{+}, a vector, @code{nil}@footnote{Returning @code{nil} is useful
+when the offset specification for a syntactic element is a list
+containing the line-up function (@pxref{c-offsets-alist}).}, or even
+another line-up function.  Full details of these are in
+@ref{c-offsets-alist}.
 
 Line-up functions must not move point or change the content of the
 buffer (except temporarily).  They are however allowed to do

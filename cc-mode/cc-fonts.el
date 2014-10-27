@@ -1,7 +1,7 @@
 ;;; cc-fonts.el --- font lock support for CC Mode
 
 ;; Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009,
-;;   2010, 2011, 2012, 2013  Free Software Foundation, Inc.
+;;   2010, 2011  Free Software Foundation, Inc.
 
 ;; Authors:    2003- Alan Mackenzie
 ;;             2002- Martin Stjernholm
@@ -1558,7 +1558,6 @@ casts and declarations are fontified.  Used on level 2 and higher."
   ;; prevent a repeat invocation.  See elisp/lispref page "Search-based
   ;; Fontification".
   (let* ((paren-state (c-parse-state))
-	 (decl-search-lim (c-determine-limit 1000))
 	 decl-context in-typedef ps-elt)
     ;; Are we in any nested struct/union/class/etc. braces?
     (while paren-state
@@ -1567,7 +1566,7 @@ casts and declarations are fontified.  Used on level 2 and higher."
       (when (and (atom ps-elt)
 		 (eq (char-after ps-elt) ?\{))
 	(goto-char ps-elt)
-	(setq decl-context (c-beginning-of-decl-1 decl-search-lim)
+	(setq decl-context (c-beginning-of-decl-1)
 	      in-typedef (looking-at c-typedef-key))
 	(if in-typedef (c-forward-token-2))
 	(when (and c-opt-block-decls-with-vars-key
@@ -2449,7 +2448,7 @@ need for `pike-font-lock-extra-types'.")
 	      (setq comment-beg nil))
 	    (setq region-beg comment-beg))
 
-      (if (elt (parse-partial-sexp comment-beg (+ comment-beg 2)) 7)
+      (if (eq (elt (parse-partial-sexp comment-beg (+ comment-beg 2)) 7) t)
 	  ;; Collect a sequence of doc style line comments.
 	  (progn
 	    (goto-char comment-beg)

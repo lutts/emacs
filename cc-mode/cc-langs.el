@@ -2,7 +2,7 @@
 
 ;; Copyright (C) 1985, 1987, 1992, 1993, 1994, 1995, 1996, 1997, 1998,
 ;;   1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009,
-;;   2010, 2011, 2012, 2013   Free Software Foundation, Inc.
+;;   2010, 2011   Free Software Foundation, Inc.
 
 ;; Authors:    2002- Alan Mackenzie
 ;;	       1998- Martin Stjernholm
@@ -444,10 +444,8 @@ so that all identifiers are recognized as words.")
   ;; For documentation see the following c-lang-defvar of the same name.
   ;; The value here may be a list of functions or a single function.
   t nil
-  c++ '(c-extend-region-for-CPP
-	c-before-change-check-<>-operators
-	c-invalidate-macro-cache)
-  (c objc) '(c-extend-region-for-CPP c-invalidate-macro-cache)
+  c++ '(c-extend-region-for-CPP c-before-change-check-<>-operators)
+  (c objc) 'c-extend-region-for-CPP
   ;; java 'c-before-change-check-<>-operators
   awk 'c-awk-record-region-clear-NL)
 (c-lang-defvar c-get-state-before-change-functions
@@ -805,8 +803,8 @@ Assumed to not contain any submatches or \\| operators."
 (c-lang-defconst c-anchored-cpp-prefix
   "Regexp matching the prefix of a cpp directive anchored to BOL,
 in the languages that have a macro preprocessor."
-  t "^\\s *\\(#\\)\\s *"
-  (java awk) nil)
+  t (if (c-lang-const c-opt-cpp-prefix)
+	(concat "^" (c-lang-const c-opt-cpp-prefix))))
 (c-lang-defvar c-anchored-cpp-prefix (c-lang-const c-anchored-cpp-prefix))
 
 (c-lang-defconst c-opt-cpp-start
@@ -966,7 +964,8 @@ since CC Mode treats every identifier as an expression."
 
       ;; Unary.
       (prefix "++" "--" "+" "-" "!" "~"
-	      ,@(when (c-major-mode-is 'c++-mode) '("not" "compl"))
+	      ,@(when (c-major-mode-is 'c++-mode)
+                  '("not" "compl" "alignas" "alignof" "decltype"))
 	      ,@(when (c-major-mode-is '(c-mode c++-mode))
 		  '("*" "&" "sizeof" "??-"))
 	      ,@(when (c-major-mode-is 'objc-mode)
@@ -1671,7 +1670,7 @@ but they don't build a type of themselves.  Unlike the keywords on
 not the type face."
   t    nil
   c    '("const" "restrict" "volatile")
-  c++  '("const" "volatile" "throw")
+  c++  '("const" "constexpr" "throw" "volatile")
   objc '("const" "volatile"))
 
 (c-lang-defconst c-opt-type-modifier-key
@@ -1852,7 +1851,8 @@ If any of these also are on `c-type-list-kwds', `c-ref-list-kwds',
 will be handled."
   t    nil
   (c c++) '("auto" "extern" "inline" "register" "static")
-  c++  (append '("explicit" "friend" "mutable" "template" "using" "virtual")
+  c++  (append '("explicit" "friend" "mutable" "template" "thread_local" "using"
+                 "virtual")
 	       (c-lang-const c-modifier-kwds))
   objc '("auto" "bycopy" "byref" "extern" "in" "inout" "oneway" "out" "static")
   ;; FIXME: Some of those below ought to be on `c-other-decl-kwds' instead.
@@ -2284,7 +2284,7 @@ This construct is \"<keyword> <expression> :\"."
   "Keywords for constants."
   t	  nil
   (c c++) '("NULL" ;; Not a keyword, but practically works as one.
-	    "false" "true")		; Defined in C99.
+	    "nullptr" "false" "true")		; Defined in C99.
   objc	  '("nil" "Nil" "YES" "NO" "NS_DURING" "NS_HANDLER" "NS_ENDHANDLER")
   idl	  '("TRUE" "FALSE")
   pike	  '("UNDEFINED")) ;; Not a keyword, but practically works as one.

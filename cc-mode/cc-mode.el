@@ -2,7 +2,7 @@
 
 ;; Copyright (C) 1985, 1987, 1992, 1993, 1994, 1995, 1996, 1997, 1998,
 ;;   1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009,
-;;   2010, 2011, 2012, 2013   Free Software Foundation, Inc.
+;;   2010, 2011   Free Software Foundation, Inc.
 
 ;; Authors:    2003- Alan Mackenzie
 ;;             1998- Martin Stjernholm
@@ -942,8 +942,8 @@ Note that the style variables are always made local to the buffer."
     ;; inside a string, comment, or macro.
     (setq new-bounds (c-extend-font-lock-region-for-macros
 		      c-new-BEG c-new-END old-len))
-    (setq c-new-BEG (max (car new-bounds) (c-determine-limit 500 begg))
-	  c-new-END (min (cdr new-bounds) (c-determine-+ve-limit 500 endd)))
+    (setq c-new-BEG (car new-bounds)
+	  c-new-END (cdr new-bounds))
     ;; Clear 'syntax-table properties "punctuation":
     (c-clear-char-property-with-value c-new-BEG c-new-END 'syntax-table '(1))
 
@@ -954,8 +954,7 @@ Note that the style variables are always made local to the buffer."
 
     ;; Add needed properties to each CPP construct in the region.
     (goto-char c-new-BEG)
-    (skip-chars-backward " \t")
-    (let ((pps-position (point))  pps-state mbeg)
+    (let ((pps-position c-new-BEG)  pps-state mbeg)
       (while (and (< (point) c-new-END)
 		  (search-forward-regexp c-anchored-cpp-prefix c-new-END t))
 	;; If we've found a "#" inside a string/comment, ignore it.
@@ -964,13 +963,15 @@ Note that the style variables are always made local to the buffer."
 	      pps-position (point))
 	(unless (or (nth 3 pps-state)	; in a string?
 		    (nth 4 pps-state))	; in a comment?
-	  (goto-char (match-beginning 1))
+	  (goto-char (match-beginning 0))
 	  (setq mbeg (point))
 	  (if (> (c-syntactic-end-of-macro) mbeg)
 	      (progn
 		(c-neutralize-CPP-line mbeg (point)) ; "punctuation" properties
 		(if (memq 'category-properties c-emacs-features) ; GNU Emacs.
-		    (c-set-cpp-delimiters mbeg (point)))) ; "comment" markers
+		    (c-set-cpp-delimiters mbeg (point))) ; "comment" markers
+		;(setq pps-position (point))
+		)
 	    (forward-line))	      ; no infinite loop with, e.g., "#//"
 	  )))))
 
@@ -1057,10 +1058,7 @@ Note that the style variables are always made local to the buffer."
 	      (mapc (lambda (fn)
 		      (funcall fn beg end))
 		    c-get-state-before-change-functions))
-	  )))
-    ;; The following must be done here rather than in `c-after-change' because
-    ;; newly inserted parens would foul up the invalidation algorithm.
-    (c-invalidate-state-cache beg)))
+	  )))))
 
 (defvar c-in-after-change-fontification nil)
 (make-variable-buffer-local 'c-in-after-change-fontification)
@@ -1110,7 +1108,7 @@ Note that the style variables are always made local to the buffer."
 
 	(c-trim-found-types beg end old-len) ; maybe we don't need all of these.
 	(c-invalidate-sws-region-after beg end)
-	;; (c-invalidate-state-cache beg) ; moved to `c-before-change'.
+	(c-invalidate-state-cache beg)
 	(c-invalidate-find-decl-cache beg)
 
 	(when c-recognize-<>-arglists
@@ -1184,6 +1182,9 @@ Note that the style variables are always made local to the buffer."
   ;; `c-set-fl-decl-start' for the detailed functionality.
   (cons (c-set-fl-decl-start beg) end))
 
+(defvar c-standard-font-lock-fontify-region-function nil
+  "Standard value of `font-lock-fontify-region-function'")
+
 (defun c-font-lock-fontify-region (beg end &optional verbose)
   ;; Effectively advice around `font-lock-fontify-region' which extends the
   ;; region (BEG END), for example, to avoid context fontification chopping
@@ -1198,7 +1199,7 @@ Note that the style variables are always made local to the buffer."
   ;; 
   ;; Type a space in the first blank line, and the fontification of the next
   ;; line was fouled up by context fontification.
-  (let ((new-beg beg) (new-end end) new-region case-fold-search)
+  (let ((new-beg beg) (new-end end) new-region)
     (if c-in-after-change-fontification
 	(setq c-in-after-change-fontification nil)
       (save-restriction
@@ -1208,14 +1209,17 @@ Note that the style variables are always made local to the buffer."
 		  (setq new-region (funcall fn new-beg new-end))
 		  (setq new-beg (car new-region)  new-end (cdr new-region)))
 		c-before-context-fontification-functions))))
-    (funcall (default-value 'font-lock-fontify-region-function)
+    (funcall c-standard-font-lock-fontify-region-function
 	     new-beg new-end verbose)))
   
 (defun c-after-font-lock-init ()
   ;; Put on `font-lock-mode-hook'.  This function ensures our after-change
-  ;; function will get excuted before the font-lock one.
+  ;; function will get excuted before the font-lock one.  Amongst other
+  ;; things.
   (remove-hook 'after-change-functions 'c-after-change t)
-  (add-hook 'after-change-functions 'c-after-change nil t))
+  (add-hook 'after-change-functions 'c-after-change nil t)
+  (setq c-standard-font-lock-fontify-region-function
+	(default-value 'font-lock-fontify-region-function)))
 
 (defun c-font-lock-init ()
   "Set up the font-lock variables for using the font-lock support in CC Mode.

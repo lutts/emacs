@@ -2,7 +2,7 @@
 
 ;; Copyright (C) 1985, 1987, 1992, 1993, 1994, 1995, 1996, 1997, 1998,
 ;;   1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009,
-;;   2010, 2011, 2012, 2013   Free Software Foundation, Inc.
+;;   2010, 2011   Free Software Foundation, Inc.
 
 ;; Authors:    1998- Martin Stjernholm
 ;;	       1992-1999 Barry A. Warsaw
@@ -65,20 +65,6 @@ For example:
     int main _P( (int argc, char *argv[]) )
 
 A sample value might look like: `\\(_P\\|_PROTO\\)'.")
-
-;;			  *Warning for cc-mode developers*
-;;
-;; `cc-imenu-objc-generic-expression' elements depend on
-;; `cc-imenu-c++-generic-expression'. So if you change this
-;; expression, you need to change following variables,
-;; `cc-imenu-objc-generic-expression-*-index',
-;; too. `cc-imenu-objc-function' uses these *-index variables, in
-;; order to know where the each regexp *group \\(foobar\\)* elements
-;; are started.
-;;
-;; *-index variables are initialized during `cc-imenu-objc-generic-expression'
-;; being initialized.
-;;
 
 (defvar cc-imenu-c++-generic-expression
   `(
@@ -162,131 +148,61 @@ A sample value might look like: `\\(_P\\|_PROTO\\)'.")
   cc-imenu-c++-generic-expression
   "Imenu generic expression for C mode.	 See `imenu-generic-expression'.")
 
-
-;; Auxiliary regexps for Java try to match their trailing whitespace where
-;; appropriate, but _not_ starting whitespace.
-
-(defconst cc-imenu-java-ellipsis-regexp
-  (concat
-   "\\.\\{3\\}"
-   "[ \t\n\r]*"))
-
-(defun cc-imenu-java-build-type-args-regex (depth)
-  "Builds regexp for type arguments list with DEPTH allowed
-nested angle brackets constructs."
-  (if (> depth 0)
-      (concat "<"
-		"[][.," c-alnum "_? \t\n\r]+"
-		(if (> depth 1)
-		    "\\(")
-		(cc-imenu-java-build-type-args-regex (1- depth))
-		(if (> depth 1)
-		  (concat "[][.," c-alnum "_? \t\n\r]*"
-			  "\\)*"))
-	      ">")))
-
-(defconst cc-imenu-java-type-spec-regexp
-  (concat
-   ;; zero or more identifiers followed by a dot
-   "\\("
-     "[" c-alpha "_][" c-alnum "_]*\\."
-   "\\)*"
-   ;; a single mandatory identifier without a dot
-   "[" c-alpha "_][" c-alnum "_]*"
-   ;; then choice:
-   "\\("
-   ;; (option 1) type arguments list which _may_ be followed with brackets
-   ;; and/or spaces, then optional variable arity
-     "[ \t\n\r]*"
-     (cc-imenu-java-build-type-args-regex 3)
-     "[][ \t\n\r]*"
-     "\\(" cc-imenu-java-ellipsis-regexp "\\)?"
-   "\\|"
-   ;; (option 2) just brackets and/or spaces (there should be at least one),
-   ;; then optional variable arity
-     "[][ \t\n\r]+"
-     "\\(" cc-imenu-java-ellipsis-regexp "\\)?"
-   "\\|"
-   ;; (option 3) just variable arity
-     cc-imenu-java-ellipsis-regexp
-   "\\)"))
-
-(defconst cc-imenu-java-comment-regexp
-  (concat
-   "/"
-   "\\("
-   ;; a traditional comment
-     "\\*"
-     "\\("
-       "[^*]"
-     "\\|"
-       "\\*+[^/*]"
-     "\\)*"
-     "\\*+/"
-   "\\|"
-   ;; an end-of-line comment
-     "/[^\n\r]*[\n\r]"
-   "\\)"
-  "[ \t\n\r]*"
-   ))
-
-;; Comments are allowed before the argument, after any of the
-;; modifiers and after the identifier.
-(defconst cc-imenu-java-method-arg-regexp
-  (concat
-   "\\(" cc-imenu-java-comment-regexp "\\)*"
-   ;; optional modifiers
-   "\\("
-     ;; a modifier is either an annotation or "final"
-     "\\("
-       "@[" c-alpha "_]"
-       "[" c-alnum "._]*"
-       ;; TODO support element-value pairs!
-     "\\|"
-       "final"
-     "\\)"
-     ;; a modifier ends with comments and/or ws
-     "\\("
-       "\\(" cc-imenu-java-comment-regexp "\\)+"
-     "\\|"
-       "[ \t\n\r]+"
-       "\\(" cc-imenu-java-comment-regexp "\\)*"
-     "\\)"
-   "\\)*"
-   ;; type spec
-   cc-imenu-java-type-spec-regexp
-   ;; identifier
-   "[" c-alpha "_]"
-   "[" c-alnum "_]*"
-   ;; optional comments and/or ws
-   "[ \t\n\r]*"
-   "\\(" cc-imenu-java-comment-regexp "\\)*"
-   ))
-
-(defconst cc-imenu-java-generic-expression
+(defvar cc-imenu-java-generic-expression
   `((nil
      ,(concat
-       cc-imenu-java-type-spec-regexp
-       "\\("				      ; method name which gets captured
-					      ; into index
-         "[" c-alpha "_]"
-         "[" c-alnum "_]*"
-       "\\)"
+       "[" c-alpha "_][\]\[." c-alnum "_<> ]+[ \t\n\r]+" ; type spec
+       "\\([" c-alpha "_][" c-alnum "_]*\\)" ; method name
        "[ \t\n\r]*"
-       ;; An argument list that contains zero or more arguments.
-       (concat
-	"("
-	"[ \t\n\r]*"
-	"\\("
-	  "\\(" cc-imenu-java-method-arg-regexp ",[ \t\n\r]*\\)*"
-	  cc-imenu-java-method-arg-regexp
-	"\\)?"
-	")"
-	"[.,_" c-alnum " \t\n\r]*"	      ; throws etc.
-	"{"
-	)) 7))
+       ;; An argument list that is either empty or contains any number
+       ;; of arppguments.  An argument is any number of annotations
+
+       ;; followed by a type spec followed by a word.  A word is an
+       ;; identifier.  A type spec is an identifier, possibly followed
+       ;; by < typespec > possibly followed by [].
+       (concat "("
+	       "\\("
+	       "[ \t\n\r]*"
+	       "\\("
+	       "@"
+	       "[" c-alpha "_]"
+	       "[" c-alnum "._]*"
+	       "[ \t\n\r]+"
+	       "\\)*"
+	       "\\("
+	       "[" c-alpha "_]"
+	       "[][" c-alnum "_.]*"
+	       "\\("
+	       "<"
+	       "[ \t\n\r]*"
+	       "[\]\[.," c-alnum "_<> \t\n\r]*"
+	       ">"
+	       "\\)?"
+	       "[\]\[ \t\n\r]+"
+	       "\\)"
+	       "[" c-alpha "_]"
+	       "[" c-alnum "_]*"
+	       "[ \t\n\r,]*"
+	       "\\)*"
+	       ")"
+	       "[.," c-alnum " \t\n\r]*"
+	       "{"
+	       )) 1))
   "Imenu generic expression for Java mode.  See `imenu-generic-expression'.")
 
+;;			  *Warning for cc-mode developers*
+;;
+;; `cc-imenu-objc-generic-expression' elements depend on
+;; `cc-imenu-c++-generic-expression'. So if you change this
+;; expression, you need to change following variables,
+;; `cc-imenu-objc-generic-expression-*-index',
+;; too. `cc-imenu-objc-function' uses these *-index variables, in
+;; order to know where the each regexp *group \\(foobar\\)* elements
+;; are started.
+;;
+;; *-index variables are initialized during `cc-imenu-objc-generic-expression'
+;; being initialized.
+;;
 
 ;; Internal variables
 (defvar cc-imenu-objc-generic-expression-noreturn-index nil)
@@ -307,7 +223,7 @@ nested angle brackets constructs."
    "\\|"
    ;; > General function name regexp
    ;; Pick a token by  (match-string 3)
-   (car (cdr (nth 2 cc-imenu-c++-generic-expression))) ; -> index += 6
+   (car (cdr (nth 2 cc-imenu-c++-generic-expression))) ; -> index += 5
    (prog2 (setq cc-imenu-objc-generic-expression-general-func-index 3) "")
    ;; > Special case for definitions using phony prototype macros like:
    ;; > `int main _PROTO( (int argc,char *argv[]) )'.
@@ -316,11 +232,11 @@ nested angle brackets constructs."
        (concat
 	"\\|"
 	(car (cdr (nth 3 cc-imenu-c++-generic-expression))) ; -> index += 1
-	(prog2 (setq cc-imenu-objc-generic-expression-objc-base-index 10) "")
+	(prog2 (setq cc-imenu-objc-generic-expression-objc-base-index 9) "")
 	)
-     (prog2 (setq cc-imenu-objc-generic-expression-objc-base-index 9) "")
+     (prog2 (setq cc-imenu-objc-generic-expression-objc-base-index 8) "")
      "")				; -> index += 0
-   (prog2 (setq cc-imenu-objc-generic-expression-proto-index 9) "")
+   (prog2 (setq cc-imenu-objc-generic-expression-proto-index 8) "")
    ;;
    ;; For Objective-C
    ;; Pick a token by (match-string 8 or 9)

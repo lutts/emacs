@@ -73,6 +73,45 @@
       (indent-region (region-beginning) (region-end) nil)
     (c-indent-command)))
 
+(defun qt-customizations ()
+  "Set up c-mode and related modes. Includes support for Qt code (signal, slots and alikes)."
+
+  ;; base-style
+  ;; (c-set-style "stroustrup")
+  ;; qt keywords and stuff ...
+  ;; set up indenting correctly for new qt kewords
+  (setq c-protection-key (concat "\\<\\(public\\|public slot\\|protected"
+                                 "\\|protected slot\\|private\\|private slot"
+                                 "\\)\\>")
+        c-C++-access-key (concat "\\<\\(signals\\|public\\|protected\\|private"
+                                 "\\|public slots\\|protected slots\\|private slots"
+                                 "\\)\\>[ \t]*:"))
+
+  ;; modify the colour of slots to match public, private, etc ...
+  (font-lock-add-keywords 'c++-mode '(("\\<\\(slots\\|signals\\)\\>" . font-lock-type-face)))
+  ;; make new font for rest of qt keywords
+  (make-face 'qt-keywords-face)
+  (set-face-foreground 'qt-keywords-face "BlueViolet")
+  ;; qt keywords
+  (font-lock-add-keywords 'c++-mode '(("\\<Q_[A-Z]*\\>" . 'qt-keywords-face)))
+  (font-lock-add-keywords 'c++-mode '(("\\<SIGNAL\\|SLOT\\>" . 'qt-keywords-face)))
+  (font-lock-add-keywords 'c++-mode '(("\\<Q[A-Z][A-Za-z]*\\>" . 'qt-keywords-face)))
+  (font-lock-add-keywords 'c++-mode '(("\\<Q[A-Z_]+\\>" . 'qt-keywords-face)))
+  (font-lock-add-keywords 'c++-mode
+                          '(("\\<q\\(Debug\\|Wait\\|Printable\\|Max\\|Min\\|Bound\\)\\>" . 'font-lock-builtin-face)))
+
+  (setq c-macro-names-with-semicolon '("Q_OBJECT" "Q_PROPERTY" "Q_DECLARE" "Q_ENUMS"))
+  (c-make-macro-with-semi-re)
+  )
+
+;; and treat .pro files like makefiles
+(setq auto-mode-alist (cons '("\\.pro$" . makefile-mode) auto-mode-alist))
+
+; Make .h files be C++ mode
+(setq auto-mode-alist(cons '("\\.h$"   . c++-mode)  auto-mode-alist))
+
+(add-hook 'c-mode-common-hook 'qt-customizations)
+
 (add-hook 'c-mode-common-hook
 	  '(lambda()
 	     ;;preprocessor
@@ -104,13 +143,8 @@
   (setq tab-width 8 indent-tabs-mode t)
 )
 
-(defun my-c++-common-hook ()
-  (setq c-basic-offset 4)
-  (setq tab-width 4 indent-tabs-mode nil)
-)
 
 (add-hook 'c-mode-hook 'my-c-common-hook)
-(add-hook 'c++-mode-hook 'my-c++-common-hook)
 
 ;; linux kernel codeing style
 (defun c-lineup-arglist-tabs-only (ignored)
@@ -143,6 +177,13 @@
                 (c-set-style "linux-tabs-only")))))
 
 ;;; C++ mode configurations
-;(add-hook 'c++-mode-hook
-;	  '(lambda ()
-;	     (c-set-style "stroustrup")))
+(add-hook 'c++-mode-hook
+	  '(lambda ()
+	     (c-set-style "stroustrup")))
+
+(defun my-c++-common-hook ()
+  (setq c-basic-offset 4)
+  (setq tab-width 4 indent-tabs-mode nil)
+  )
+
+(add-hook 'c++-mode-hook 'my-c++-common-hook)

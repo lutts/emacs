@@ -1,0 +1,6 @@
+This repository is no more.  It was superseded by a Mercurial repository on
+19th February 2012.  For links to the new repository, see the CC Mode website
+at <http://cc-mode.sourceforge.net/>.
+
+-- 
+Alan Mackenzie.
