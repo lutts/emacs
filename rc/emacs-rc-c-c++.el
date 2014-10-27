@@ -177,9 +177,9 @@
                 (c-set-style "linux-tabs-only")))))
 
 ;;; C++ mode configurations
-(add-hook 'c++-mode-hook
-	  '(lambda ()
-	     (c-set-style "stroustrup")))
+;(add-hook 'c++-mode-hook
+;	  '(lambda ()
+;	     (c-set-style "stroustrup")))
 
 (defun my-c++-common-hook ()
   (setq c-basic-offset 4)
