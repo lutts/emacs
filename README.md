@@ -1,6 +1,7 @@
 # My Emacs configurations #
 
-# I HATE CEDET, ECB, ICICLES, I HATE all complicate plugins, except cc-mode
+# simply is the best
+AVOID big plugins, like CEDET, etc
 
 # How to use my configurations
 ## change environment variable settings
