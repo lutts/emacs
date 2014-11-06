@@ -135,6 +135,8 @@
 	     (setq cscope-do-not-update-database t)
 	     (require 'ifdef)
 	     (imenu-add-menubar-index)
+	     ; company mode settings
+	     (setq company-backends (delete 'company-semantic company-backends))
 	     )
 	  )
 

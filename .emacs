@@ -60,6 +60,9 @@ mouse-3: Remove current window from display")))))
 (setq user-full-name "Lutts Cao")
 (setq user-mail-address "lutts.cao@gmail.com")
 
+(require 'uniquify)
+(setq uniquify-buffer-name-style 'post-forward)
+
 ;;; Emacs title bar to reflect file name
 (defun frame-title-string ()
    "Return the file name of current buffer, using ~ if under home directory"
@@ -314,16 +317,22 @@ Equivalent to beginning-of-line, open-line."
 (load "~/emacs/rc/emacs-rc-eshell.el")
 (load "~/emacs/rc/emacs-rc-buffer-switching.el")
 
+;; company mode
+(add-hook 'after-init-hook 'global-company-mode)
+
 ;(load "~/emacs/rc/emacs-rc-cedet.el")
 ;(load "~/emacs/rc/emacs-rc-ecb.el")
 (load "~/emacs/rc/emacs-rc-c-c++.el")
 (load "~/emacs/rc/emacs-rc-hide-show.el")
 (load "~/emacs/rc/emacs-rc-java.el")
-(load "~/emacs/rc/emacs-rc-auto-complete.el")
+;(load "~/emacs/rc/emacs-rc-auto-complete.el")
 (load "~/emacs/rc/emacs-rc-desktop.el")
 
 ;;; smartparents
 (load "~/emacs/rc/emacs-rc-smartparens.el")
+
+(load "~/emacs/rc/emacs-rc-cmake.el")
+
 
 ;; elpy
 ;(elpy-enable)
@@ -346,23 +355,8 @@ Equivalent to beginning-of-line, open-line."
 ;;increase max-specpdl-size this big to start the debugger
 ;(setq max-specpdl-size  5000)
 
-
-;(ede-cpp-root-project "fpga-jz4780"
-;		      :name "fpga-jz4780"
-;		      :file "~/android/disk2/linux/4780/fpga-jz4780/Makefile"
-;		      :include-path '("/include")
-;		      :system-include-path '("/opt/mipseltools-gcc412-glibc261/mipsel-linux/include")
-;		      :spp-files '( "linux/autoconf.h" )
-;;		      :spp-table '(("isUnix" . "")
-;;				   ("BOOST_TEST_DYN_LINK" . ""))
-;)
-
-;(ede-cpp-root-project "android-4.1-kernel"
-;		      :name "android-4.1-kernel"
-;		      :file "~/android/disk2/android-4.1/kernel/Makefile"
-;		      :include-path '("/include" "include/linux")
-;		      :system-include-path '("~/android/disk2/android-4.1/prebuilt/linux-x86/toolchain/mips-4.4.3/mips-linux-gnu/include")
-;		      :spp-files '( "generated/autoconf.h" "generated/asm-offsets.h")
-;)
-
 (split-window-tile-3)
+
+;;;;;;;;;; required packages ;;;;;;;;;;;;
+;;     name       --- list-packages name  --- homepage
+;; * company mode --- company             --- http://company-mode.github.io/
