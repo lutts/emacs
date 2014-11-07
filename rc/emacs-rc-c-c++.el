@@ -7,10 +7,10 @@
 ;;; C mode configurations
 
 ;; gtags
-;(load "~/emacs/rc/emacs-rc-gtags.el")
+;(load (concat my-base-path "rc/emacs-rc-gtags.el"))
 
 ;; xgtags
-(load "~/emacs/rc/emacs-rc-xgtags.el")
+(load (concat my-base-path "rc/emacs-rc-xgtags.el"))
 
 (defun my-cc-mode-auto-pair ()
   (interactive)
@@ -190,4 +190,4 @@
 
 (add-hook 'c++-mode-hook 'my-c++-common-hook)
 
-(load "~/emacs/rc/emacs-rc-tempo.el")
+(load (concat my-base-path "rc/emacs-rc-tempo.el"))

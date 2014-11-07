@@ -261,10 +261,11 @@ Equivalent to beginning-of-line, open-line."
 ;;;;;;;;;;;;;;;; third-party addons ;;;;;;;;;;;;;;;;
 
 ;;; add commonly used paths
-(add-to-list 'load-path "~/emacs/cc-mode")
-(add-to-list 'load-path "~/emacs/elisp")
-(add-to-list 'load-path "~/emacs/elisp/bookmarkplus")
-(add-to-list 'load-path "~/emacs/ahei-elisp")
+(setq my-base-path "~/emacs/")
+
+(add-to-list 'load-path (concat my-base-path "cc-mode"))
+(add-to-list 'load-path (concat my-base-path "elisp"))
+(add-to-list 'load-path (concat my-base-path "elisp/bookmarkplus"))
 
 (package-initialize)
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
@@ -274,7 +275,7 @@ Equivalent to beginning-of-line, open-line."
 ;(require 'eval-after-load)
 ;(require 'util)
 
-(load "~/emacs/rc/emacs-rc-color-theme.el")
+(load (concat my-base-path "rc/emacs-rc-color-theme.el"))
 
 ;;tabbar
 (require 'tabbar)
@@ -313,25 +314,25 @@ Equivalent to beginning-of-line, open-line."
 
 ;; smooth scrolling
 (require 'smooth-scrolling)
-(load "~/emacs/rc/emacs-rc-lutts.el")
-(load "~/emacs/rc/emacs-rc-eshell.el")
-(load "~/emacs/rc/emacs-rc-buffer-switching.el")
+(load (concat my-base-path "rc/emacs-rc-lutts.el"))
+(load (concat my-base-path "rc/emacs-rc-eshell.el"))
+(load (concat my-base-path "rc/emacs-rc-buffer-switching.el"))
 
 ;; company mode
 (add-hook 'after-init-hook 'global-company-mode)
 
-;(load "~/emacs/rc/emacs-rc-cedet.el")
-;(load "~/emacs/rc/emacs-rc-ecb.el")
-(load "~/emacs/rc/emacs-rc-c-c++.el")
-(load "~/emacs/rc/emacs-rc-hide-show.el")
-(load "~/emacs/rc/emacs-rc-java.el")
-;(load "~/emacs/rc/emacs-rc-auto-complete.el")
-(load "~/emacs/rc/emacs-rc-desktop.el")
+;(load (concat my-base-path "rc/emacs-rc-cedet.el"))
+;(load (concat my-base-path "rc/emacs-rc-ecb.el"))
+(load (concat my-base-path "rc/emacs-rc-c-c++.el"))
+(load (concat my-base-path "rc/emacs-rc-hide-show.el"))
+(load (concat my-base-path "rc/emacs-rc-java.el"))
+;(load (concat my-base-path "rc/emacs-rc-auto-complete.el"))
+(load (concat my-base-path "rc/emacs-rc-desktop.el"))
 
 ;;; smartparents
-(load "~/emacs/rc/emacs-rc-smartparens.el")
+(load (concat my-base-path "rc/emacs-rc-smartparens.el"))
 
-(load "~/emacs/rc/emacs-rc-cmake.el")
+(load (concat my-base-path "rc/emacs-rc-cmake.el"))
 
 
 ;; elpy
