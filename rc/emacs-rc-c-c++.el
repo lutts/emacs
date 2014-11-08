@@ -75,8 +75,6 @@
 	  '(lambda()
 	     ;;preprocessor
 	     (setq c-macro-prompt-flag t)
-	     (setq c-basic-offset 4)
-	     (setq tab-width 4 indent-tabs-mode t)
 	     (setq fill-column 80)
 	     (setq comment-column 30)
 	     (highlight-parentheses-mode 1)
@@ -138,19 +136,20 @@
                 (c-set-style "linux-tabs-only")))))
 
 ;;; C++ mode configurations
+
+;; C++ Coding Style
 ;(add-hook 'c++-mode-hook
 ;	  '(lambda ()
 ;	     (c-set-style "stroustrup")))
 
-(defun my-c++-common-hook ()
-  (setq c-basic-offset 4)
-  (setq tab-width 4 indent-tabs-mode nil)
-  )
-
-(add-hook 'c++-mode-hook 'my-c++-common-hook)
-
-(load (concat my-base-path "rc/emacs-rc-tempo.el"))
+;(defun my-c++-common-hook ()
+;  (setq tab-width 4 indent-tabs-mode nil)
+;  )
+;
+;(add-hook 'c++-mode-hook 'my-c++-common-hook)
 
 ;; if using google style, uncomment this line
 (require 'google-c-style)
 (add-hook 'c-mode-common-hook 'google-set-c-style)
+
+(load (concat my-base-path "rc/emacs-rc-tempo.el"))
