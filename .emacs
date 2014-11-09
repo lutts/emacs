@@ -361,3 +361,38 @@ Equivalent to beginning-of-line, open-line."
 ;;;;;;;;;; required packages ;;;;;;;;;;;;
 ;;     name       --- list-packages name  --- homepage
 ;; * company mode --- company             --- http://company-mode.github.io/
+
+(add-to-list 'load-path
+	     "~/.emacs.d/plugins/yasnippet")
+(require 'yasnippet)
+(yas-global-mode 1)
+(add-to-list 'yas-snippet-dirs (concat my-base-path "snippets"))
+
+;(define-key yas-minor-mode-map (kbd "<tab>") nil)
+;(define-key yas-minor-mode-map (kbd "TAB") nil)
+(define-key yas-minor-mode-map (kbd "C-=") 'yas/expand)
+
+;; auto-insert
+(auto-insert-mode)
+(setq auto-insert-directory (concat my-base-path "auto-insert"))
+(setq auto-insert-query nil)  ; If you don't want to be prompted before insertion
+
+(define-auto-insert "\\.\\([C]\\|cc\\|cpp\\)$"  "template.c")
+(define-auto-insert "\\.\\([Hh]\\|hh\\|hpp\\)$" "template.h")
+;(define-auto-insert "\\.sh$" "template.sh")
+;(define-auto-insert "\\.el$" "template.el")
+;(define-auto-insert "\\.py$" "template.py")
+
+(defadvice auto-insert  (around yasnippet-expand-after-auto-insert activate)
+  "expand auto-inserted content as yasnippet templete,
+  so that we could use yasnippet in autoinsert mode"
+  (let ((is-new-file (and (not buffer-read-only)
+                          (or (eq this-command 'auto-insert)
+                              (and auto-insert (bobp) (eobp))))))
+    ad-do-it
+    (let ((old-point-max (point-max))
+          (yas-indent-line nil))
+      (when is-new-file
+        (goto-char old-point-max)
+        (yas-expand-snippet (buffer-substring-no-properties (point-min) (point-max)))
+        (delete-region (point-min) old-point-max)))))

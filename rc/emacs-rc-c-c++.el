@@ -152,4 +152,4 @@
 (require 'google-c-style)
 (add-hook 'c-mode-common-hook 'google-set-c-style)
 
-(load (concat my-base-path "rc/emacs-rc-tempo.el"))
+;(load (concat my-base-path "rc/emacs-rc-tempo.el"))

@@ -43,7 +43,7 @@
 (tempo-define-template "c-ifndef"
 		       '("ifndef " (p "ifndef-clause: " clause) > n
 			 "#define " (s clause) p n
-			 "#endif /* " (s clause)" */" n>
+			 "#endif  // " (s clause) n>
 			 )
 		       "ifndef"
 		       "Insert a #ifndef #define #endif statement"

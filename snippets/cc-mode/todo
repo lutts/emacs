@@ -1,0 +1,5 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: todo
+# key: todo
+# --
+TODO(`user-mail-address` `(format-time-string "%Y-%m-%d")`): ${1:Description}
