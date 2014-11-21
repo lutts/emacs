@@ -1,3 +1,6 @@
+#name : file info, like copyrights etc.
+# key: fileinfo
+# --
 // Copyright (c) `(format-time-string "%Y")`
 // All rights reserved.
 //

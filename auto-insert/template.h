@@ -1,7 +1,7 @@
 // Copyright (c) `(format-time-string "%Y")`
 // All rights reserved.
 //
-// Author: `user-full-name` <`user-mail-address`>
+// Author: `(yas--magit-username-or-default)` <`(yas--magit-email-or-default)`>
 //
 // [Desc]
 

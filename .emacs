@@ -1,9 +1,9 @@
 ;;; environment variables
 (when (equal system-type 'gnu/linux)
       (message "Emacs Run on GNU/Linux")
-      (setenv "PATH" (concat "/opt/mips-4.3/bin:/opt/texlive/2011/bin/x86_64-linux:" (getenv "PATH")))
-      (setenv "MY_GTAGSLIBPATH" "/home/lutts/devel2/Qt/qt-everywhere-opensource-src-4.8.6")
-      (setq exec-path (append exec-path '("/opt/mips-4.3/bin")))
+      (setenv "PATH" (concat "/home/lutts/lib/Qt5_debug/bin:/opt/texlive/2011/bin/x86_64-linux:" (getenv "PATH")))
+      (setenv "MY_GTAGSLIBPATH" "/home/lutts/devel1/Qt/qt-everywhere-opensource-src-5.3.2")
+      (setq exec-path (append exec-path '("/home/lutts/lib/Qt5_debug/bin")))
       (setq exec-path (append exec-path '("/opt/texlive/2011/bin/x86_64-linux"))))
 
 (when (string= (getenv "USER") "lutts")
@@ -312,6 +312,10 @@ Equivalent to beginning-of-line, open-line."
 (global-set-key [(shift f3)] 'highlight-symbol-prev)
 (global-set-key [(meta f3)] 'highlight-symbol-prev)
 
+;; GIT
+(require 'magit)
+(global-set-key (kbd "C-x g") 'magit-status)
+
 ;; smooth scrolling
 (require 'smooth-scrolling)
 (load (concat my-base-path "rc/emacs-rc-lutts.el"))
@@ -367,10 +371,23 @@ Equivalent to beginning-of-line, open-line."
 (require 'yasnippet)
 (yas-global-mode 1)
 (add-to-list 'yas-snippet-dirs (concat my-base-path "snippets"))
+(yas-reload-all)
 
 ;(define-key yas-minor-mode-map (kbd "<tab>") nil)
 ;(define-key yas-minor-mode-map (kbd "TAB") nil)
 (define-key yas-minor-mode-map (kbd "C-=") 'yas/expand)
+
+(defun yas--magit-email-or-default ()
+  "Get email from GIT or use default"
+  (if (magit-get-top-dir ".")
+      (magit-get "user.email")
+    user-mail-address))
+
+(defun yas--magit-username-or-default ()
+  "Get username from GIT or use default"
+  (if (magit-get-top-dir ".")
+      (magit-get "user.name")
+    user-full-name))
 
 ;; auto-insert
 (auto-insert-mode)
