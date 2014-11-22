@@ -48,6 +48,7 @@ mouse-3: Remove current window from display")))))
  '(tabbar-selected-face ((t (:inherit tabbar-default-face :foreground "blue" :box (:line-width 2 :color "white" :style pressed-button)))))
  '(tabbar-unselected-face ((t (:inherit tabbar-default-face :foreground "DarkGreen" :box (:line-width 2 :color "white" :style released-button))))))
 
+(add-to-list 'safe-local-variable-values '(MY_GTAGSLIBPATH . "/home/lutts/devel1/Qt/qt-everywhere-opensource-src-5.3.2"))
 
 ;;;;;;;;;;;;;;;; standard emacs setting that do not depend on third party addons ;;;;;;;;;;;;;;;;
 
@@ -413,3 +414,6 @@ Equivalent to beginning-of-line, open-line."
         (goto-char old-point-max)
         (yas-expand-snippet (buffer-substring-no-properties (point-min) (point-max)))
         (delete-region (point-min) old-point-max)))))
+
+(add-to-list 'load-path "~/.emacs.d/plugins/cpputils-cmake")
+(require 'cpputils-cmake)

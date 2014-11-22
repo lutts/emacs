@@ -358,11 +358,11 @@ killed!"
 ;;; macros
 
 (defmacro with-xgtags-environment (&rest body)
-  `(let ((process-environment (copy-alist process-environment)))
+  `(let ((process-environment (copy-alist process-environment))
+         (gtagslibpath (cdr (assq 'MY_GTAGSLIBPATH file-local-variables-alist))))
      (when xgtags-rootdir
        (setenv "GTAGSROOT" xgtags-rootdir))
-     (when (locate-dominating-file default-directory (lambda (parent) (directory-files parent nil ".*\.pro$")))
-       (setenv "GTAGSLIBPATH" (getenv "MY_GTAGSLIBPATH")))
+     (setenv "GTAGSLIBPATH" gtagslibpath)
      (with-temp-buffer
        (setq curr-gtags-root
 	     (if (zerop (call-process "global" nil t nil "-pr"))

@@ -82,6 +82,7 @@
              ;;bind newline-and-indent to RET
 	     (local-set-key (kbd "RET") 'newline-and-indent)
 	     (local-set-key (kbd "C-c ;") 'comment-line)
+	     (local-set-key (kbd "C-x C-o") 'ff-find-other-file)
 	     (c-toggle-hungry-state 1)
 	     (delete-selection-mode t)
 	     ; can use M-x delete-trailing-whitespace <RET> to delete all trailing whitespace within cur buf
@@ -94,6 +95,7 @@
 	     (imenu-add-menubar-index)
 	     ; company mode settings
 	     (setq company-backends (delete 'company-semantic company-backends))
+	     (setq company-backends (delete 'company-clang company-backends))
 	     )
 	  )
 
@@ -153,3 +155,9 @@
 (add-hook 'c-mode-common-hook 'google-set-c-style)
 
 ;(load (concat my-base-path "rc/emacs-rc-tempo.el"))
+
+(add-hook 'c-mode-common-hook
+          (lambda ()
+            (if (derived-mode-p 'c-mode 'c++-mode)
+                (cppcm-reload-all)
+              )))
