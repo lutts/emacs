@@ -95,7 +95,8 @@
 	     (imenu-add-menubar-index)
 	     ; company mode settings
 	     (setq company-backends (delete 'company-semantic company-backends))
-	     (setq company-backends (delete 'company-clang company-backends))
+	     (add-to-list 'company-clang-arguments "-fPIE -std=c++11 -v")
+	     ;(setq company-backends (delete 'company-clang company-backends))
 	     )
 	  )
 
