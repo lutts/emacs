@@ -83,6 +83,7 @@
 	     (local-set-key (kbd "RET") 'newline-and-indent)
 	     (local-set-key (kbd "C-c ;") 'comment-line)
 	     (local-set-key (kbd "C-x C-o") 'ff-find-other-file)
+	     (local-set-key (kbd "C-c .") 'company-gtags)
 	     (c-toggle-hungry-state 1)
 	     (delete-selection-mode t)
 	     ; can use M-x delete-trailing-whitespace <RET> to delete all trailing whitespace within cur buf
