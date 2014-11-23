@@ -415,8 +415,8 @@ Equivalent to beginning-of-line, open-line."
         (yas-expand-snippet (buffer-substring-no-properties (point-min) (point-max)))
         (delete-region (point-min) old-point-max)))))
 
-(add-to-list 'load-path "~/.emacs.d/plugins/cpputils-cmake")
-(require 'cpputils-cmake)
+;(add-to-list 'load-path "~/.emacs.d/plugins/cpputils-cmake")
+;(require 'cpputils-cmake)
 
 (eval-after-load 'company
   '(add-to-list 'company-backends 'company-irony))
