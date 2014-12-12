@@ -1,5 +1,9 @@
 ;; buffer switching
-(iswitchb-mode 1)
+;; deprecated in emacs 24.4
+;(iswitchb-mode 1)
+
+;; use icomplete in emacs 24.4
+(icomplete-mode 99)
 
 (require 'bs)
 (global-set-key (kbd "C-x C-b") 'bs-show)
