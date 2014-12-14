@@ -48,7 +48,8 @@ mouse-3: Remove current window from display")))))
  '(tabbar-selected-face ((t (:inherit tabbar-default-face :foreground "blue" :box (:line-width 2 :color "white" :style pressed-button)))))
  '(tabbar-unselected-face ((t (:inherit tabbar-default-face :foreground "DarkGreen" :box (:line-width 2 :color "white" :style released-button))))))
 
-(add-to-list 'safe-local-variable-values '(MY_GTAGSLIBPATH . "/home/lutts/devel1/Qt/qt-everywhere-opensource-src-5.3.2"))
+;(add-to-list 'safe-local-variable-values '(MY_GTAGSLIBPATH . "/home/lutts/devel1/Qt/qt-everywhere-opensource-src-5.3.2"))
+(put 'MY_GTAGSLIBPATH 'safe-local-variable (lambda (xx) t))
 
 ;;;;;;;;;;;;;;;; standard emacs setting that do not depend on third party addons ;;;;;;;;;;;;;;;;
 
