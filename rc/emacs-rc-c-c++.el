@@ -104,6 +104,7 @@
 	  )
 
 (require 'compile)
+(setq compilation-scroll-output 'first-error)
 
 (add-hook 'c-mode-common-hook
 	  (lambda ()
