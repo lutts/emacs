@@ -84,6 +84,8 @@
 	     (local-set-key (kbd "C-c ;") 'comment-line)
 	     (local-set-key (kbd "C-x C-o") 'ff-find-other-file)
 	     (local-set-key (kbd "C-c .") 'company-gtags)
+	     (local-set-key (kbd "C-c m") 'compile)
+	     (local-set-key (kbd "C-c i") 'recompile)
 	     (c-toggle-hungry-state 1)
 	     (delete-selection-mode t)
 	     ; can use M-x delete-trailing-whitespace <RET> to delete all trailing whitespace within cur buf
@@ -100,6 +102,17 @@
 	     ;(setq company-backends (delete 'company-clang company-backends))
 	     )
 	  )
+
+(require 'compile)
+
+(add-hook 'c-mode-common-hook
+	  (lambda ()
+	    (set (make-local-variable 'compile-command)
+		 (format "make -C %s"
+			 (locate-dominating-file
+			  default-directory
+			  (lambda (parent)
+			    (directory-files parent nil ".*Makefile$")))))))
 
 (defun my-c-common-hook ()
   (setq c-basic-offset 8)
