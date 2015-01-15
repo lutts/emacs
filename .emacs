@@ -50,6 +50,7 @@ mouse-3: Remove current window from display")))))
 
 ;(add-to-list 'safe-local-variable-values '(MY_GTAGSLIBPATH . "/home/lutts/devel1/Qt/qt-everywhere-opensource-src-5.3.2"))
 (put 'MY_GTAGSLIBPATH 'safe-local-variable (lambda (xx) t))
+(put 'TestCaseName 'safe-local-variable (lambda (xx) t))
 
 ;;;;;;;;;;;;;;;; standard emacs setting that do not depend on third party addons ;;;;;;;;;;;;;;;;
 

@@ -86,6 +86,7 @@
 	     (local-set-key (kbd "C-c .") 'company-gtags)
 	     (local-set-key (kbd "C-c m") 'compile)
 	     (local-set-key (kbd "C-c i") 'recompile)
+	     (local-set-key (kbd "C-c g") 'magit-status)
 	     (c-toggle-hungry-state 1)
 	     (delete-selection-mode t)
 	     ; can use M-x delete-trailing-whitespace <RET> to delete all trailing whitespace within cur buf

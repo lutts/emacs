@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: on_call
+# key: onc
+# --
+ON_CALL($0)

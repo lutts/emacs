@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: test
+# key: test
+# group: testing
+# --
+TEST(`TestCaseName`, ${1:test1}) {
+$0
+}

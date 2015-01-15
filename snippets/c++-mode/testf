@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: testf
+# key: testf
+# group: testing
+# --
+TEST_F(`TestCaseName`, ${1:test1}) {
+$0
+}

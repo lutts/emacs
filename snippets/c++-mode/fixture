@@ -1,0 +1,14 @@
+# -*- mode: snippet -*-
+# name: fixture
+# key: fixt
+# --
+class ${1:testcasename} : public ::testing::Test {
+  //-*- TestCaseName: $1;-*-
+ protected:
+  $1() { }
+  ~$1() { }
+  virtual void SetUp() { }
+  virtual void TearDown() { }
+
+$0
+};

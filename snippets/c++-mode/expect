@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: expect
+# key: exp
+# --
+EXPECT_${1:$$(yas-choose-value '("TRUE" "FALSE" "EQ" "NE" "THAT" "LT" "LE" "GT" "GE" "STREQ" "STRNE" "STRCASEEQ" "STRCASENE" "THROW" "ANY_THROW" "NO_THROW" "PRED1" "PRED_FORMAT1" "FLOAT_EQ" "DOUBLE_EQ" "NEAR"))}(${2:expect/value}, ${3:actual/matcher})

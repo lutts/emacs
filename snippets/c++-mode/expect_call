@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: expect_call
+# key: expc
+# --
+EXPECT_CALL($0)

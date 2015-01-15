@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: qtestf
+# key: qtestf
+# group: testing
+# --
+void `TestCaseName`::${1:test1}() {
+$0
+}

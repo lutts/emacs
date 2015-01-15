@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: gmock
+# key: gmock
+# group: testing
+# --
+#include <gmock/gmock.h>
+#include <gtest/gtest.h>

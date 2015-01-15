@@ -99,3 +99,7 @@ my_function(
     int        bar)
                ^
 1234567890123456
+
+magit
+=====
+M-x magit-status

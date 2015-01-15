@@ -1,0 +1,24 @@
+# -*- mode: snippet -*-
+# name: qtest
+# key: qtest
+# --
+#include <QtWidgets>
+#include <QtTest/QtTest>
+
+#include "./testconfig.h"
+
+class ${1:testcasename} : public QObject {
+  //-*- TestCaseName: $1;-*-
+  Q_OBJECT
+
+ private slots:
+  void initTestCase() { }
+  void cleanupTestCase() { }
+  void init() { }
+  void cleanup() { }
+
+  $0
+};
+
+QTEST_GMOCK_MAIN($1)
+#include "moc_$1.cpp"
