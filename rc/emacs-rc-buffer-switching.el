@@ -11,6 +11,15 @@
 ;; provide S-up S-down S-left S-right
 (windmove-default-keybindings)
 
+(defun lutts-revert-all-buffer ()
+  "revert all buffers"
+  (interactive)
+  (global-auto-revert-mode)
+  (global-auto-revert-mode)
+  )
+
+(global-set-key (kbd "C-c v") 'lutts-revert-all-buffer)
+
 ;; redo/undo window layout
 (setq winner-dont-bind-my-keys t)
 (winner-mode t)
