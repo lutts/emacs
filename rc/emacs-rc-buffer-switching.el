@@ -52,7 +52,7 @@
 	"^\\*xgtags\\*$"
 	"^\\*GTAGS.*"
 	"^\\*Backtrace\\*$"
-	"^\\*magit\\*$"
+	"^\\*magit:.*"
 	))
 
 (defun lutts-display-special-buffer (buf &optional data)

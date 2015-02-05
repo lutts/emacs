@@ -71,6 +71,39 @@
 
 (add-hook 'c-mode-common-hook 'qt-customizations)
 
+(setq cc-other-file-alist
+ (quote
+  (("\\.cc\\'"
+    (".h" ".hh"))
+   ("\\.hh\\'"
+    (".cc" ".C"))
+   ("\\.c\\'"
+    (".h"))
+   ("\\.m\\'"
+    (".h"))
+   ("\\.h\\'"
+    (".cc" ".c" ".C" ".CC" ".cxx" ".cpp" ".m"))
+   ("\\.C\\'"
+    (".H" ".hh" ".h"))
+   ("\\.H\\'"
+    (".C" ".CC"))
+   ("\\.CC\\'"
+    (".HH" ".H" ".hh" ".h"))
+   ("\\.HH\\'"
+    (".CC"))
+   ("\\.c\\+\\+\\'"
+    (".h++" ".hh" ".h"))
+   ("\\.h\\+\\+\\'"
+    (".c++"))
+   ("\\.cpp\\'"
+    (".hpp" ".hh" ".h"))
+   ("\\.hpp\\'"
+    (".cpp"))
+   ("\\.cxx\\'"
+    (".hxx" ".hh" ".h"))
+   ("\\.hxx\\'"
+    (".cxx")))))
+
 (add-hook 'c-mode-common-hook
 	  '(lambda()
 	     ;;preprocessor

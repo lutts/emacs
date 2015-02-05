@@ -1,0 +1,12 @@
+# -*- mode: snippet -*-
+# name: snailtests
+# key: snailtests
+# group: testing
+# --
+namespace snail {
+namespace tests {
+
+$0
+
+}  // namespace tests
+}  // namespace snail
