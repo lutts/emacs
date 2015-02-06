@@ -1,6 +1,7 @@
 # -*- mode: snippet -*-
 # name: qtest
 # key: qtest
+# group: testing
 # --
 #include <QtWidgets>
 #include <QtTest/QtTest>

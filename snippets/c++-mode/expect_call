@@ -1,5 +1,6 @@
 # -*- mode: snippet -*-
 # name: expect_call
 # key: expc
+# group: testing
 # --
 EXPECT_CALL($0)

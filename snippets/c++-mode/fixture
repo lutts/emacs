@@ -1,6 +1,7 @@
 # -*- mode: snippet -*-
 # name: fixture
 # key: fixt
+# group: testing
 # --
 class ${1:testcasename} : public ::testing::Test {
   //-*- TestCaseName: $1;-*-
