@@ -1,0 +1,17 @@
+# -*- mode: snippet -*-
+# name: Qt_findChild_Direct
+# key: findChild_d
+# group: testing
+# --
+${1:Type}* `TestCaseName`::get${3:$(upcase-initials yas-text)}() {
+  return ${2:parentObj}->findChild<$1*>(QStringLiteral("${3:objectName}"),
+                                        Qt::FindDirectChildrenOnly);
+}
+
+void `TestCaseName`::testHas${3:$(upcase-initials yas-text)}() {
+  ASSERT_NE(nullptr, get${3:$(upcase-initials yas-text)}())
+    << "$1' '$3' not found under '$2'!";
+}
+
+$1* get${3:$(upcase-initials yas-text)}();
+void testHas${3:$(upcase-initials yas-text)}();
