@@ -5,11 +5,6 @@ emacs --batch --eval '(byte-compile-file "./highlight-symbol.el")' || exit 1
 emacs --batch --eval '(byte-compile-file "./ibus.el")' || exit 1
 emacs --batch --eval '(byte-compile-file "./highlight-parentheses.el")' || exit 1
 emacs --batch --eval '(byte-compile-file "./shebang.el")' || exit 1
-emacs --batch --eval '(byte-compile-file "./auto-complete-1.3.1/fuzzy.el")' || exit 1
-emacs --batch --eval '(byte-compile-file "./auto-complete-1.3.1/etc/install.el")' || exit 1
-emacs --batch --eval '(byte-compile-file "./auto-complete-1.3.1/auto-complete-config.el")' || exit 1
-emacs --batch --eval '(byte-compile-file "./auto-complete-1.3.1/popup.el")' || exit 1
-emacs --batch --eval '(byte-compile-file "./auto-complete-1.3.1/auto-complete.el")' || exit 1
 emacs --batch --eval '(byte-compile-file "./shell-pop.el")' || exit 1
 emacs --batch --eval '(byte-compile-file "./desktop-menu.el")' || exit 1
 emacs --batch --eval '(byte-compile-file "./autopair.el")' || exit 1

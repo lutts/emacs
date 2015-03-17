@@ -117,6 +117,7 @@
 	     (local-set-key (kbd "C-c ;") 'comment-line)
 	     (local-set-key (kbd "C-x C-o") 'ff-find-other-file)
 	     (local-set-key (kbd "C-c .") 'company-gtags)
+	     (local-set-key (kbd "M-/") 'company-dabbrev)
 	     (local-set-key (kbd "C-c m") 'compile)
 	     (local-set-key (kbd "C-c i") 'recompile)
 	     (local-set-key (kbd "C-c g") 'magit-status)

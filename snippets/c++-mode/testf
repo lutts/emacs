@@ -4,5 +4,14 @@
 # group: testing
 # --
 TEST_F(`TestCaseName`, ${1:test1}) {
+  // Setup fixture
 $0
+  // Exercise system
+
+  // Verify results
+
+  // Teardown fixture
+  //  * ensuring runs even when the test is failed
+  //  * do not introduce additional errors
+  FAIL() << "Unfinished Test!";
 }

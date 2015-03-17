@@ -261,6 +261,17 @@ Equivalent to beginning-of-line, open-line."
 (set-face-attribute 'default nil
 		    :family "Anonymous Pro" :height 120)
 
+(if (fboundp 'with-eval-after-load)
+    (defmacro after (feature &rest body)
+      "After FEATURE is loaded, evaluate BODY."
+      (declare (indent defun))
+      `(with-eval-after-load ,feature ,@body))
+  (defmacro after (feature &rest body)
+    "After FEATURE is loaded, evaluate BODY."
+    (declare (indent defun))
+    `(eval-after-load ,feature
+       '(progn ,@body))))
+
 ;;;;;;;;;;;;;;;; third-party addons ;;;;;;;;;;;;;;;;
 
 ;;; add commonly used paths
@@ -333,7 +344,6 @@ Equivalent to beginning-of-line, open-line."
 (load (concat my-base-path "rc/emacs-rc-c-c++.el"))
 (load (concat my-base-path "rc/emacs-rc-hide-show.el"))
 (load (concat my-base-path "rc/emacs-rc-java.el"))
-;(load (concat my-base-path "rc/emacs-rc-auto-complete.el"))
 (load (concat my-base-path "rc/emacs-rc-desktop.el"))
 
 ;;; smartparents
@@ -441,3 +451,13 @@ Equivalent to beginning-of-line, open-line."
 ;; trigger completion at interesting places, such as after scope operator
 ;;     std::|
 (add-hook 'irony-mode-hook 'company-irony-setup-begin-commands)
+
+;; NOTE: M=/ is bound to dabbrev-expand by default
+;; see also: http://www.emacswiki.org/emacs/DynamicAbbreviations
+;; (setq dabbrev-case-fold-search nil)
+
+(after 'company
+  (setq company-dabbrev-ignore-case nil)
+  (setq company-dabbrev-downcase nil)
+  (define-key company-active-map (kbd "C-n") 'company-select-next)
+  (define-key company-active-map (kbd "C-p") 'company-select-previous))
