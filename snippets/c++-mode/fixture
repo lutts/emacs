@@ -3,10 +3,18 @@
 # key: fixt
 # group: testing
 # --
+using ::testing::GMOCK_FLAG(verbose);
+using ::testing::internal::kErrorVerbosity;
+using ::testing::internal::kInfoVerbosity;
+using ::testing::internal::kWarningVerbosity;
+
 class ${1:testcasename} : public ::testing::Test {
   //-*- TestCaseName: $1;-*-
  protected:
-  $1() { }
+  $1() {
+    // const string saved_flag = GMOCK_FLAG(verbose);
+    GMOCK_FLAG(verbose) = kErrorVerbosity;
+  }
   ~$1() { }
   virtual void SetUp() { }
   virtual void TearDown() { }

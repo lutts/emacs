@@ -63,6 +63,27 @@
     (set-window-buffer target-window buf)
     target-window))
 
+(defun lutts-switch-to-test-file ()
+  "switch to xTestcase Class file if this is the SUT class file,
+else switch to SUT class header file if this is a xTestcase Class file"
+  (interactive)
+  (let ((file-base-name (file-name-sans-extension (buffer-file-name))))
+    (if (string/ends-with file-base-name "_test")
+	(find-file (concat
+		    (replace-regexp-in-string
+		     (regexp-quote "/test/")
+		     "/src/"
+		     (substring file-base-name 0 -5))
+		    ".h"))
+      (find-file (concat
+		  (replace-regexp-in-string
+		   (regexp-quote "/src/")
+		   "/test/"
+		   file-base-name)
+		  "_test.cc"))
+      )
+    ))
+
 ;; current X resolution
 ;(x-display-pixel-width)
 ;(x-display-pixel-height)

@@ -116,6 +116,7 @@
 	     (local-set-key (kbd "RET") 'newline-and-indent)
 	     (local-set-key (kbd "C-c ;") 'comment-line)
 	     (local-set-key (kbd "C-x C-o") 'ff-find-other-file)
+	     (local-set-key (kbd "C-x C-u") 'lutts-switch-to-test-file)
 	     (local-set-key (kbd "C-c .") 'company-gtags)
 	     (local-set-key (kbd "M-/") 'company-dabbrev)
 	     (local-set-key (kbd "C-c m") 'compile)
