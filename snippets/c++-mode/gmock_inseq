@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: gmock_inseq
+# key: inseq
+# group: testing
+# --
+{
+  InSequence seq;
+
+  $0
+}
