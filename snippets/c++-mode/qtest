@@ -3,23 +3,40 @@
 # key: qtest
 # group: testing
 # --
+#include <gmock/gmock.h>
+#include <gtest/gtest.h>
+
 #include <QtWidgets>
 #include <QtTest/QtTest>
 
 #include "./testconfig.h"
+#include "test/testutils/qt/gui_tester.h"
+#include "src/command/facade.h"
 
-class ${1:testcasename} : public QObject {
+using ::testing::GMOCK_FLAG(verbose);
+using ::testing::internal::kErrorVerbosity;
+using ::testing::internal::kInfoVerbosity;
+using ::testing::internal::kWarningVerbosity;
+
+class ${1:testcasename} : public GuiTester {
   //-*- TestCaseName: $1;-*-
   Q_OBJECT
 
  private slots:
-  void initTestCase() { }
+  void initTestCase() {
+    // const string saved_flag = GMOCK_FLAG(verbose);
+    GMOCK_FLAG(verbose) = kErrorVerbosity;
+  }
   void cleanupTestCase() { }
-  void init() { }
-  void cleanup() { }
+  void init() {
+    ::snail::command::initialize();
+  }
+  void cleanup() {
+    ::snail::command::cleanup();
+  }
 
   $0
 };
 
 QTEST_GMOCK_MAIN($1)
-#include "moc_$1.cpp"
+#include "moc_${1:$(downcase yas-text)}.cpp"

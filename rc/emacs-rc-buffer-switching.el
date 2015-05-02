@@ -53,6 +53,7 @@
 	"^\\*GTAGS.*"
 	"^\\*Backtrace\\*$"
 	"^\\*magit:.*"
+	"^\\*Srefactor Menu\\*$"
 	))
 
 (defun lutts-display-special-buffer (buf &optional data)

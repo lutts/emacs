@@ -3,12 +3,20 @@
 # key: fixt
 # group: testing
 # --
+#include <gtest/gtest.h>
+#include <gmock/gmock.h>
+
+#include "test/${2:core}/snail_tester.h"
+
 using ::testing::GMOCK_FLAG(verbose);
 using ::testing::internal::kErrorVerbosity;
 using ::testing::internal::kInfoVerbosity;
 using ::testing::internal::kWarningVerbosity;
 
-class ${1:testcasename} : public ::testing::Test {
+SNAIL_${2:$(upcase yas-text)}_TESTS_OPEN_NAMESPACE
+
+class ${1:testcasename} : public ::testing::Test
+                        , public SnailTester {
   //-*- TestCaseName: $1;-*-
  protected:
   $1() {
@@ -18,6 +26,8 @@ class ${1:testcasename} : public ::testing::Test {
   ~$1() { }
   virtual void SetUp() { }
   virtual void TearDown() { }
+};
 
 $0
-};
+
+SNAIL_${2:$(upcase yas-text)}_TESTS_CLOSE_NAMESPACE

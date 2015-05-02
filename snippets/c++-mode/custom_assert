@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: custom_assert
+# key: cusass
+# group: testing
+# --
+CUSTOM_ASSERT(assert$0);

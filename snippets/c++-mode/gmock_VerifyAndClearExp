@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: gmock_VerifyAndClearExp
+# key: gvace
+# group: testing
+# --
+::testing::Mock::VerifyAndClearExpectations(${1:mockObj});

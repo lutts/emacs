@@ -3,7 +3,7 @@
 # key: testf
 # group: testing
 # --
-TEST_F(`TestCaseName`, ${1:test1}) {
+TEST_F(`TestCaseName`, ${1:behavior_sentence}) { // NOLINT
   // Setup fixture
 
   // expectations

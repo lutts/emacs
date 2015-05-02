@@ -100,6 +100,11 @@ mouse-3: Remove current window from display")))))
 ;;; yes, we are programmers
 (setq-default fill-column 80)
 
+;;; see http://emacswiki.org/emacs/WhiteSpace
+; (require 'whitespace)
+; (setq whitespace-style '(face empty tabs lines-tail trailing))
+; (global-whitespace-mode t)
+
 ;;; auto revert mode configuration
 ;;; revert buffer periodly, so we can edit a file in another place and emacs will reflect the change imediatly
 (global-auto-revert-mode 1)
@@ -305,6 +310,13 @@ Equivalent to beginning-of-line, open-line."
 
 ;;; highlight the matching parentheses surrounding point
 (require 'highlight-parentheses)
+
+;;; fill column indicator
+(require 'fill-column-indicator)
+;; gray line on black background
+(setq fci-rule-color "#323232")
+;; turn on fci-mode on your files
+;; use fci-rule-column to set desired column limit
 
 ;;; mic-paren
 (require 'mic-paren)

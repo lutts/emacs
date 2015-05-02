@@ -104,6 +104,9 @@
    ("\\.hxx\\'"
     (".cxx")))))
 
+(require 'srefactor)
+(semantic-mode 1)
+
 (add-hook 'c-mode-common-hook
 	  '(lambda()
 	     ;;preprocessor
@@ -122,6 +125,8 @@
 	     (local-set-key (kbd "C-c m") 'compile)
 	     (local-set-key (kbd "C-c i") 'recompile)
 	     (local-set-key (kbd "C-c g") 'magit-status)
+	     (local-set-key (kbd "M-RET") 'srefactor-refactor-at-point)
+	     (local-set-key (kbd "M-RET") 'srefactor-refactor-at-point)
 	     (c-toggle-hungry-state 1)
 	     (delete-selection-mode t)
 	     ; can use M-x delete-trailing-whitespace <RET> to delete all trailing whitespace within cur buf
@@ -136,6 +141,7 @@
 	     (setq company-backends (delete 'company-semantic company-backends))
 	     (add-to-list 'company-clang-arguments "-fPIE -std=c++11 -v")
 	     ;(setq company-backends (delete 'company-clang company-backends))
+	     (fci-mode)
 	     )
 	  )
 
