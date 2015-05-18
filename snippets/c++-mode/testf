@@ -6,7 +6,7 @@
 TEST_F(`TestCaseName`, ${1:behavior_sentence}) { // NOLINT
   // Setup fixture
 
-  // expectations
+  // Expectations
 $0
   // Exercise system
 

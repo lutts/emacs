@@ -6,28 +6,32 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
-#include "test/${2:core}/snail_tester.h"
+#include "src/utils/basic_utils.h"  // make_unique, <memory>
+#include "test/testutils/slot_catcher.h"
 
 using ::testing::GMOCK_FLAG(verbose);
 using ::testing::internal::kErrorVerbosity;
 using ::testing::internal::kInfoVerbosity;
 using ::testing::internal::kWarningVerbosity;
+using ::testing::StrictMock;
+using ::testing::SaveArg;
+using ::testing::_;
 
-SNAIL_${2:$(upcase yas-text)}_TESTS_OPEN_NAMESPACE
-
-class ${1:testcasename} : public ::testing::Test
-                        , public SnailTester {
+class ${1:testcasename} : public ::testing::Test {
   //-*- TestCaseName: $1;-*-
  protected:
   $1() {
     // const string saved_flag = GMOCK_FLAG(verbose);
     GMOCK_FLAG(verbose) = kErrorVerbosity;
   }
-  ~$1() { }
-  virtual void SetUp() { }
-  virtual void TearDown() { }
+  // ~$1() { }
+  virtual void SetUp() {
+    $0
+  }
+  //virtual void TearDown() { }
 };
 
-$0
-
-SNAIL_${2:$(upcase yas-text)}_TESTS_CLOSE_NAMESPACE
+TEST_F($1, should_construct_properly) { // NOLINT
+  // See SetUp()
+  SUCCEED();
+}

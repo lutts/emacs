@@ -11,12 +11,14 @@
 
 #include "./testconfig.h"
 #include "test/testutils/qt/gui_tester.h"
-#include "src/command/facade.h"
 
 using ::testing::GMOCK_FLAG(verbose);
 using ::testing::internal::kErrorVerbosity;
 using ::testing::internal::kInfoVerbosity;
 using ::testing::internal::kWarningVerbosity;
+using ::testing::StrictMock;
+using ::testing::_;
+using ::testing::SaveArg;
 
 class ${1:testcasename} : public GuiTester {
   //-*- TestCaseName: $1;-*-
@@ -29,14 +31,19 @@ class ${1:testcasename} : public GuiTester {
   }
   void cleanupTestCase() { }
   void init() {
-    ::snail::command::initialize();
+    $0
   }
-  void cleanup() {
-    ::snail::command::cleanup();
-  }
+  void cleanup() { }
 
-  $0
+  void should_construct_properly();
+
+ private:
 };
+
+void $1::should_construct_properly() { // NOLINT
+  // See init()
+  SUCCEED();
+}
 
 QTEST_GMOCK_MAIN($1)
 #include "moc_${1:$(downcase yas-text)}.cpp"

@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: when
+# key: when
+# group: sigslot
+# --
+WHEN(${1:subject}, ${2:signal}) {
+  []() {
+  }}
+END_WHEN(${3:trackObject});

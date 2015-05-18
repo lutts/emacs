@@ -3,7 +3,7 @@
 # key: qtestf
 # group: testing
 # --
-void `TestCaseName`::test${1:behavior_sentence}() { // NOLINT
+void `TestCaseName`::${1:behavior_sentence}() { // NOLINT
   // Setup fixture
 
   // expectations
