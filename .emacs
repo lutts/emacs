@@ -303,10 +303,13 @@ Equivalent to beginning-of-line, open-line."
 (global-set-key [(control <)] 'tabbar-backward-tab)
 
 ;;; highlight line
-(require 'highline)
+;(require 'highline)
 ;(setq highline-face 'highlight)
-(set-face-background 'highline-face "#2d2d2d")
-(global-highline-mode 1)
+;(set-face-background 'highline-face "#2d2d2d")
+;(global-highline-mode 1)
+;; NOTE: highline will cause high cpu usage, use buildin hl-line instead
+(set-face-background 'hl-line "#2d2d2d")
+(global-hl-line-mode 1)
 
 ;;; highlight the matching parentheses surrounding point
 (require 'highlight-parentheses)

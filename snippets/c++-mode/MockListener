@@ -1,30 +1,14 @@
 # -*- mode: snippet -*-
 # name: MockListener
-# key: MockListener
+# key: mocklistener
 # group: testing
 # --
-class ${1:MockListener} : public snailcore::ITrackable {
+class ${1:MockListener} : public GenericMockListener<$1,
+                                                ${2:SubjectType}> {
  public:
   $0
 
-  template <typename MockType>
-  static std::shared_ptr<MockType>
-  attachTo_(${2:SubjectType}* ${3:subject}) {
-    auto listener = std::make_shared<MockType>();
-    auto raw_listener = listener.get();
-
-    (void)raw_listener;
-
-    return listener;
-  }
-
-  static std::shared_ptr<$1>
-  attachTo($2* $3) {
-    return attachTo_<$1>($3);
-  }
-
-  static std::shared_ptr<StrictMock<$1>>
-  attachStrictTo($2* $3) {
-    return attachTo_<StrictMock<$1> >($3);
+  void bindListenerMethods(std::shared_ptr<utils::ITrackable> trackObject,
+                           $2* ${3:subject}) {
   }
 };

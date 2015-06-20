@@ -85,6 +85,21 @@ else switch to SUT class header file if this is a xTestcase Class file"
       )
     ))
 
+(defun lutts-switch-to-mock-file ()
+  "switch between mock and interface file"
+  (interactive)
+  (let* ( (curr-file-dir (file-name-directory (buffer-file-name)))
+	 (curr-file-name (file-name-nondirectory (buffer-file-name))) )
+	 (if (string/starts-with curr-file-name "i_")
+	     (find-file (concat
+			 curr-file-dir "/mock_"
+			 (substring curr-file-name 2)))
+	   (find-file (concat
+		       curr-file-dir "/i_"
+		       (substring curr-file-name 5)))
+	 )
+    ))
+
 ;; current X resolution
 ;(x-display-pixel-width)
 ;(x-display-pixel-height)
@@ -207,6 +222,34 @@ else switch to SUT class header file if this is a xTestcase Class file"
   )
 
 (global-set-key (kbd "<f9>") 'lutts-switch-ab)
+
+(defun lutts-switch-bc ()
+  "Rolling 3 window buffers clockwise"
+  (interactive)
+  (if (= 3 (length (window-list)))
+      (let ((winList (window-list)))
+	(let ((1stWin (window-at (- (frame-width) 5) 5))		     ; b
+	      (2ndWin (window-at (- (frame-width) 5) (- (frame-height) 5)))) ; c
+	  (let ((1stBuf (window-buffer 1stWin))
+		(2ndBuf (window-buffer 2ndWin))
+		)
+	    (select-window 2ndWin)
+	    (setq 2ndLine (line-number-at-pos))
+	    (select-window 1stWin)
+	    (setq 1stLine (line-number-at-pos))
+	    (set-window-buffer 1stWin 2ndBuf)
+	    (goto-line 2ndLine)
+	    (set-window-buffer 2ndWin 1stBuf)
+	    (select-window 2ndWin)
+	    (goto-line 1stLine)
+	    (select-window 1stWin)
+	    )
+	  )
+	)
+    )
+  )
+
+(global-set-key (kbd "<f7>") 'lutts-switch-bc)
 
 (defun lutts-goto-largest-window ()
   "goto the largest window"

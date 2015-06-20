@@ -1,0 +1,18 @@
+# -*- mode: snippet -*-
+# name: PFModel
+# key: pfmodel
+# group: pfmvp
+# --
+#include "pfmvp/i_pf_model.h"
+#include "utils/signal_slot.h"
+
+namespace snailcore {
+
+class I${1:modelname} : public pfmvp::IPfModel {
+ public:
+  virtual ~I$1() = default;
+
+  DEF_MODEL_ID($1);
+};
+
+}  // namespace snailcore

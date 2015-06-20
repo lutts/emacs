@@ -1,0 +1,28 @@
+# -*- mode: snippet -*-
+# name: presenter
+# key: presenter
+# group: pfmvp
+# --
+#include <memory>  // std::shared_ptr
+
+#include "pfmvp/pf_presenter.h"
+#include "snail/i_${1:$(downcase yas-text)}_model.h"
+#include "qtui/i_${1:$(downcase yas-text)}_view.h"
+$0
+using $1PresenterBase =
+    pfmvp::PfPresenterT<snailcore::I$1Model,
+                           I$1View>;
+
+class ${1:name}Presenter : public $1PresenterBase {
+ public:
+  $1Presenter(std::shared_ptr<snailcore::I$1Model> model,
+                     std::shared_ptr<I$1View> view)
+      : $1PresenterBase(model, view) {
+  }
+
+  void initialize() override { }
+
+ private:
+  $1Presenter(const $1Presenter& other) = delete;
+  $1Presenter& operator=(const $1Presenter& other) = delete;
+};

@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: mockinterface
+# key: mockiface
+# group: testing
+# --
+class Mock${1:classname} : public I$1 {
+ public:
+};

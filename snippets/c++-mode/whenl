@@ -1,10 +1,10 @@
 # -*- mode: snippet -*-
-# name: when
-# key: when
+# name: whenl
+# key: whenl
 # group: sigslot
 # --
 ${1:subject}->when${2:signal}(
-    []() {
-      $0
+    [this](${3:})${4: }{
+      $0$2();
     },
-    ${3:trackObject});
+    trackObject);

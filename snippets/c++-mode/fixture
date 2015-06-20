@@ -3,19 +3,17 @@
 # key: fixt
 # group: testing
 # --
-#include <gtest/gtest.h>
-#include <gmock/gmock.h>
+#include "test/testutils/gmock_common.h"
 
-#include "src/utils/basic_utils.h"  // make_unique, <memory>
+#include "utils/basic_utils.h"  // make_unique, <memory>
+#include "test/testutils/utils.h"
+#include "test/testutils/generic_mock_listener.h"
 #include "test/testutils/slot_catcher.h"
+#include "test/testutils/mock_object_generator.h"
+#include "test/testutils/model_view_mock_generator.h"
 
-using ::testing::GMOCK_FLAG(verbose);
-using ::testing::internal::kErrorVerbosity;
-using ::testing::internal::kInfoVerbosity;
-using ::testing::internal::kWarningVerbosity;
-using ::testing::StrictMock;
-using ::testing::SaveArg;
-using ::testing::_;
+using namespace snailcore;  // NOLINT
+using namespace snailcore::tests;  // NOLINT
 
 class ${1:testcasename} : public ::testing::Test {
   //-*- TestCaseName: $1;-*-
@@ -26,9 +24,25 @@ class ${1:testcasename} : public ::testing::Test {
   }
   // ~$1() { }
   virtual void SetUp() {
-    $0
+    // Setup fixture
+
+    // Expectations which only need run once
+
+    // Expectations which need run every test case
+
+    // Excercise system
   }
-  //virtual void TearDown() { }
+  // virtual void TearDown() { }
+
+  // region: objects test subject depends on
+  // endregion
+
+  // region: test subject
+  $0
+  // endregion
+
+  // region: object depends on test subject
+  // endregion
 };
 
 TEST_F($1, should_construct_properly) { // NOLINT

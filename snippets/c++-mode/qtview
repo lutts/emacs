@@ -1,0 +1,12 @@
+# -*- mode: snippet -*-
+# name: qtview
+# key: qtview
+# group: pfmvp
+# --
+#include "src/qtui/generic_view_base.h"
+#include "utils/signal_slot.h"
+
+class I${1:classname} : public GenericViewBase {
+ public:
+  virtual ~I$1() = default;
+};

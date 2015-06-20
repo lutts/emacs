@@ -23,3 +23,9 @@
 	 (let ((elength (length ending)))
 	   (string= (substring s (- 0 elength)) ending)))
 	(t nil)))
+
+(defun string/starts-with (s begins)
+  "Return non-nil if string S starts with BEGINS."
+  (cond ((>= (length s) (length begins))
+	 (string-equal (substring s 0 (length begins)) begins))
+	(t nil)))

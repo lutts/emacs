@@ -104,6 +104,9 @@
    ("\\.hxx\\'"
     (".cxx")))))
 
+(setq cc-search-directories
+      '("$PROJECT_ROOT" "$PROJECT_ROOT/include" "." ))
+
 (require 'srefactor)
 (semantic-mode 1)
 
@@ -120,6 +123,7 @@
 	     (local-set-key (kbd "C-c ;") 'comment-line)
 	     (local-set-key (kbd "C-x C-o") 'ff-find-other-file)
 	     (local-set-key (kbd "C-x C-u") 'lutts-switch-to-test-file)
+	     (local-set-key (kbd "C-x m") 'lutts-switch-to-mock-file)
 	     (local-set-key (kbd "C-c .") 'company-gtags)
 	     (local-set-key (kbd "M-/") 'company-dabbrev)
 	     (local-set-key (kbd "C-c m") 'compile)
@@ -211,6 +215,48 @@
 ;; if using google style, uncomment this line
 (require 'google-c-style)
 (add-hook 'c-mode-common-hook 'google-set-c-style)
+
+;; from: https://gist.github.com/nschum/2626303
+;; This hack fixes indentation for C++11's "enum class" in Emacs.
+;; http://stackoverflow.com/questions/6497374/emacs-cc-mode-indentation-problem-with-c0x-enum-class/6550361#6550361
+
+(defun inside-class-enum-p (pos)
+  "Checks if POS is within the braces of a C++ \"enum class\"."
+  (ignore-errors
+    (save-excursion
+      (goto-char pos)
+      (up-list -1)
+      (backward-sexp 1)
+      (looking-back "enum[ \t]+class[ \t]+"))))
+;; NOTE: orignal regex is "enum[ \t]+class[ \t]+[^}]+", but not working in emacs 24.4.1
+;; according to the following post:
+;; https://gist.github.com/nschum/2626303#comment-1470387
+;; in emacs 24.3.1 - I find the regexp "enum[ \t]+class[ \t]+" is required because up-list takes me to the open brace,
+;; then backward-sexp takes me to the first letter of the enum class's name, - in the example below: "Foo"
+;;
+;;        ie here - thus looking-back into "enum class "
+;;            v
+;; enum class Foo
+;; {
+;; }
+
+(defun align-enum-class (langelem)
+  (if (inside-class-enum-p (c-langelem-pos langelem))
+      0
+    (c-lineup-topmost-intro-cont langelem)))
+
+(defun align-enum-class-closing-brace (langelem)
+  (if (inside-class-enum-p (c-langelem-pos langelem))
+      '-
+    '+))
+
+(defun fix-enum-class ()
+  "Setup `c++-mode' to better handle \"class enum\"."
+  (add-to-list 'c-offsets-alist '(topmost-intro-cont . align-enum-class))
+  (add-to-list 'c-offsets-alist
+               '(statement-cont . align-enum-class-closing-brace)))
+
+; (add-hook 'c++-mode-hook 'fix-enum-class)
 
 ;(load (concat my-base-path "rc/emacs-rc-tempo.el"))
 

@@ -1,10 +1,10 @@
 # -*- mode: snippet -*-
-# name: when
-# key: when
+# name: whenp
+# key: whenp
 # group: sigslot
 # --
 ${1:subject}->when${2:signal}(
-    []() {
+    [this](${3:})${4: }{
       $0
     },
-    ${3:trackObject});
+    shared_from_this());
