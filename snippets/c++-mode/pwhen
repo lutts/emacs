@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: pwhen
+# key: pwhen
+# group: sigslot
+# --
+${1:subject}->when${2:signal}(
+    [this](${3:})${4: }{
+      $0
+    });

@@ -15,8 +15,9 @@ using $1PresenterBase =
 
 class ${1:name}Presenter : public $1PresenterBase {
  public:
-  $1Presenter(std::shared_ptr<snailcore::I$1Model> model,
-                     std::shared_ptr<I$1View> view)
+  $1Presenter(
+      std::shared_ptr<snailcore::I$1Model> model,
+      std::shared_ptr<I$1View> view)
       : $1PresenterBase(model, view) {
   }
 

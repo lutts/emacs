@@ -145,7 +145,7 @@
 	     (setq company-backends (delete 'company-semantic company-backends))
 	     (add-to-list 'company-clang-arguments "-fPIE -std=c++11 -v")
 	     ;(setq company-backends (delete 'company-clang company-backends))
-	     (fci-mode)
+	     ;(fci-mode)
 	     )
 	  )
 

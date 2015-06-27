@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: mockrecorder
+# key: mockrecorder
+# group: testing
+# --
+RECORD_USED_MOCK_OBJECTS_SETUP;
+
+$0
+
+VERIFY_RECORDED_MOCK_OBJECTS;

@@ -1,0 +1,15 @@
+# -*- mode: snippet -*-
+# name: MockListenerMacro
+# key: mocklistener2
+# group: testing
+# --
+BEGIN_MOCK_LISTENER_DEF(${1:ClassName}, ${2:SubjectType})
+
+$0 put mocks here
+
+BEGIN_BIND_SIGNAL($2)
+
+// bind signal here
+
+END_BIND_SIGNAL()
+END_MOCK_LISTENER_DEF()
