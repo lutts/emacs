@@ -107,8 +107,8 @@
 (setq cc-search-directories
       '("$PROJECT_ROOT" "$PROJECT_ROOT/include" "." ))
 
-(require 'srefactor)
-(semantic-mode 1)
+;(require 'srefactor)
+;(semantic-mode 1)
 
 (add-hook 'c-mode-common-hook
 	  '(lambda()
@@ -124,13 +124,6 @@
 	     (local-set-key (kbd "C-x C-o") 'ff-find-other-file)
 	     (local-set-key (kbd "C-x C-u") 'lutts-switch-to-test-file)
 	     (local-set-key (kbd "C-x m") 'lutts-switch-to-mock-file)
-	     (local-set-key (kbd "C-c .") 'company-gtags)
-	     (local-set-key (kbd "M-/") 'company-dabbrev)
-	     (local-set-key (kbd "C-c m") 'compile)
-	     (local-set-key (kbd "C-c i") 'recompile)
-	     (local-set-key (kbd "C-c g") 'magit-status)
-	     (local-set-key (kbd "M-RET") 'srefactor-refactor-at-point)
-	     (local-set-key (kbd "M-RET") 'srefactor-refactor-at-point)
 	     (c-toggle-hungry-state 1)
 	     (delete-selection-mode t)
 	     ; can use M-x delete-trailing-whitespace <RET> to delete all trailing whitespace within cur buf
@@ -141,11 +134,6 @@
 	     (setq cscope-do-not-update-database t)
 	     (require 'ifdef)
 	     (imenu-add-menubar-index)
-	     ; company mode settings
-	     (setq company-backends (delete 'company-semantic company-backends))
-	     (add-to-list 'company-clang-arguments "-fPIE -std=c++11 -v")
-	     ;(setq company-backends (delete 'company-clang company-backends))
-	     ;(fci-mode)
 	     )
 	  )
 
