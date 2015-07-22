@@ -13,7 +13,7 @@
 using namespace pfmvp;  // NOLINT
 using namespace snailcore;  // NOLINT
 
-class ${1:name}ViewFactory : public IPfViewFactory {
+class ${1:name}ViewFactory : public PfViewFactoryT<I$1Model> {
  public:
   $1ViewFactory() = default;
   virtual ~$1ViewFactory() = default;
@@ -21,14 +21,9 @@ class ${1:name}ViewFactory : public IPfViewFactory {
   DEF_VIEW_FACTORY_ID($1ViewFactory)
 
   std::shared_ptr<PfPresenter>
-  createView(std::shared_ptr<IPfModel> model) override {
-    auto the_model = std::dynamic_pointer_cast<I$1Model>(model);
-    if (the_model) {
-      auto view = std::make_shared<$1View>();
-      return std::make_shared<$1Presenter>(the_model, view);
-    }
-
-    return nullptr;
+  createViewFor(std::shared_ptr<I$1Model> model) override {
+    auto view = std::make_shared<$1View>();
+    return std::make_shared<$1Presenter>(model, view);
   }
 
  private:
@@ -37,4 +32,4 @@ class ${1:name}ViewFactory : public IPfViewFactory {
 };
 
 static view_factory_t<I$1Model, $1ViewFactory>
-g_$1_view_factory;
+g_${1:$(downcase yas-text)}_view_factory;

@@ -1,0 +1,63 @@
+# -*- mode: snippet -*-
+# name: presenterfixture
+# key: pfixt
+# group: testing
+# --
+#include "test/testutils/gmock_common.h"
+#include "pfmvp/mock_pf_triad_manager.h"
+
+// triad headers
+#include "snail/mock_${1:$(downcase yas-text)}_model.h"
+#include "qtui/mock_${1:$(downcase yas-text)}_view.h"
+#include "src/qtui/${1:$(downcase yas-text)}_presenter.h"
+
+using namespace snailcore;  // NOLINT
+using namespace snailcore::tests;  // NOLINT
+using namespace pfmvp;  // NOLINT
+using namespace pfmvp::tests;  // NOLINT
+
+class ${1:name}PresenterTest : public ::testing::Test {
+ //-*- TestCaseName: $1PresenterTest;-*-
+ protected:
+  $1PresenterTest() {
+    // const string saved_flag = GMOCK_FLAG(verbose);
+    GMOCK_FLAG(verbose) = kErrorVerbosity;
+  }
+  // ~$1PresenterTest() { }
+  virtual void SetUp() {
+    // Setup fixture
+    model = std::make_shared<Mock$1Model>();
+    view = std::make_shared<Mock$1View>();
+
+    // Expectations
+    RECORD_USED_MOCK_OBJECTS_SETUP;
+    $0
+
+    // Excercise system
+    presenter = std::make_shared<$1Presenter>(model, view);
+    presenter->set_triad_manager(&triad_manager);
+    presenter->initialize();
+
+    VERIFY_RECORDED_MOCK_OBJECTS;
+  }
+  // virtual void TearDown() { }
+
+  // region: objects test subject depends on
+  std::shared_ptr<Mock$1Model> model;
+  std::shared_ptr<Mock$1View> view;
+
+  MockPfTriadManager triad_manager;
+  // endregion
+
+  // region: test subject
+  std::shared_ptr<$1Presenter> presenter;
+  // endregion
+
+  // region: object depends on test subject
+  // endregion
+};
+
+TEST_F($1PresenterTest, should_construct_properly) { // NOLINT
+  // See SetUp()
+  SUCCEED();
+}
