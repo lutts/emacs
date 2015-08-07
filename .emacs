@@ -243,6 +243,9 @@ Equivalent to beginning-of-line, open-line."
 (show-paren-mode 1)
 
 (setq tramp-mode nil)
+;; workaround for tramp hang emacs when startup
+(setq tramp-ssh-controlmaster-options
+      "-o ControlPath=/tmp/%%r@%%h:%%p -o ControlMaster=auto -o ControlPersist=no")
 
 ;; turn on image file support
 (auto-image-file-mode)
