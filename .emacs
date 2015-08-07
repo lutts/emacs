@@ -411,13 +411,13 @@ Equivalent to beginning-of-line, open-line."
 
 (defun yas--magit-email-or-default ()
   "Get email from GIT or use default"
-  (if (magit-get-top-dir ".")
+  (if (magit-get "user.email")
       (magit-get "user.email")
     user-mail-address))
 
 (defun yas--magit-username-or-default ()
   "Get username from GIT or use default"
-  (if (magit-get-top-dir ".")
+  (if (magit-get "user.name")
       (magit-get "user.name")
     user-full-name))
 
