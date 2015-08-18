@@ -1,9 +1,9 @@
 ;;; environment variables
 (when (equal system-type 'gnu/linux)
       (message "Emacs Run on GNU/Linux")
-      (setenv "PATH" (concat "/home/lutts/lib/Qt5_debug/bin:/opt/texlive/2011/bin/x86_64-linux:" (getenv "PATH")))
-      (setenv "MY_GTAGSLIBPATH" "/home/lutts/devel1/Qt/qt-everywhere-opensource-src-5.3.2")
-      (setq exec-path (append exec-path '("/home/lutts/lib/Qt5_debug/bin")))
+      (setenv "PATH" (concat "/home/lutts/lib/Qt5.4.2_debug/bin:/opt/texlive/2011/bin/x86_64-linux:" (getenv "PATH")))
+      (setenv "MY_GTAGSLIBPATH" "/home/lutts/devel2/Qt/Qt5/qt-everywhere-opensource-src-5.4.2/")
+      (setq exec-path (append exec-path '("/home/lutts/lib/Qt5.4.2_debug/bin")))
       (setq exec-path (append exec-path '("/opt/texlive/2011/bin/x86_64-linux"))))
 
 (when (string= (getenv "USER") "lutts")
@@ -48,7 +48,6 @@ mouse-3: Remove current window from display")))))
  '(tabbar-selected-face ((t (:inherit tabbar-default-face :foreground "blue" :box (:line-width 2 :color "white" :style pressed-button)))))
  '(tabbar-unselected-face ((t (:inherit tabbar-default-face :foreground "DarkGreen" :box (:line-width 2 :color "white" :style released-button))))))
 
-;(add-to-list 'safe-local-variable-values '(MY_GTAGSLIBPATH . "/home/lutts/devel1/Qt/qt-everywhere-opensource-src-5.3.2"))
 (put 'MY_GTAGSLIBPATH 'safe-local-variable (lambda (xx) t))
 (put 'TestCaseName 'safe-local-variable (lambda (xx) t))
 
