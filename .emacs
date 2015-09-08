@@ -286,7 +286,6 @@ Equivalent to beginning-of-line, open-line."
 
 (add-to-list 'load-path (concat my-base-path "cc-mode"))
 (add-to-list 'load-path (concat my-base-path "elisp"))
-(add-to-list 'load-path (concat my-base-path "elisp/bookmarkplus"))
 
 (package-initialize)
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
