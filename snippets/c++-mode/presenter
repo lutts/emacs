@@ -24,6 +24,5 @@ class ${1:name}Presenter : public $1PresenterBase {
   void initialize() override { }
 
  private:
-  $1Presenter(const $1Presenter& other) = delete;
-  $1Presenter& operator=(const $1Presenter& other) = delete;
+   SNAIL_DISABLE_COPY($1Presenter);
 };
