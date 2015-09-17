@@ -9,7 +9,7 @@ $0 put mocks here
 
 BEGIN_BIND_SIGNAL($2)
 
-// bind signal here
+// bind signal here (BIND_SIGNAL0, 1, 2)
 
 END_BIND_SIGNAL()
 END_MOCK_LISTENER_DEF()
