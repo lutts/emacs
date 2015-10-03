@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: boolparamtest
+# key: boolparamtest
+# group: testing
+# --
+class $1_BoolParam :
+      public $1Base<::testing::TestWithParam<bool>> { };
+
+INSTANTIATE_TEST_CASE_P(BoolParam,
+                        $1_BoolParam,
+                        ::testing::Bool());

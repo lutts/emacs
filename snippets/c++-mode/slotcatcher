@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: slotcatcher
+# key: slotcatcher
+# group: sigslot
+# --
+R_EXPECT_CALL(*${3:mockobj}, when$1(_, _))
+    .WillOnce(SaveArg<0>(&$1));
+
+using ${1:signame}SlotType =
+    ${2:class}::$1SlotType;
+SlotCatcher<$1SlotType> $1;

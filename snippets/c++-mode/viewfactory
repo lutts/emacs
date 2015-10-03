@@ -31,5 +31,4 @@ class ${1:name}ViewFactory : public PfViewFactoryT<I$1Model> {
   $1ViewFactory& operator=(const $1ViewFactory& other) = delete;
 };
 
-static view_factory_t<I$1Model, $1ViewFactory>
-g_${1:$(downcase yas-text)}_view_factory;
+static view_factory_t<I$1Model, $1ViewFactory> g_${1:$(downcase yas-text)}_view_factory;

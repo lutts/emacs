@@ -103,3 +103,6 @@ my_function(
 magit
 =====
 M-x magit-status
+
+
+‘M-x tags-query-replace’ – replace using etags’ TagFile.
