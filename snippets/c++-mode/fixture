@@ -16,7 +16,7 @@ class ${1:testcasename} : public ::testing::Test {
     GMOCK_FLAG(verbose) = kErrorVerbosity;
   }
   // ~$1() { }
-  virtual void SetUp() {
+  void SetUp() override {
     // Setup fixture
 
     // Expectations which only need run once
@@ -25,7 +25,7 @@ class ${1:testcasename} : public ::testing::Test {
 
     // Excercise system
   }
-  // virtual void TearDown() { }
+  // void TearDown() override { }
 
   // region: objects test subject depends on
   // endregion

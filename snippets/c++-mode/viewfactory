@@ -5,9 +5,10 @@
 # --
 #include <memory>
 
+#include "utils/basic_utils.h"
 #include "snail/i_${1:$(downcase yas-text)}_model.h"
-#include "src/qtui/${1:$(downcase yas-text)}_presenter.h"
-#include "src/qtui/${1:$(downcase yas-text)}_view.h"
+#include "src/qtui/core/${1:$(downcase yas-text)}_presenter.h"
+#include "src/qtui/ui/${1:$(downcase yas-text)}_view.h"
 #include "pfmvp/pf_view_factory_manager.h"
 
 using namespace pfmvp;  // NOLINT
@@ -21,14 +22,15 @@ class ${1:name}ViewFactory : public PfViewFactoryT<I$1Model> {
   DEF_VIEW_FACTORY_ID($1ViewFactory)
 
   std::shared_ptr<PfPresenter>
-  createViewFor(std::shared_ptr<I$1Model> model) override {
+  createViewFor(std::shared_ptr<I$1Model> model,
+                PfCreateViewArgs* args) override {
+    (void)args;
     auto view = std::make_shared<$1View>();
     return std::make_shared<$1Presenter>(model, view);
   }
 
  private:
-  $1ViewFactory(const $1ViewFactory& other) = delete;
-  $1ViewFactory& operator=(const $1ViewFactory& other) = delete;
+  SNAIL_DISABLE_COPY($1ViewFactory);
 };
 
 static view_factory_t<I$1Model, $1ViewFactory> g_${1:$(downcase yas-text)}_view_factory;

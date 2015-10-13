@@ -152,6 +152,15 @@
 (require 'compile)
 (setq compilation-scroll-output 'first-error)
 
+(defun test_case_name ()
+  (interactive)
+  (let ( (filenamebase (file-name-base buffer-file-name)) )
+    (if (string/ends-with filenamebase "_test")
+	(downcase (concat filenamebase ""))
+      (downcase (concat filenamebase "_test"))
+      )
+    ))
+
 (add-hook 'c-mode-common-hook
 	  (lambda ()
 	    (set (make-local-variable 'compile-command)
@@ -159,7 +168,8 @@
 			 (locate-dominating-file
 			  default-directory
 			  (lambda (parent)
-			    (directory-files parent nil ".*Makefile$")))))))
+			    (directory-files parent nil ".*Makefile$")))
+			 ))))
 
 (defun my-c-common-hook ()
   (setq c-basic-offset 8)
