@@ -24,7 +24,7 @@ class ${1:name}PresenterTest : public ::testing::Test {
     GMOCK_FLAG(verbose) = kErrorVerbosity;
   }
   // ~$1PresenterTest() { }
-  virtual void SetUp() {
+  void SetUp() override {
     // Setup fixture
     model = std::make_shared<Mock$1Model>();
     view = std::make_shared<Mock$1View>();
@@ -40,7 +40,7 @@ class ${1:name}PresenterTest : public ::testing::Test {
 
     VERIFY_RECORDED_MOCK_OBJECTS;
   }
-  // virtual void TearDown() { }
+  // void TearDown() override { }
 
   // region: objects test subject depends on
   std::shared_ptr<Mock$1Model> model;
