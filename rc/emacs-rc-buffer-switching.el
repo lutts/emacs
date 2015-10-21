@@ -89,15 +89,24 @@ else switch to SUT class header file if this is a xTestcase Class file"
   "switch between mock and interface file"
   (interactive)
   (let* ( (curr-file-dir (file-name-directory (buffer-file-name)))
-	 (curr-file-name (file-name-nondirectory (buffer-file-name))) )
-	 (if (string/starts-with curr-file-name "i_")
-	     (find-file (concat
-			 curr-file-dir "/mock_"
-			 (substring curr-file-name 2)))
-	   (find-file (concat
-		       curr-file-dir "/i_"
-		       (substring curr-file-name 5)))
-	 )
+	  (curr-file-name (file-name-nondirectory (buffer-file-name))) )
+    (if (string/starts-with curr-file-name "i_")
+	(find-file (concat
+		    curr-file-dir "/mock_"
+		    (substring curr-file-name 2)))
+      (if (string/starts-with curr-file-name "mock_")
+	  (if (file-exists-p (concat
+			      curr-file-dir "/i_"
+			      (substring curr-file-name 5)))
+	      (find-file (concat
+			  curr-file-dir "/i_"
+			  (substring curr-file-name 5)))
+	    (find-file (substring curr-file-name 5))
+	    )
+	(find-file (concat
+		    curr-file-dir "/mock_" curr-file-name))
+	)
+      )
     ))
 
 ;; current X resolution
