@@ -7,7 +7,7 @@
 
 #include "pfmvp/pf_presenter.h"
 #include "snail/i_${1:$(downcase yas-text)}_model.h"
-#include "qtui/i_${1:$(downcase yas-text)}_view.h"
+#include "qtui/ui/i_${1:$(downcase yas-text)}_view.h"
 $0
 using $1PresenterBase =
     pfmvp::PfPresenterT<snailcore::I$1Model,

@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: FTO namespace
+# key: ftons
+# group: testing
+# --
+FTO_BEGIN_NAMESPACE
+$0
+FTO_END_NAMESPACE

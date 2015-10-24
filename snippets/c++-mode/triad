@@ -5,5 +5,5 @@
 # --
 // triad headers
 #include "snail/mock_${1:name}_model.h"
-#include "qtui/mock_$1_view.h"
-#include "src/qtui/$1_presenter.h"
+#include "qtui/ui/mock_$1_view.h"
+#include "src/qtui/core/$1_presenter.h"

@@ -8,7 +8,7 @@
 
 // triad headers
 #include "snail/mock_${1:$(downcase yas-text)}_model.h"
-#include "qtui/mock_${1:$(downcase yas-text)}_view.h"
+#include "qtui/ui/mock_${1:$(downcase yas-text)}_view.h"
 #include "src/qtui/core/${1:$(downcase yas-text)}_presenter.h"
 
 using namespace snailcore;  // NOLINT
