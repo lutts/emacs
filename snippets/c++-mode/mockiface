@@ -3,6 +3,12 @@
 # key: mockiface
 # group: testing
 # --
-class Mock${1:classname} : public I$1 {
+#define INTERFACE_MOCK_PHRASE
+#include "test/interface.h"
+
+class Mock${1:classname} : public $1 {
  public:
+  $1_METHODS
 };
+
+#undef INTERFACE_MOCK_PHRASE

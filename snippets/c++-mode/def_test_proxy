@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: Test Proxy with default constructor
+# key: deftestproxy
+# group: testing
+# --
+class ${1:RealClass}TestProxy : public $1 {
+  TEST_PROXY_WITH_DEFAULT_CONSTRUCTOR($1);
+
+ public:
+  $0
+};

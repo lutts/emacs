@@ -94,20 +94,28 @@ else switch to SUT class header file if this is a xTestcase Class file"
 	(find-file (concat
 		    curr-file-dir "/mock_"
 		    (substring curr-file-name 2)))
-      (if (string/starts-with curr-file-name "mock_")
-	  (if (file-exists-p (concat
-			      curr-file-dir "/i_"
+      (if (string/starts-with curr-file-name "fto_")
+	  (find-file (concat
+		      curr-file-dir "/mock_"
+		      (substring curr-file-name 4)))
+	(if (string/starts-with curr-file-name "mock_")
+	    (if (file-exists-p (concat
+				curr-file-dir "/i_"
+				(substring curr-file-name 5)))
+		(find-file (concat
+			    curr-file-dir "/i_"
+			    (substring curr-file-name 5)))
+	      (if (file-exists-p (concat
+				  curr-file-dir "/fto_"
+				  (substring curr-file-name 5)))
+		  (find-file (concat
+			      curr-file-dir "/fto_"
 			      (substring curr-file-name 5)))
-	      (find-file (concat
-			  curr-file-dir "/i_"
-			  (substring curr-file-name 5)))
-	    (find-file (substring curr-file-name 5))
-	    )
-	(find-file (concat
-		    curr-file-dir "/mock_" curr-file-name))
-	)
-      )
-    ))
+		(find-file (substring curr-file-name 5))
+		))
+	  (find-file (concat
+		      curr-file-dir "/mock_" curr-file-name))
+	  )))))
 
 ;; current X resolution
 ;(x-display-pixel-width)

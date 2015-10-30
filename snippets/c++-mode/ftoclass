@@ -7,11 +7,15 @@ namespace fto {
 
 #ifndef DISABLE_TEST_CODE
 
+#define INTERFACE_DEFINITION_PHRASE
+#include "test/interface.h"
+
 class ${1:name} {
  public:
-  virtual ~$1() = default;
+  virtual ~${1:$(yas/substr yas-text "[^: ]*")}() = default;
 };
 
+#undef INTERFACE_DEFINITION_PHRASE
 #else  // DISABLE_TEST_CODE
 
 class $1 { };

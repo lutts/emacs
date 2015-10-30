@@ -1,0 +1,16 @@
+# -*- mode: snippet -*-
+# name: Test Proxy
+# key: testproxy
+# group: testing
+# --
+#define INTERFACE_TEST_PROXY_PHASE
+#include "test/interface.h"
+
+class ${1:RealClassName}TestProxy : public $1 {
+  TEST_PROXY_WITHOUT_DEFAULT_CONSTRUCTOR($1);
+
+ public:
+  $1_METHODS
+};
+
+#undef INTERFACE_TEST_PROXY_PHASE

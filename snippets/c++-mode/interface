@@ -2,7 +2,11 @@
 # name: interface
 # key: iface
 # --
+#define $1_METHODS
+
 class ${1:name} {
  public:
   virtual ~$1() = default;
+
+  $1_METHODS
 };
