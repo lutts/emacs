@@ -6,7 +6,7 @@
 #define INTERFACE_TEST_PROXY_PHASE
 #include "test/interface.h"
 
-class ${1:RealClassName}TestProxy : public $1 {
+class ${1:RealClassName}TestProxy {
   TEST_PROXY_WITHOUT_DEFAULT_CONSTRUCTOR($1);
 
  public:
