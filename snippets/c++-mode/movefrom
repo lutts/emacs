@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: moveFrom
+# key: movefrom
+# group: testing
+# --
+virtual ${1:Type}& operator=($1&& rhs) = 0;

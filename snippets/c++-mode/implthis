@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: impl this method
+# key: implthis
+# group: testing
+# --
+// TODO(lutts): impl this method
