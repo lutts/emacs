@@ -10,7 +10,7 @@ using namespace snailcore::tests;  // NOLINT
 
 class ${1:testcasename} : public ::testing::Test {
   //-*- TestCaseName: $1;-*-
- protected:
+ public:
   $1() {
     // const string saved_flag = GMOCK_FLAG(verbose);
     GMOCK_FLAG(verbose) = kErrorVerbosity;

@@ -1,0 +1,69 @@
+# -*- mode: snippet -*-
+# name: FTO template
+# key: fto_template
+# group: testing
+# --
+// region: shared with impl
+
+#include "include/config.h"
+
+// endregion: shared
+
+// region: Interface
+
+#ifndef DISABLE_TEST_CODE
+
+#define INTERFACE_DEFINITION_PHASE
+#include "test/interface.h"
+$0
+BEGIN_NAMESPACE_PLACEHOLDER
+namespace fto {
+
+#define $1_METHODS
+
+class ${1:ClassName} {
+ public:
+  virtual ~$1() = default;
+
+  $1_METHODS
+};
+
+}  // namespace fto
+END_NAMESPACE_PLACEHOLDER
+
+#undef INTERFACE_DEFINITION_PHASE
+
+#else  // DISABLE_TEST_CODE
+
+BEGIN_NAMESPACE_PLACEHOLDER
+namespace fto {
+
+class $1 { };
+
+}  // namespace fto
+END_NAMESPACE_PLACEHOLDER
+
+#endif  // DISABLE_TEST_CODE
+// endregion: Interface
+
+// region: Mocks
+
+#include "fto_${1:$(un-camelcase-string yas-text)}.h"
+
+#define INTERFACE_MOCK_PHASE
+#include "test/interface.h"
+
+BEGIN_NAMESPACE_PLACEHOLDER
+namespace tests {
+
+class Mock$1 : public fto::$1 {
+ public:
+  $1_METHODS
+};
+
+}  // namespace tests
+END_NAMESPACE_PLACEHOLDER
+
+#undef INTERFACE_MOCK_PHASE
+
+// endregion: Mocks

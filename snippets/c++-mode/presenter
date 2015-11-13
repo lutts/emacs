@@ -6,8 +6,8 @@
 #include <memory>  // std::shared_ptr
 
 #include "pfmvp/pf_presenter.h"
-#include "snail/i_${1:$(downcase yas-text)}_model.h"
-#include "qtui/ui/i_${1:$(downcase yas-text)}_view.h"
+#include "snail/i_${1:$(un-camelcase-string yas-text)}_model.h"
+#include "qtui/ui/i_${1:$(un-camelcase-string yas-text)}_view.h"
 $0
 using $1PresenterBase =
     pfmvp::PfPresenterT<snailcore::I$1Model,

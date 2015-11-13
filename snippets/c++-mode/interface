@@ -2,6 +2,9 @@
 # name: interface
 # key: iface
 # --
+#define INTERFACE_DEFINITION_PHASE
+#include "test/interface.h"
+
 #define $1_METHODS
 
 class ${1:name} {
@@ -10,3 +13,5 @@ class ${1:name} {
 
   $1_METHODS
 };
+
+#undef INTERFACE_DEFINITION_PHASE

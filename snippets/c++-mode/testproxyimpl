@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: Test Proxy Impl
+# key: testproxyimpl
+# group: testing
+# --
+// Test proxy requirment
+${1:Type}* self() { return this; }
+fto::$1* clone() const {
+  return new $1(*this);
+}
+TEST_ONLY_MOVE_ASSIGNMENT($1);

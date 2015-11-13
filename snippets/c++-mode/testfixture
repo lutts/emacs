@@ -1,0 +1,13 @@
+# -*- mode: snippet -*-
+# name: TestFixture subclass
+# key: testfixture
+# group: testing
+# --
+class ${1:FixtureName} : public TestFixture {
+ public:
+  $1(const utils::U8String& name,
+     ${2:TestName}* test_case)
+     : TestFixture(name) {
+    $0
+  }
+};

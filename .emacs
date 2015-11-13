@@ -290,14 +290,46 @@ Equivalent to beginning-of-line, open-line."
 (package-initialize)
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
 
-;; load common utilities
-;(require 'ahei-misc)
-;(require 'eval-after-load)
-;(require 'util)
-
 (load (concat my-base-path "rc/emacs-rc-color-theme.el"))
 
-;;tabbar
+(add-to-list 'load-path
+	     "~/.emacs.d/plugins/yasnippet")
+(require 'yasnippet)
+(yas-global-mode 1)
+(add-to-list 'yas-snippet-dirs (concat my-base-path "snippets"))
+(yas-reload-all)
+
+;; (define-key yas-minor-mode-map (kbd "<tab>") nil)
+;; (define-key yas-minor-mode-map (kbd "TAB") nil)
+(define-key yas-minor-mode-map (kbd "C-=") 'yas/expand)
+
+(defun yas--magit-email-or-default ()
+  "Get email from GIT or use default"
+  (if (magit-get "user.email")
+      (magit-get "user.email")
+    user-mail-address))
+
+(defun yas--magit-username-or-default ()
+  "Get username from GIT or use default"
+  (if (magit-get "user.name")
+      (magit-get "user.name")
+    user-full-name))
+
+;; ibus mode
+;; do not enable ibus by default because I rarely use it
+;; (require 'ibus)
+;; (add-hook 'after-make-frame-functions
+;;	  (lambda (new-frame)
+;;	    (select-frame new-frame)
+;;	    (or ibus-mode (ibus-mode-on))))
+
+;; bookmark manager
+(require 'bm)
+(global-set-key (kbd "<C-f5>") 'bm-toggle)
+(global-set-key (kbd "<f5>")   'bm-next)
+(global-set-key (kbd "<S-f5>") 'bm-previous)
+
+;; tabbar
 (require 'tabbar)
 (tabbar-mode)
 (global-set-key [(control >)] 'tabbar-forward-tab)
@@ -367,58 +399,16 @@ Equivalent to beginning-of-line, open-line."
 (load (concat my-base-path "rc/emacs-rc-smartparens.el"))
 
 (load (concat my-base-path "rc/emacs-rc-cmake.el"))
-
+(load (concat my-base-path "rc/emacs-rc-multiple-cursor.el"))
 
 ;; elpy
 ;(elpy-enable)
 ;(setq elpy-rpc-backend "jedi")
 
-;; ibus mode
-;; do not enable ibus by default because I rarely use it
-;(require 'ibus)
-;(add-hook 'after-make-frame-functions
-;	  (lambda (new-frame)
-;	    (select-frame new-frame)
-;	    (or ibus-mode (ibus-mode-on))))
-
-;; bookmark manager
-(require 'bm)
-(global-set-key (kbd "<C-f5>") 'bm-toggle)
-(global-set-key (kbd "<f5>")   'bm-next)
-(global-set-key (kbd "<S-f5>") 'bm-previous)
-
 ;;increase max-specpdl-size this big to start the debugger
 ;(setq max-specpdl-size  5000)
 
-(split-window-tile-3)
-
-;;;;;;;;;; required packages ;;;;;;;;;;;;
-;;     name       --- list-packages name  --- homepage
-;; * company mode --- company             --- http://company-mode.github.io/
-
-(add-to-list 'load-path
-	     "~/.emacs.d/plugins/yasnippet")
-(require 'yasnippet)
-(yas-global-mode 1)
-(add-to-list 'yas-snippet-dirs (concat my-base-path "snippets"))
-(yas-reload-all)
-
-;(define-key yas-minor-mode-map (kbd "<tab>") nil)
-;(define-key yas-minor-mode-map (kbd "TAB") nil)
-(define-key yas-minor-mode-map (kbd "C-=") 'yas/expand)
-
-(defun yas--magit-email-or-default ()
-  "Get email from GIT or use default"
-  (if (magit-get "user.email")
-      (magit-get "user.email")
-    user-mail-address))
-
-(defun yas--magit-username-or-default ()
-  "Get username from GIT or use default"
-  (if (magit-get "user.name")
-      (magit-get "user.name")
-    user-full-name))
-
+;;;;;;;;;;;;;;;;;;;;;;;; Common programming utils begin ;;;;;;;;;;;;;;;;
 ;; auto-insert
 (auto-insert-mode)
 (setq auto-insert-directory (concat my-base-path "auto-insert"))
@@ -444,9 +434,7 @@ Equivalent to beginning-of-line, open-line."
         (yas-expand-snippet (buffer-substring-no-properties (point-min) (point-max)))
         (delete-region (point-min) old-point-max)))))
 
-;(add-to-list 'load-path "~/.emacs.d/plugins/cpputils-cmake")
-;(require 'cpputils-cmake)
-
+;; irony configs
 (eval-after-load 'company
   '(add-to-list 'company-backends 'company-irony))
 
@@ -478,3 +466,8 @@ Equivalent to beginning-of-line, open-line."
   (setq company-dabbrev-downcase nil)
   (define-key company-active-map (kbd "C-n") 'company-select-next)
   (define-key company-active-map (kbd "C-p") 'company-select-previous))
+
+;;;;;;;;;;;;;;;; Common programming utils config end ;;;;;;;;;;;;;;;;
+
+;; finished config, split window
+(split-window-tile-3)

@@ -3,7 +3,7 @@
 # key: mockiface
 # group: testing
 # --
-#define INTERFACE_MOCK_PHRASE
+#define INTERFACE_MOCK_PHASE
 #include "test/interface.h"
 
 class Mock${1:classname} : public $1 {
@@ -11,4 +11,4 @@ class Mock${1:classname} : public $1 {
   $1_METHODS
 };
 
-#undef INTERFACE_MOCK_PHRASE
+#undef INTERFACE_MOCK_PHASE
