@@ -59,6 +59,7 @@ namespace fto {
 
 class $1TestProxy {
   TEST_PROXY_WITHOUT_DEFAULT_CONSTRUCTOR($1);
+  TEST_PROXY_DISABLE_COPY($1);
 
  public:
   $1_METHODS

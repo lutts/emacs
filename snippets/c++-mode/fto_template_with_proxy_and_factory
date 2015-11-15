@@ -69,6 +69,7 @@ namespace fto {
 
 class $1TestProxy {
   TEST_PROXY_BASE($1);
+  TEST_PROXY_DISABLE_COPY($1);
   TEST_PROXY_ENABLE_FACTORY_SUPPORT($1);
 
  public:
@@ -101,6 +102,14 @@ class Mock$1 : public fto::$1 {
 class Mock$1Factory
     : public fto::$1Factory {
  public:
+  Mock$1Factory() {
+    fto::$1TestProxy::setFactory(this);
+  }
+
+  virtual ~Mock$1Factory() {
+    fto::$1TestProxy::setFactory(nullptr);
+  }
+
   $1Factory_METHODS
 };
 
