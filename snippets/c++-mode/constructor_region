@@ -1,0 +1,12 @@
+# -*- mode: snippet -*-
+# name: Constructor, Destructor and Assignment region
+# key: ctorregion
+# --
+// region: constructor, destructor and assignments
+#pragma GCC diagnostic push
+#pragma GCC diagnostic error "-Weffc++"
+
+$0
+
+#pragma GCC diagnostic pop
+// endregion: constructor, destructor and assignments
