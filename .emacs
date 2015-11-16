@@ -19,6 +19,7 @@
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
+ '(clang-format-style "Google")
  '(column-number-mode t)
  '(ecb-layout-name "lutts")
  '(ecb-layout-window-sizes (quote (("lutts" (0.23684210526315788 . 0.4791666666666667) (0.23684210526315788 . 0.5) (0.19473684210526315 . 0.9791666666666666)) ("left-symboldef" (0.3263157894736842 . 0.2916666666666667) (0.3263157894736842 . 0.22916666666666666) (0.3263157894736842 . 0.22916666666666666) (0.3263157894736842 . 0.22916666666666666)))))
@@ -388,8 +389,13 @@ Equivalent to beginning-of-line, open-line."
 ;; company mode
 (add-hook 'after-init-hook 'global-company-mode)
 
-;(load (concat my-base-path "rc/emacs-rc-cedet.el"))
-;(load (concat my-base-path "rc/emacs-rc-ecb.el"))
+;; (load (concat my-base-path "rc/emacs-rc-cedet.el"))
+;; (load (concat my-base-path "rc/emacs-rc-ecb.el"))
+
+;; clang format
+(require 'clang-format)
+(global-set-key [C-tab] 'clang-format-region)
+
 (load (concat my-base-path "rc/emacs-rc-c-c++.el"))
 (load (concat my-base-path "rc/emacs-rc-hide-show.el"))
 (load (concat my-base-path "rc/emacs-rc-java.el"))

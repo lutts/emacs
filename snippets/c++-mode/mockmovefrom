@@ -7,4 +7,4 @@ fto::${1:Type}& operator=(fto::$1&& rhs) override {
   moveFrom(rhs);
   return *this;
 }
-MOCK_METHOD1(moveFrom, void(fto::$1& rhs));
+MOCK_METHOD1(moveFrom, void(fto::$1& rhs));  // NOLINT
