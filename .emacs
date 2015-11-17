@@ -401,7 +401,10 @@ Equivalent to beginning-of-line, open-line."
  (add-hook 'before-save-hook 'clang-format-before-save)."
 
   (interactive)
-  (when (eq major-mode 'c++-mode) (clang-format-buffer)))
+  (when (eq major-mode 'c++-mode)
+    (if (not (string-match "thirdparty" (buffer-file-name)))
+	(clang-format-buffer)
+	)))
 
 ;; Install hook to use clang-format on save
 (add-hook 'before-save-hook 'clang-format-before-save)
