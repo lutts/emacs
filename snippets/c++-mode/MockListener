@@ -3,12 +3,15 @@
 # key: mocklistener
 # group: testing
 # --
-class ${1:MockListener} : public GenericMockListener<$1,
-                                                ${2:SubjectType}> {
+class ${1:ClassName} : public SimpleMockListener<${2:SubjectType}> {
  public:
-  $0
+  SNAIL_MOCK_LISTENER1($1, xxx);
 
-  void bindListenerMethods(std::shared_ptr<utils::ITrackable> trackObject,
-                           $2* ${3:subject}) {
+  explicit $1($2* subject) : SimpleMockListener(subject) {
+    SNAIL_MOCK_LISTENER_REGISTER(xxx, this);
+
+    attach();
   }
+
+  ~$1() { detatch(); }
 };
