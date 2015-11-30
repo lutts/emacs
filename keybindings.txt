@@ -106,3 +106,8 @@ M-x magit-status
 
 
 ‘M-x tags-query-replace’ – replace using etags’ TagFile.
+
+
+indirect buffer
+================
+C-x 4 c  ---- clone-indirect-buffer-other-window
