@@ -57,6 +57,8 @@ mouse-3: Remove current window from display")))))
 ;;; so we can use emacsclient to start a buffer
 (server-start)
 
+(setq confirm-kill-emacs 'yes-or-no-p)
+
 ;;; remove the boring startup message
 (setq inhibit-startup-message t)
 
