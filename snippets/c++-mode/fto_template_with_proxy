@@ -12,6 +12,7 @@
 // region: Interface
 
 #ifndef DISABLE_TEST_CODE
+#include "test/test_proxy.h"
 
 #define INTERFACE_DEFINITION_PHASE
 #include "test/interface.h"
@@ -49,8 +50,6 @@ END_NAMESPACE_PLACEHOLDER
 // region: TestProxy
 #ifndef DISABLE_TEST_CODE
 
-#include "test/test_proxy.h"
-
 #define INTERFACE_TEST_PROXY_PHASE
 #include "test/interface.h"
 
@@ -59,7 +58,11 @@ namespace fto {
 
 class $1TestProxy {
   TEST_PROXY_WITHOUT_DEFAULT_CONSTRUCTOR($1);
-  TEST_PROXY_DISABLE_COPY($1);
+  TEST_PROXY_DISABLE_COPY_CONSTRUCT($1);
+  TEST_PROXY_DISABLE_COPY_ASSIGNMENT($1);
+  TEST_PROXY_DISABLE_MOVE_CONSTRUCT($1);
+  TEST_PROXY_DISABLE_MOVE_ASSIGNMENT($1);
+  TEST_PROXY_DISABLE_SWAP($1);
 
  public:
   $1_METHODS

@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: fto_move_assignment
+# key: fto_move_assign
+# group: testing
+# --
+TEST_PROXY_MOVE_ASSIGN_INTERFACE(${1:Type});
+TEST_PROXY_MOVE_ASSIGN_MOCK($1);

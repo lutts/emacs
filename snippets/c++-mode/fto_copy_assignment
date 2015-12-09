@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: fto_copy_assignment
+# key: fto_copy_assign
+# group: testing
+# --
+TEST_PROXY_COPY_ASSIGN_INTERFACE(${1:Type});
+TEST_PROXY_COPY_ASSIGN_MOCK($1);

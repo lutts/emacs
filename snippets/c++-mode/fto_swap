@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: fto_swap
+# key: fto_swap
+# group: testing
+# --
+SNAIL_INTERFACE1(swap_with, void(${1:Type}& rhs));

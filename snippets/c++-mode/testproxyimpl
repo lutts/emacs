@@ -3,9 +3,11 @@
 # key: testproxyimpl
 # group: testing
 # --
-// Test proxy requirment
+// region: Test proxy requirement
 ${1:Type}* self() { return this; }
-fto::$1* clone() const {
-  return new $1(*this);
-}
+TEST_ONLY_COPY_CONSTRUCT($1);
+TEST_ONLY_COPY_ASSIGNMENT($1);
+TEST_ONLY_MOVE_CONSTRUCT($1);
 TEST_ONLY_MOVE_ASSIGNMENT($1);
+TEST_ONLY_SWAP($1);
+// endregion: Test proxy requirement

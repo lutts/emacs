@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: fto_move_clone
+# key: fto_move_clone
+# group: testing
+# --
+TEST_PROXY_CLONE_INTERFACE(${1:Type});
+TEST_PROXY_CLONE_MOCK($1);
