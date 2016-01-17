@@ -164,7 +164,7 @@
 (add-hook 'c-mode-common-hook
 	  (lambda ()
 	    (set (make-local-variable 'compile-command)
-		 (format "make -C %s"
+		 (format "make -C %s all_tests"
 			 (locate-dominating-file
 			  default-directory
 			  (lambda (parent)
