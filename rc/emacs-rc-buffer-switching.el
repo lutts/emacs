@@ -11,6 +11,16 @@
 ;; provide S-up S-down S-left S-right
 (windmove-default-keybindings)
 
+;; sr-speedbar settings
+(setq sr-speedbar-auto-refresh nil)
+(setq sr-speedbar-skip-other-window-p t)
+;; must show sr-speedbar in left side, when sr-speedbar is show in right side
+;; and when you press enter, it will switch to a buffer at its right, maybe
+;; this is a bug???
+(setq sr-speedbar-right-side nil)
+(setq speedbar-show-unknown-files t)
+(global-set-key (kbd "C-c o") 'sr-speedbar-toggle)
+
 (defun lutts-revert-all-buffer ()
   "revert all buffers"
   (interactive)
