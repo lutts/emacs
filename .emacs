@@ -238,6 +238,14 @@ Equivalent to beginning-of-line, open-line."
 ;; display the current function name in the mode line
 (which-function-mode t)
 
+(defun my-which-func-disabling-hook ()
+  "Check to see if we should disable autofill."
+  (save-excursion
+    (if (string/ends-with buffer-file-name "Bitmap.java")
+      (which-function-mode -1) (which-function-mode t))))
+
+(add-hook 'find-file-hook 'my-which-func-disabling-hook)
+
 ;; if the current character is `tab', strech the cursor
 (setq x-stretch-cursor t)
 
